@@ -89,4 +89,21 @@ class UserManagementController extends Controller
             'data' => $user,
         ]);
     }
+
+    public function destroy($id)
+    {
+        \Illuminate\Support\Facades\Gate::authorize('admin');
+
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return response()->json(['message' => 'Tidak dapat menghapus akun Anda sendiri'], 400);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User berhasil dihapus'
+        ]);
+    }
 }

@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserManagementController::class, 'store']);
     Route::get('/users/{id}', [UserManagementController::class, 'show']);
     Route::put('/users/{id}', [UserManagementController::class, 'update']);
+    Route::delete('/users/{id}', [UserManagementController::class, 'destroy']);
 
     // PBI-07 Pendaftaran
     Route::get('/penerima-bantuan', [PenerimaBantuanController::class, 'index']);

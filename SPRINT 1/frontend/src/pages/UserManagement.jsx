@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
-import { Plus, Edit2 } from 'lucide-react';
+import { Plus, Edit2, Trash2 } from 'lucide-react';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -38,6 +38,16 @@ const UserManagement = () => {
       fetchUsers();
     } catch (err) {
       setFormError(err.response?.data?.message || 'Error saving user');
+    }
+  };
+
+  const handleDelete = async (user) => {
+    if (!window.confirm(`Yakin ingin menghapus pengguna ${user.name}?`)) return;
+    try {
+      await api.delete(`/users/${user.id}`);
+      fetchUsers();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error menghapus user');
     }
   };
 
@@ -90,9 +100,14 @@ const UserManagement = () => {
                         <span className="badge badge-danger">Nonaktif</span>}
                     </td>
                     <td>
-                      <button className="btn btn-outline" style={{ padding: '0.4rem' }} onClick={() => openEdit(u)}>
-                        <Edit2 size={16} />
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button className="btn btn-outline" style={{ padding: '0.4rem' }} onClick={() => openEdit(u)} title="Edit">
+                          <Edit2 size={16} />
+                        </button>
+                        <button className="btn btn-outline" style={{ padding: '0.4rem', color: 'var(--pk-danger)', borderColor: 'rgba(239, 68, 68, 0.3)' }} onClick={() => handleDelete(u)} title="Hapus">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
