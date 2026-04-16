@@ -121,10 +121,10 @@ const UserManagement = () => {
       </div>
 
       {showModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)' }}>
-            <h3 style={{ marginBottom: '1.5rem' }}>{formData.id ? 'Edit Akun' : 'Tambah Akun'}</h3>
-            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem' }}>{formError}</p>}
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
+          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--pk-text)', fontWeight: 700 }}>{formData.id ? 'Edit Akun' : 'Tambah Akun'}</h3>
+            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '8px' }}>{formError}</p>}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label">Nama Lengkap</label>
@@ -135,24 +135,24 @@ const UserManagement = () => {
                 <input type="email" className="form-control" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required />
               </div>
               <div className="form-group">
-                <label className="form-label">Password {formData.id && '(Kosongkan jika tidak diubah)'}</label>
+                <label className="form-label">Password {formData.id && <span style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)' }}>(Kosongkan jika tak diubah)</span>}</label>
                 <input type="password" className="form-control" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} required={!formData.id} minLength={6} />
               </div>
               <div className="form-group">
                 <label className="form-label">Role</label>
-                <select className="form-control" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} style={{ backgroundColor: 'var(--pk-bg)', color: 'white' }}>
-                  <option value="admin">Admin</option>
-                  <option value="supervisor">Supervisor</option>
-                  <option value="petugas_lapangan">Petugas Lapangan</option>
+                <select className="form-control" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} style={{ color: 'var(--pk-text)' }}>
+                  <option value="admin" style={{background: 'var(--pk-bg-2)'}}>Admin</option>
+                  <option value="supervisor" style={{background: 'var(--pk-bg-2)'}}>Supervisor</option>
+                  <option value="petugas_lapangan" style={{background: 'var(--pk-bg-2)'}}>Petugas Lapangan</option>
                 </select>
               </div>
-              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <input type="checkbox" id="is_active" checked={formData.is_active} onChange={e => setFormData({...formData, is_active: e.target.checked})} />
-                <label htmlFor="is_active">Status Aktif</label>
+              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '1rem' }}>
+                <input type="checkbox" id="is_active" checked={formData.is_active} onChange={e => setFormData({...formData, is_active: e.target.checked})} style={{ width: '18px', height: '18px', accentColor: 'var(--pk-primary)' }} />
+                <label htmlFor="is_active" style={{ fontWeight: 600, color: 'var(--pk-text)' }}>Status Aktif</label>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem' }}>
                 <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Batal</button>
-                <button type="submit" className="btn btn-primary">Simpan</button>
+                <button type="submit" className="btn btn-primary" style={{ minWidth: '120px' }}>Simpan</button>
               </div>
             </form>
           </div>

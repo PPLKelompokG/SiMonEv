@@ -1,18 +1,13 @@
 import React, { useContext } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
   return (
     <NavLink 
       to={to} 
-      className={({ isActive }) => 
-        `flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition-all duration-300 ${isActive ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`
-      }
-      style={{
-        display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', borderRadius: '8px', marginBottom: '0.5rem', textDecoration: 'none'
-      }}
+      className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
     >
       {icon}
       <span>{label}</span>
@@ -34,12 +29,14 @@ const Layout = () => {
       {/* Sidebar */}
       <aside className="app-sidebar">
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
-          <h2 style={{ color: 'var(--pk-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: '32px', height: '32px', background: 'var(--pk-primary)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-              SM
-            </div>
-            SiMonEv
-          </h2>
+          <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+            <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
+              <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 8px 16px rgba(139, 92, 246, 0.4)' }}>
+                <Activity size={24} strokeWidth={2.5} />
+              </div>
+              <span style={{ color: 'var(--pk-text)' }}>SiMon<span style={{ color: 'var(--pk-primary)' }}>Ev</span></span>
+            </h2>
+          </Link>
         </div>
         
         <nav style={{ padding: '1.5rem 1rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
