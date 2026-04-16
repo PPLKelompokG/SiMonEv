@@ -1,0 +1,150 @@
+import React, { useState, useEffect } from 'react';
+import api from '../api';
+import { Plus, Edit2 } from 'lucide-react';
+
+const UserManagement = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ id: null, name: '', email: '', password: '', role: 'petugas_lapangan', is_active: true });
+  const [formError, setFormError] = useState('');
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get('/users');
+      setUsers(res.data.data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormError('');
+    try {
+      if (formData.id) {
+        await api.put(`/users/${formData.id}`, formData);
+      } else {
+        await api.post('/users', formData);
+      }
+      setShowModal(false);
+      fetchUsers();
+    } catch (err) {
+      setFormError(err.response?.data?.message || 'Error saving user');
+    }
+  };
+
+  const openAdd = () => {
+    setFormData({ id: null, name: '', email: '', password: '', role: 'petugas_lapangan', is_active: true });
+    setShowModal(true);
+  };
+
+  const openEdit = (user) => {
+    setFormData({ ...user, password: '' });
+    setShowModal(true);
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div>
+          <h2 style={{ margin: 0 }}>Manajemen Akun</h2>
+          <p>Kelola akses pengguna sistem</p>
+        </div>
+        <button className="btn btn-primary" onClick={openAdd}>
+          <Plus size={18} /> Tambah Akun
+        </button>
+      </div>
+
+      <div className="glass-panel">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Email</th>
+                  <th>Peran</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(u => (
+                  <tr key={u.id}>
+                    <td>{u.name}</td>
+                    <td>{u.email}</td>
+                    <td><span className="badge badge-warning">{u.role?.replace('_', ' ')}</span></td>
+                    <td>
+                      {u.is_active ? 
+                        <span className="badge badge-success">Aktif</span> : 
+                        <span className="badge badge-danger">Nonaktif</span>}
+                    </td>
+                    <td>
+                      <button className="btn btn-outline" style={{ padding: '0.4rem' }} onClick={() => openEdit(u)}>
+                        <Edit2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {users.length === 0 && (
+                  <tr><td colSpan="5" style={{ textAlign:'center' }}>Belum ada data.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {showModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
+          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)' }}>
+            <h3 style={{ marginBottom: '1.5rem' }}>{formData.id ? 'Edit Akun' : 'Tambah Akun'}</h3>
+            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem' }}>{formError}</p>}
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="form-label">Nama Lengkap</label>
+                <input className="form-control" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Email</label>
+                <input type="email" className="form-control" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Password {formData.id && '(Kosongkan jika tidak diubah)'}</label>
+                <input type="password" className="form-control" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} required={!formData.id} minLength={6} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Role</label>
+                <select className="form-control" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} style={{ backgroundColor: 'var(--pk-bg)', color: 'white' }}>
+                  <option value="admin">Admin</option>
+                  <option value="supervisor">Supervisor</option>
+                  <option value="petugas_lapangan">Petugas Lapangan</option>
+                </select>
+              </div>
+              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <input type="checkbox" id="is_active" checked={formData.is_active} onChange={e => setFormData({...formData, is_active: e.target.checked})} />
+                <label htmlFor="is_active">Status Aktif</label>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
+                <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Batal</button>
+                <button type="submit" className="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserManagement;

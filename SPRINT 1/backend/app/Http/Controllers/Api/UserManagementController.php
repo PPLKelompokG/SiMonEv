@@ -11,6 +11,8 @@ class UserManagementController extends Controller
 {
     public function index()
     {
+        \Illuminate\Support\Facades\Gate::authorize('admin');
+
         $users = User::latest()->get();
 
         return response()->json([
@@ -21,6 +23,8 @@ class UserManagementController extends Controller
 
     public function store(Request $request)
     {
+        \Illuminate\Support\Facades\Gate::authorize('admin');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
@@ -45,6 +49,8 @@ class UserManagementController extends Controller
 
     public function show($id)
     {
+        \Illuminate\Support\Facades\Gate::authorize('admin');
+
         $user = User::findOrFail($id);
 
         return response()->json([
@@ -55,6 +61,8 @@ class UserManagementController extends Controller
 
     public function update(Request $request, $id)
     {
+        \Illuminate\Support\Facades\Gate::authorize('admin');
+
         $user = User::findOrFail($id);
 
         $validated = $request->validate([

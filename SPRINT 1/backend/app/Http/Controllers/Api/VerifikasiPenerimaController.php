@@ -11,6 +11,8 @@ class VerifikasiPenerimaController extends Controller
 {
     public function pending()
     {
+        \Illuminate\Support\Facades\Gate::authorize('verify-penerima');
+
         $data = PenerimaBantuan::where('status', 'diajukan')
             ->with('creator')
             ->latest()
@@ -24,6 +26,8 @@ class VerifikasiPenerimaController extends Controller
 
     public function verify(Request $request, $id)
     {
+        \Illuminate\Support\Facades\Gate::authorize('verify-penerima');
+
         $validated = $request->validate([
             'status' => ['required', Rule::in(['disetujui', 'ditolak'])],
             'catatan_verifikasi' => ['nullable', 'string'],

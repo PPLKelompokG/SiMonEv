@@ -15,13 +15,13 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+        if (!$user || !\Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
             return response()->json([
                 'message' => 'Email atau password salah'
             ], 401);
         }
-
-        $user = $request->user();
 
         if (!$user->is_active) {
             return response()->json([
