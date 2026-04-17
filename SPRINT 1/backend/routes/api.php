@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PenerimaBantuanController;
+use App\Http\Controllers\Api\ProgramBantuanController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // PBI-08 Verifikasi
     Route::get('/verifikasi/pending', [VerifikasiPenerimaController::class, 'pending']);
     Route::put('/verifikasi/{id}', [VerifikasiPenerimaController::class, 'verify']);
+
+    // PBI-02 Program Bantuan
+    Route::get('/program-bantuan', [ProgramBantuanController::class, 'index']);
+    Route::post('/program-bantuan', [ProgramBantuanController::class, 'store']);
+    Route::get('/program-bantuan/{id}', [ProgramBantuanController::class, 'show']);
+    Route::put('/program-bantuan/{id}', [ProgramBantuanController::class, 'update']);
+    Route::delete('/program-bantuan/{id}', [ProgramBantuanController::class, 'destroy']);
 });
