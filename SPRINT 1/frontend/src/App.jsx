@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
+import ProgramBantuan from './pages/ProgramBantuan';
 
 function App() {
   return (
@@ -25,6 +26,12 @@ function App() {
             <Route path="users" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <UserManagement />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="program-bantuan" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <ProgramBantuan />
               </ProtectedRoute>
             } />
             
