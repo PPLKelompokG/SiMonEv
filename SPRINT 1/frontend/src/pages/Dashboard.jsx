@@ -37,7 +37,7 @@ const Dashboard = () => {
            }
         } catch (e) { console.error('Gagal fetch users', e); }
 
-        const pendingCount = penerimaData.filter(p => p.status === 'pending').length;
+        const pendingCount = penerimaData.filter(p => p.status !== 'disetujui' && p.status !== 'ditolak').length;
         const verifiedCount = penerimaData.filter(p => ['disetujui', 'ditolak'].includes(p.status)).length;
         
         setStats({
