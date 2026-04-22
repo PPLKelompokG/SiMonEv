@@ -200,6 +200,9 @@ php -r "\$pdo = new PDO('mysql:host=127.0.0.1', 'root', ''); \$pdo->exec('CREATE
 ```bash
 # Jalankan semua migrasi database + data awal
 php artisan migrate --seed
+
+# Jika error, coba untuk melakukan migrate fresh
+php artisan migrate:fresh
 ```
 
 Ini akan membuat semua tabel dan mengisi data sample:
@@ -243,9 +246,9 @@ Buka browser dan akses: **http://localhost:5173**
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin Pusat | `admin@simonev.id` | `password` |
-| Supervisor | `supervisor@simonev.id` | `password` |
-| Petugas Lapangan | `petugas@simonev.id` | `password` |
+| Admin Pusat | `admin@simonev.com` | `password123` |
+| Supervisor | `supervisor@simonev.com` | `password123` |
+| Petugas Lapangan | `petugas@simonev.com` | `password123` |
 
 > 💡 Coba login dengan masing-masing role untuk melihat perbedaan akses menu dan fitur.
 
