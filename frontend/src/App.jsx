@@ -11,6 +11,8 @@ import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
+import PenyaluranBantuan from './pages/PenyaluranBantuan';
+import PembaruanStatus from './pages/PembaruanStatus';
 
 function App() {
   return (
@@ -40,6 +42,18 @@ function App() {
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
+              </ProtectedRoute>
+            } />
+
+            <Route path="penyaluran-bantuan" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <PenyaluranBantuan />
+              </ProtectedRoute>
+            } />
+
+            <Route path="pembaruan-status" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <PembaruanStatus />
               </ProtectedRoute>
             } />
           </Route>
