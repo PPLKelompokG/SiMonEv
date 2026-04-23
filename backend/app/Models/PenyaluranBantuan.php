@@ -15,11 +15,16 @@ class PenyaluranBantuan extends Model
         'petugas_penyalur_id',
         'keterangan',
         'status_laporan',
+        'status_approval',
+        'approved_by',
+        'approved_at',
+        'catatan_koreksi',
     ];
 
     protected $casts = [
         'tanggal_penyaluran' => 'date',
         'jumlah_bantuan' => 'decimal:2',
+        'approved_at' => 'datetime',
     ];
 
     public function penerimaBantuan()
@@ -35,5 +40,10 @@ class PenyaluranBantuan extends Model
     public function petugasPenyalur()
     {
         return $this->belongsTo(User::class, 'petugas_penyalur_id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }

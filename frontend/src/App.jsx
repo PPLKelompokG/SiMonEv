@@ -13,6 +13,7 @@ import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
+import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
 
 function App() {
   return (
@@ -42,6 +43,12 @@ function App() {
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
+              </ProtectedRoute>
+            } />
+
+            <Route path="approval-penyaluran" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
+                <ApprovalPenyaluran />
               </ProtectedRoute>
             } />
 

@@ -48,4 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pembaruan-status/penerima', [PembaruanStatusController::class, 'getEligiblePenerima']);
     Route::get('/pembaruan-status/histori', [PembaruanStatusController::class, 'history']);
     Route::post('/pembaruan-status', [PembaruanStatusController::class, 'store']);
+
+    // PBI-16 Approval Penyaluran Bantuan
+    Route::get('/approval/penyaluran', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'index']);
+    Route::get('/approval/penyaluran/{id}', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'show']);
+    Route::put('/approval/penyaluran/{id}/approve', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'approve']);
+    Route::put('/approval/penyaluran/{id}/reject', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'reject']);
 });
