@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
   return (
@@ -56,7 +56,10 @@ const Layout = () => {
           )}
 
           {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+            <>
+              <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+              <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Status Penerima" />
+            </>
           )}
           
           <div style={{ marginTop: 'auto' }}>

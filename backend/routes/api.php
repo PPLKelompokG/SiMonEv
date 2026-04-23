@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProgramBantuanController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
 use App\Http\Controllers\Api\PenyaluranBantuanController;
+use App\Http\Controllers\Api\PembaruanStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -42,4 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/penyaluran-bantuan', [PenyaluranBantuanController::class, 'store']);
     Route::get('/penyaluran-bantuan/{id}', [PenyaluranBantuanController::class, 'show']);
     Route::put('/penyaluran-bantuan/{id}/status', [PenyaluranBantuanController::class, 'updateStatus']);
+
+    // PBI-10 Pembaruan Status Penerima Bantuan (Graduasi)
+    Route::get('/pembaruan-status/penerima', [PembaruanStatusController::class, 'getEligiblePenerima']);
+    Route::get('/pembaruan-status/histori', [PembaruanStatusController::class, 'history']);
+    Route::post('/pembaruan-status', [PembaruanStatusController::class, 'store']);
 });
