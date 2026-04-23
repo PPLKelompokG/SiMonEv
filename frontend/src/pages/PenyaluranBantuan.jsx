@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import api from '../api';
-import { Package, Search, Plus, FileText, CheckCircle, AlertCircle, FolderOpen, Calendar, DollarSign, Tag, User, X } from 'lucide-react';
+import { Package, Search, Plus, FileText, CheckCircle, AlertCircle, FolderOpen, Calendar, DollarSign, Tag, User, X, Info } from 'lucide-react';
 
 const PenyaluranBantuan = () => {
   const [penyaluranList, setPenyaluranList] = useState([]);
@@ -15,6 +15,7 @@ const PenyaluranBantuan = () => {
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [detailModal, setDetailModal] = useState(null);
 
   const [formData, setFormData] = useState({
     penerima_bantuan_id: '',
@@ -188,7 +189,8 @@ const PenyaluranBantuan = () => {
                   <th>Penerima</th>
                   <th>Bantuan</th>
                   <th>Nominal</th>
-                  <th style={{ textAlign: 'center' }}>Status</th>
+                  <th style={{ textAlign: 'center' }}>Progress</th>
+                  <th style={{ textAlign: 'center' }}>Approval</th>
                 </tr>
               </thead>
               <tbody>
@@ -201,17 +203,11 @@ const PenyaluranBantuan = () => {
                     </td>
                     <td>
                       <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>{item.penerima_bantuan?.nama}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)' }}>NIK: {item.penerima_bantuan?.nik}</div>
                     </td>
                     <td>
                       <span className="badge" style={{ background: 'var(--pk-bg-secondary)', color: 'var(--pk-primary)', fontWeight: 600 }}>
                         {item.jenis_bantuan}
                       </span>
-                      {item.program_bantuan && (
-                        <div style={{ fontSize: '0.75rem', marginTop: '6px', color: 'var(--pk-text-muted)' }}>
-                          {item.program_bantuan.nama_program}
-                        </div>
-                      )}
                     </td>
                     <td style={{ fontWeight: 600, color: 'var(--pk-text)' }}>
                       {formatRupiah(item.jumlah_bantuan)}
@@ -221,13 +217,14 @@ const PenyaluranBantuan = () => {
                         className="form-control"
                         value={item.status_laporan}
                         onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                        disabled={item.status_approval === 'approved'}
                         style={{
                           padding: '0.4rem 0.75rem',
                           fontSize: '0.75rem',
                           borderRadius: '9999px',
                           fontWeight: 600,
                           border: '1px solid transparent',
-                          cursor: 'pointer',
+                          cursor: item.status_approval === 'approved' ? 'not-allowed' : 'pointer',
                           color: item.status_laporan === 'dalam antrian' ? '#f59e0b' : 
                                  item.status_laporan === 'sedang diproses' ? '#60a5fa' : '#34d399',
                           backgroundColor: item.status_laporan === 'dalam antrian' ? 'rgba(245, 158, 11, 0.1)' : 
@@ -237,13 +234,40 @@ const PenyaluranBantuan = () => {
                           appearance: 'none',
                           textAlign: 'center',
                           width: 'auto',
-                          display: 'inline-block'
+                          display: 'inline-block',
+                          opacity: item.status_approval === 'approved' ? 0.6 : 1
                         }}
                       >
                         <option value="dalam antrian">Dalam Antrian</option>
                         <option value="sedang diproses">Sedang Diproses</option>
                         <option value="sudah diproses">Sudah Diproses</option>
                       </select>
+                    </td>
+                    <td style={{ textAlign: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                        {item.status_approval === 'approved' ? (
+                          <span className="badge badge-success">Disetujui</span>
+                        ) : item.status_approval === 'returned' ? (
+                          <span className="badge badge-danger">Dikembalikan</span>
+                        ) : (
+                          <span className="badge badge-warning">Pending</span>
+                        )}
+                        
+                        <span 
+                          onClick={() => setDetailModal(item)}
+                          style={{ 
+                            fontSize: '0.75rem', 
+                            color: 'var(--pk-primary)', 
+                            cursor: 'pointer', 
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.2rem',
+                            fontWeight: 500
+                          }}
+                        >
+                          <Info size={14} /> Lihat Detail
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -452,6 +476,98 @@ const PenyaluranBantuan = () => {
                 </div>
 
               </form>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Detail Modal */}
+      {detailModal && createPortal(
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(15, 23, 42, 0.6)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999,
+          animation: 'fadeIn 0.2s ease-out'
+        }}>
+          <div className="animate-slide-up" style={{ 
+            width: '100%', 
+            maxWidth: '500px', 
+            padding: 0, 
+            overflow: 'hidden',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            margin: '1rem',
+            background: 'var(--pk-bg-2)',
+            borderRadius: 'var(--pk-radius)'
+          }}>
+            <div style={{ 
+              padding: '1.5rem', 
+              borderBottom: '1px solid var(--pk-glass-border)', 
+              background: 'linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <h3 style={{ margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem' }}>
+                <div style={{ width: '8px', height: '24px', background: 'var(--pk-danger)', borderRadius: '4px' }}></div>
+                Detail Approval Laporan
+              </h3>
+              <button 
+                onClick={() => setDetailModal(null)}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
+              >
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div style={{ padding: '1.5rem' }}>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.2rem' }}>Penerima</label>
+                <div style={{ fontWeight: 600 }}>{detailModal.penerima_bantuan?.nama}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--pk-text-muted)' }}>NIK: {detailModal.penerima_bantuan?.nik}</div>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.2rem' }}>Program & Jenis Bantuan</label>
+                <div style={{ fontWeight: 500 }}>
+                  {detailModal.program_bantuan?.nama_program || 'Tanpa Program'} ({detailModal.jenis_bantuan})
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.2rem' }}>Nominal</label>
+                <div style={{ fontWeight: 600, color: 'var(--pk-primary)' }}>{formatRupiah(detailModal.jumlah_bantuan)}</div>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.5rem' }}>Catatan Koreksi (Supervisor)</label>
+                <div style={{ 
+                  background: 'rgba(239, 68, 68, 0.1)', 
+                  padding: '1rem', 
+                  borderRadius: '8px', 
+                  border: '1px solid rgba(239, 68, 68, 0.2)',
+                  color: 'var(--pk-text)',
+                  fontSize: '0.9rem',
+                  lineHeight: '1.5'
+                }}>
+                  {detailModal.catatan_koreksi || 'Tidak ada catatan.'}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+                <button 
+                  type="button" 
+                  className="btn btn-primary" 
+                  onClick={() => setDetailModal(null)}
+                >
+                  Tutup
+                </button>
+              </div>
             </div>
           </div>
         </div>,

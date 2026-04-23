@@ -56,10 +56,15 @@ const Layout = () => {
           )}
 
           {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <>
-              <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
-              <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Status Penerima" />
-            </>
+            <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+          )}
+
+          {(user?.role === 'admin' || user?.role === 'supervisor') && (
+            <SidebarLink to="/approval-penyaluran" icon={<Package size={20} />} label="Approval Laporan" />
+          )}
+
+          {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
+            <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Status Penerima" />
           )}
           
           <div style={{ marginTop: 'auto' }}>
