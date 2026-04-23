@@ -9,7 +9,8 @@ import {
   X, 
   CheckCircle,
   AlertCircle,
-  FolderOpen
+  FolderOpen,
+  Briefcase
 } from 'lucide-react';
 
 const ProgramBantuan = () => {
@@ -177,21 +178,27 @@ const ProgramBantuan = () => {
         )}
       </div>
 
-      <div className="card glass-effect" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
-            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
-            <input 
-              type="text" 
-              className="form-control"
-              placeholder="Cari nama program atau kategori..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)' }}
-            />
-          </div>
-          <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem' }}>
-            Total: <strong>{filteredPrograms.length}</strong> Program
+      <div className="glass-panel" style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
+          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Briefcase size={20} color="var(--pk-primary)" />
+            Daftar Program Bantuan
+          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem' }}>
+              Total: <strong>{filteredPrograms.length}</strong> Program
+            </div>
+            <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
+              <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
+              <input 
+                type="text" 
+                className="form-control"
+                placeholder="Cari nama program atau kategori..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }}
+              />
+            </div>
           </div>
         </div>
 
@@ -201,8 +208,8 @@ const ProgramBantuan = () => {
             Memuat data program...
           </div>
         ) : filteredPrograms.length > 0 ? (
-          <div className="table-responsive">
-            <table className="table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="table-container">
+            <table>
               <thead>
                 <tr>
                   <th>Nama Program</th>

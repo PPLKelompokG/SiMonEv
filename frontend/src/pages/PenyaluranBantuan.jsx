@@ -157,9 +157,10 @@ const PenyaluranBantuan = () => {
       )}
 
       {/* List Section - Now full width */}
-      <div className="card glass-effect" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h3 style={{ margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
+      <div className="glass-panel">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
+          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Package size={20} color="var(--pk-primary)" />
             Riwayat Distribusi
           </h3>
           <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
@@ -170,7 +171,7 @@ const PenyaluranBantuan = () => {
               className="form-control" 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem' }} 
+              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }} 
             />
           </div>
         </div>
@@ -181,8 +182,8 @@ const PenyaluranBantuan = () => {
             <p>Memuat riwayat penyaluran...</p>
           </div>
         ) : filteredList.length > 0 ? (
-          <div className="table-responsive" style={{ flex: 1 }}>
-            <table className="table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="table-container">
+            <table>
               <thead>
                 <tr>
                   <th>Tanggal</th>
