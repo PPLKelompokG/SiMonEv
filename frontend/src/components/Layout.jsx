@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck, Edit, X } from 'lucide-react';
+import api from '../api';
 
 const SidebarLink = ({ to, icon, label }) => {
   return (
@@ -31,8 +32,65 @@ const SidebarSection = ({ title }) => (
 );
 
 const Layout = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  
+  // Edit Profile Form States
+  const [editName, setEditName] = useState('');
+  const [editPassword, setEditPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const openEditModal = () => {
+    setEditName(user?.name || '');
+    setEditPassword('');
+    setError('');
+    setSuccess('');
+    setIsDropdownOpen(false);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const response = await api.put('/profile', {
+        name: editName,
+        password: editPassword || null
+      });
+      
+      updateUser(response.data.user);
+      setSuccess('Profil berhasil diperbarui!');
+      setEditPassword('');
+      setTimeout(() => {
+        setIsEditModalOpen(false);
+        setSuccess('');
+      }, 1500);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Terjadi kesalahan saat memperbarui profil');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -111,8 +169,42 @@ const Layout = () => {
             <span className="badge badge-success" style={{ textTransform: 'capitalize' }}>
               {user?.role?.replace('_', ' ')}
             </span>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-              {user?.name?.charAt(0).toUpperCase()}
+            <div style={{ position: 'relative' }} ref={dropdownRef}>
+              <div 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', cursor: 'pointer', color: 'white', userSelect: 'none' }}
+              >
+                {user?.name?.charAt(0).toUpperCase()}
+              </div>
+
+              {isDropdownOpen && (
+                <div style={{ 
+                  position: 'absolute', 
+                  top: '55px', 
+                  right: '0', 
+                  width: '220px', 
+                  padding: '0.5rem', 
+                  zIndex: 50, 
+                  background: 'rgba(15, 23, 42, 0.95)', 
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '12px',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)'
+                }}>
+                  <div style={{ padding: '0.75rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', marginBottom: '0.5rem' }}>
+                    <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#fff', letterSpacing: '0.02em' }}>{user?.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.2rem' }}>{user?.email}</div>
+                  </div>
+                  
+                  <button onClick={openEditModal} style={{ width: '100%', textAlign: 'left', padding: '0.6rem 0.75rem', background: 'transparent', border: 'none', color: 'var(--pk-text)', cursor: 'pointer', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', fontSize: '0.875rem', fontWeight: '500' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--pk-text)'; }}>
+                    <Edit size={16} /> Edit Profile
+                  </button>
+                  
+                  <button onClick={handleLogout} style={{ width: '100%', textAlign: 'left', padding: '0.6rem 0.75rem', background: 'transparent', border: 'none', color: 'var(--pk-danger)', cursor: 'pointer', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', marginTop: '0.2rem', fontSize: '0.875rem', fontWeight: '500' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(239,68,68,0.15)'; e.currentTarget.style.color = '#fca5a5'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--pk-danger)'; }}>
+                    <LogOut size={16} /> Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>
@@ -120,6 +212,55 @@ const Layout = () => {
         <div className="app-content animate-fade-in">
           <Outlet />
         </div>
+
+        {/* Edit Profile Modal */}
+        {isEditModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content glass-panel animate-fade-in" style={{ maxWidth: '400px' }}>
+              <div className="modal-header">
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Edit size={20}/> Edit Profile</h3>
+                <button className="btn-close" onClick={() => setIsEditModalOpen(false)}>
+                  <X size={20} />
+                </button>
+              </div>
+
+              {error && <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--pk-danger)', color: '#fca5a5', padding: '0.75rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
+              {success && <div style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid var(--pk-success)', color: '#86efac', padding: '0.75rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.875rem' }}>{success}</div>}
+
+              <form onSubmit={handleEditProfile}>
+                <div className="form-group">
+                  <label className="form-label">Nama Lengkap</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label">Password Baru (Opsional)</label>
+                  <input 
+                    type="password" 
+                    className="form-control" 
+                    placeholder="Biarkan kosong jika tidak ingin diubah"
+                    value={editPassword}
+                    onChange={(e) => setEditPassword(e.target.value)}
+                    minLength="8"
+                  />
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1.5rem' }}>
+                  <button type="button" className="btn btn-outline" onClick={() => setIsEditModalOpen(false)}>Batal</button>
+                  <button type="submit" className="btn btn-primary" disabled={loading}>
+                    {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
