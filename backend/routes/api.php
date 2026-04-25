@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\PenerimaBantuanController;
 use App\Http\Controllers\Api\ProgramBantuanController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
+use App\Http\Controllers\Api\PenyaluranBantuanController;
+use App\Http\Controllers\Api\PembaruanStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,4 +36,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/program-bantuan/{id}', [ProgramBantuanController::class, 'show']);
     Route::put('/program-bantuan/{id}', [ProgramBantuanController::class, 'update']);
     Route::delete('/program-bantuan/{id}', [ProgramBantuanController::class, 'destroy']);
+
+    // PBI-09 Penyaluran Bantuan
+    Route::get('/penyaluran-bantuan/penerima-disetujui', [PenyaluranBantuanController::class, 'getApprovedPenerima']);
+    Route::get('/penyaluran-bantuan', [PenyaluranBantuanController::class, 'index']);
+    Route::post('/penyaluran-bantuan', [PenyaluranBantuanController::class, 'store']);
+    Route::get('/penyaluran-bantuan/{id}', [PenyaluranBantuanController::class, 'show']);
+    Route::put('/penyaluran-bantuan/{id}/status', [PenyaluranBantuanController::class, 'updateStatus']);
+
+    // PBI-10 Pembaruan Status Penerima Bantuan (Graduasi)
+    Route::get('/pembaruan-status/penerima', [PembaruanStatusController::class, 'getEligiblePenerima']);
+    Route::get('/pembaruan-status/histori', [PembaruanStatusController::class, 'history']);
+    Route::post('/pembaruan-status', [PembaruanStatusController::class, 'store']);
+
+    // PBI-16 Approval Penyaluran Bantuan
+    Route::get('/approval/penyaluran', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'index']);
+    Route::get('/approval/penyaluran/{id}', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'show']);
+    Route::put('/approval/penyaluran/{id}/approve', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'approve']);
+    Route::put('/approval/penyaluran/{id}/reject', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'reject']);
 });

@@ -13,6 +13,10 @@ import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
 import ManajemenDataKeluarga from './pages/ManajemenDataKeluarga';
 import PermintaanKuota from './pages/PermintaanKuota';
+import PenyaluranBantuan from './pages/PenyaluranBantuan';
+import PembaruanStatus from './pages/PembaruanStatus';
+import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
+
 
 function App() {
   return (
@@ -44,6 +48,24 @@ function App() {
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
+              </ProtectedRoute>
+            } />
+
+            <Route path="approval-penyaluran" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
+                <ApprovalPenyaluran />
+              </ProtectedRoute>
+            } />
+
+            <Route path="penyaluran-bantuan" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <PenyaluranBantuan />
+              </ProtectedRoute>
+            } />
+
+            <Route path="pembaruan-status" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <PembaruanStatus />
               </ProtectedRoute>
             } />
           </Route>
