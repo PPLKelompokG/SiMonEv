@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FamilyMemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeluargaController;
 
@@ -14,6 +15,8 @@ use App\Http\Controllers\KeluargaController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('family', FamilyMemberController::class);
 
 /*
 |--------------------------------------------------------------------------
