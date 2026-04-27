@@ -54,4 +54,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/approval/penyaluran/{id}', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'show']);
     Route::put('/approval/penyaluran/{id}/approve', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'approve']);
     Route::put('/approval/penyaluran/{id}/reject', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'reject']);
+
+    // PBI-13 Pencatatan & Monitoring Status Gizi
+    Route::get('/status-gizi', [\App\Http\Controllers\Api\StatusGiziController::class, 'index']);
+    Route::get('/status-gizi/statistik', [\App\Http\Controllers\Api\StatusGiziController::class, 'statistik']);
+    Route::get('/status-gizi/penerima/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'historyPenerima']);
+    Route::post('/status-gizi', [\App\Http\Controllers\Api\StatusGiziController::class, 'store']);
+    Route::put('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'update']);
+    Route::delete('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'destroy']);
 });
