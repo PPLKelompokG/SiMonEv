@@ -11,6 +11,8 @@ import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
+import ManajemenDataKeluarga from './pages/ManajemenDataKeluarga';
+import PermintaanKuota from './pages/PermintaanKuota';
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
@@ -40,6 +42,8 @@ function App() {
             } />
             
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
+            <Route path="manajemen-data-keluarga" element={<ManajemenDataKeluarga />} />
+            <Route path="permintaan-kuota" element={<PermintaanKuota />} />
             
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
