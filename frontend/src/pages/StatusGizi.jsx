@@ -102,7 +102,9 @@ const StatusGizi = () => {
       ]);
       setData(resData.data.data || []);
       setStatistik(resStat.data.data || null);
-      setPenerimas(resPenerima.data.data || []);
+      
+      const allPenerima = resPenerima.data.data || [];
+      setPenerimas(allPenerima.filter(p => p.status === 'disetujui'));
     } catch (e) {
       console.error(e);
     } finally {
