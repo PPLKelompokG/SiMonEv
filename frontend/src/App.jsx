@@ -17,6 +17,7 @@ import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
 import StatusGizi from './pages/StatusGizi';
+import Kia from './pages/Kia';
 
 function App() {
   return (
@@ -72,6 +73,12 @@ function App() {
             <Route path="status-gizi" element={
               <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
                 <StatusGizi />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="kia" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
+                <Kia />
               </ProtectedRoute>
             } />
           </Route>

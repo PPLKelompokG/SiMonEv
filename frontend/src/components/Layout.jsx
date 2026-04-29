@@ -150,7 +150,10 @@ const Layout = () => {
 
           <SidebarSection title="KESEHATAN & GIZI" />
           {(user?.role === 'admin' || user?.role === 'petugas_lapangan' || user?.role === 'supervisor') && (
-            <SidebarLink to="/status-gizi" icon={<Heart size={20} />} label="Status Gizi" />
+            <>
+              <SidebarLink to="/status-gizi" icon={<Heart size={20} />} label="Status Gizi" />
+              <SidebarLink to="/kia" icon={<Activity size={20} />} label="KIA (Ibu & Balita)" />
+            </>
           )}
           
           <div style={{ marginTop: 'auto' }}>

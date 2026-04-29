@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
 use App\Http\Controllers\Api\PenyaluranBantuanController;
 use App\Http\Controllers\Api\PembaruanStatusController;
+use App\Http\Controllers\Api\KiaController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -62,4 +63,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/status-gizi', [\App\Http\Controllers\Api\StatusGiziController::class, 'store']);
     Route::put('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'update']);
     Route::delete('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'destroy']);
+
+    // PBI-14 Monitoring Kesehatan Ibu dan Anak (KIA)
+    // Ibu Hamil
+    Route::get('/kia/ibu-hamil', [KiaController::class, 'indexIbuHamil']);
+    Route::get('/kia/ibu-hamil/statistik', [KiaController::class, 'statistikIbuHamil']);
+    Route::get('/kia/ibu-hamil/penerima/{id}', [KiaController::class, 'historyIbuHamil']);
+    Route::post('/kia/ibu-hamil', [KiaController::class, 'storeIbuHamil']);
+    Route::put('/kia/ibu-hamil/{id}', [KiaController::class, 'updateIbuHamil']);
+    Route::delete('/kia/ibu-hamil/{id}', [KiaController::class, 'destroyIbuHamil']);
+    // Balita
+    Route::get('/kia/balita', [KiaController::class, 'indexBalita']);
+    Route::get('/kia/balita/statistik', [KiaController::class, 'statistikBalita']);
+    Route::get('/kia/balita/penerima/{id}', [KiaController::class, 'historyBalita']);
+    Route::post('/kia/balita', [KiaController::class, 'storeBalita']);
+    Route::put('/kia/balita/{id}', [KiaController::class, 'updateBalita']);
+    Route::delete('/kia/balita/{id}', [KiaController::class, 'destroyBalita']);
 });
