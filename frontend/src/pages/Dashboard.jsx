@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import api from '../api';
 import { AuthContext } from '../context/AuthContext';
-import { Users, FileText, CheckCircle, Clock } from 'lucide-react';
+import { Users, FileText, CheckCircle, Clock, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const StatCard = ({ title, value, icon, color }) => (
   <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
@@ -63,9 +64,14 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ margin: 0 }}>Welcome back, {user?.name}!</h1>
-        <p>System Overview and Quick Actions</p>
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <h1 style={{ margin: 0 }}>Welcome back, {user?.name}!</h1>
+          <p>System Overview and Quick Actions</p>
+        </div>
+        <Link to="/manajemen-data-keluarga" className="btn btn-outline" style={{ textDecoration: 'none' }}>
+          <Users size={18} /> Kelola Data Keluarga (PBI-12) <ArrowRight size={18} />
+        </Link>
       </div>
 
       <div className="grid grid-cols-4 mb-4" style={{ marginBottom: '2rem' }}>
