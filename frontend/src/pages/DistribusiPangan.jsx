@@ -189,8 +189,8 @@ const DistribusiPangan = () => {
   };
 
   const filteredList = distribusiList.filter(item => 
-    item.penerimaBantuan?.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.penerimaBantuan?.nik?.includes(searchTerm) ||
+    item.penerima_bantuan?.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.penerima_bantuan?.nik?.includes(searchTerm) ||
     item.periode_bulan?.includes(searchTerm)
   );
 
@@ -302,8 +302,8 @@ const DistribusiPangan = () => {
                       </div>
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>{item.penerimaBantuan?.nama}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>NIK: {item.penerimaBantuan?.nik}</div>
+                      <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>{item.penerima_bantuan?.nama}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>NIK: {item.penerima_bantuan?.nik}</div>
                     </td>
                     <td>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
@@ -692,8 +692,8 @@ const DistribusiPangan = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', background: 'var(--pk-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--pk-glass-border)' }}>
                 <div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', marginBottom: '0.2rem' }}>Penerima</div>
-                  <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>{selectedDistribusi.penerimaBantuan?.nama}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--pk-text-muted)' }}>NIK: {selectedDistribusi.penerimaBantuan?.nik}</div>
+                  <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>{selectedDistribusi.penerima_bantuan?.nama}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--pk-text-muted)' }}>NIK: {selectedDistribusi.penerima_bantuan?.nik}</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', marginBottom: '0.2rem' }}>Periode</div>
