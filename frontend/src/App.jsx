@@ -16,6 +16,9 @@ import PermintaanKuota from './pages/PermintaanKuota';
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
+import StatusGizi from './pages/StatusGizi';
+import Kia from './pages/Kia';
+import DistribusiPangan from './pages/DistribusiPangan';
 
 
 function App() {
@@ -44,7 +47,7 @@ function App() {
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
             <Route path="manajemen-data-keluarga" element={<ManajemenDataKeluarga />} />
             <Route path="permintaan-kuota" element={<PermintaanKuota />} />
-
+            
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
@@ -63,9 +66,27 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route path="distribusi-pangan" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <DistribusiPangan />
+              </ProtectedRoute>
+            } />
+
             <Route path="pembaruan-status" element={
               <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
                 <PembaruanStatus />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="status-gizi" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
+                <StatusGizi />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="kia" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
+                <Kia />
               </ProtectedRoute>
             } />
           </Route>

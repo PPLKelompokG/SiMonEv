@@ -43,4 +43,19 @@ class PenerimaBantuan extends Model
     {
         return $this->hasMany(HistoriStatusPenerima::class, 'penerima_bantuan_id');
     }
+
+    public function statusGizi()
+    {
+        return $this->hasMany(StatusGizi::class, 'penerima_bantuan_id');
+    }
+
+    public function kesehatanIbuHamil()
+    {
+        return $this->hasMany(KesehatanIbuHamil::class, 'penerima_bantuan_id');
+    }
+
+    public function kesehatanBalita()
+    {
+        return $this->hasMany(KesehatanBalita::class, 'penerima_bantuan_id');
+    }
 }
