@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck, Edit, X, Heart } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck, Edit, X, Heart, ShoppingBag } from 'lucide-react';
 import api from '../api';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -137,7 +137,10 @@ const Layout = () => {
           )}
 
           {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+            <>
+              <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+              <SidebarLink to="/distribusi-pangan" icon={<ShoppingBag size={20} />} label="Distribusi Pangan" />
+            </>
           )}
 
           {(user?.role === 'admin' || user?.role === 'supervisor') && (

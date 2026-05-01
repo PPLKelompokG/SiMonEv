@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\VerifikasiPenerimaController;
 use App\Http\Controllers\Api\PenyaluranBantuanController;
 use App\Http\Controllers\Api\PembaruanStatusController;
 use App\Http\Controllers\Api\KiaController;
+use App\Http\Controllers\Api\DistribusiPanganController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -79,4 +80,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/kia/balita', [KiaController::class, 'storeBalita']);
     Route::put('/kia/balita/{id}', [KiaController::class, 'updateBalita']);
     Route::delete('/kia/balita/{id}', [KiaController::class, 'destroyBalita']);
+
+    // PBI-15 Pencatatan Distribusi Bantuan Pangan
+    Route::get('/distribusi-pangan/penerima-disetujui', [DistribusiPanganController::class, 'getApprovedPenerima']);
+    Route::get('/distribusi-pangan/komoditas', [DistribusiPanganController::class, 'komoditas']);
+    Route::get('/distribusi-pangan/statistik', [DistribusiPanganController::class, 'statistik']);
+    Route::get('/distribusi-pangan/penerima/{id}', [DistribusiPanganController::class, 'historyPenerima']);
+    Route::get('/distribusi-pangan', [DistribusiPanganController::class, 'index']);
+    Route::post('/distribusi-pangan', [DistribusiPanganController::class, 'store']);
+    Route::get('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'show']);
+    Route::put('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'update']);
+    Route::delete('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'destroy']);
 });
