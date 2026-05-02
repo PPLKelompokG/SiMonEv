@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
 use App\Http\Controllers\Api\PenyaluranBantuanController;
 use App\Http\Controllers\Api\PembaruanStatusController;
+use App\Http\Controllers\Api\KiaController;
+use App\Http\Controllers\Api\DistribusiPanganController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -14,6 +16,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
 
     // PBI-05 Manajemen Akun
     Route::get('/users', [UserManagementController::class, 'index']);
@@ -54,4 +57,42 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/approval/penyaluran/{id}', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'show']);
     Route::put('/approval/penyaluran/{id}/approve', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'approve']);
     Route::put('/approval/penyaluran/{id}/reject', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'reject']);
+
+    // PBI-13 Pencatatan & Monitoring Status Gizi
+    Route::get('/status-gizi', [\App\Http\Controllers\Api\StatusGiziController::class, 'index']);
+    Route::get('/status-gizi/statistik', [\App\Http\Controllers\Api\StatusGiziController::class, 'statistik']);
+    Route::get('/status-gizi/penerima/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'historyPenerima']);
+    Route::post('/status-gizi', [\App\Http\Controllers\Api\StatusGiziController::class, 'store']);
+    Route::put('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'update']);
+    Route::delete('/status-gizi/{id}', [\App\Http\Controllers\Api\StatusGiziController::class, 'destroy']);
+
+    // PBI-14 Monitoring Kesehatan Ibu dan Anak (KIA)
+    // Ibu Hamil
+    Route::get('/kia/ibu-hamil', [KiaController::class, 'indexIbuHamil']);
+    Route::get('/kia/ibu-hamil/statistik', [KiaController::class, 'statistikIbuHamil']);
+    Route::get('/kia/ibu-hamil/penerima/{id}', [KiaController::class, 'historyIbuHamil']);
+    Route::post('/kia/ibu-hamil', [KiaController::class, 'storeIbuHamil']);
+    Route::put('/kia/ibu-hamil/{id}', [KiaController::class, 'updateIbuHamil']);
+    Route::delete('/kia/ibu-hamil/{id}', [KiaController::class, 'destroyIbuHamil']);
+    // Balita
+    Route::get('/kia/balita', [KiaController::class, 'indexBalita']);
+    Route::get('/kia/balita/statistik', [KiaController::class, 'statistikBalita']);
+    Route::get('/kia/balita/penerima/{id}', [KiaController::class, 'historyBalita']);
+    Route::post('/kia/balita', [KiaController::class, 'storeBalita']);
+    Route::put('/kia/balita/{id}', [KiaController::class, 'updateBalita']);
+    Route::delete('/kia/balita/{id}', [KiaController::class, 'destroyBalita']);
+
+    // PBI-15 Pencatatan Distribusi Bantuan Pangan
+    Route::get('/distribusi-pangan/penerima-disetujui', [DistribusiPanganController::class, 'getApprovedPenerima']);
+    Route::get('/distribusi-pangan/komoditas', [DistribusiPanganController::class, 'komoditas']);
+    Route::get('/distribusi-pangan/statistik', [DistribusiPanganController::class, 'statistik']);
+    Route::get('/distribusi-pangan/penerima/{id}', [DistribusiPanganController::class, 'historyPenerima']);
+    Route::get('/distribusi-pangan', [DistribusiPanganController::class, 'index']);
+    Route::post('/distribusi-pangan', [DistribusiPanganController::class, 'store']);
+    Route::get('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'show']);
+    Route::put('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'update']);
+    Route::delete('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'destroy']);
+
+    // PBI-17 Monitoring Kinerja Petugas Lapangan
+    Route::get('/kinerja-petugas', [\App\Http\Controllers\Api\KinerjaController::class, 'getKinerjaData']);
 });
