@@ -137,7 +137,11 @@ const Layout = () => {
           )}
 
           {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+            <>
+              <SidebarSection title="DISTRIBUSI & PEMANTAUAN" />
+              <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
+              <SidebarLink to="/kunjungan-rumah" icon={<Home size={20} />} label="Kunjungan Rumah" />
+            </>
           )}
 
           {(user?.role === 'admin' || user?.role === 'supervisor') && (

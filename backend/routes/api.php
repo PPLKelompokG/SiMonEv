@@ -55,4 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/approval/penyaluran/{id}', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'show']);
     Route::put('/approval/penyaluran/{id}/approve', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'approve']);
     Route::put('/approval/penyaluran/{id}/reject', [\App\Http\Controllers\Api\ApprovalPenyaluranController::class, 'reject']);
+
+    // PBI-11 Kunjungan Rumah
+    Route::get('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'index']);
+    Route::post('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'store']);
 });

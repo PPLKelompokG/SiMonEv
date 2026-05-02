@@ -16,6 +16,7 @@ import PermintaanKuota from './pages/PermintaanKuota';
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
+import KunjunganRumah from './pages/KunjunganRumah';
 
 
 function App() {
@@ -66,6 +67,11 @@ function App() {
             <Route path="pembaruan-status" element={
               <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
                 <PembaruanStatus />
+              </ProtectedRoute>
+            } />
+            <Route path="kunjungan-rumah" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <KunjunganRumah />
               </ProtectedRoute>
             } />
           </Route>
