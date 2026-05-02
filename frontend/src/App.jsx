@@ -102,8 +102,6 @@ function App() {
                 <KunjunganRumah />
               </ProtectedRoute>
             } />
-              </ProtectedRoute>
-            } />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
