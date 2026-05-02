@@ -213,6 +213,7 @@ const Layout = () => {
                   <>
                     <SidebarLink to="/penyaluran-bantuan" icon={<Package size={18} />} label="Penyaluran Bantuan" />
                     <SidebarLink to="/distribusi-pangan" icon={<ShoppingBag size={18} />} label="Distribusi Pangan" />
+                    <SidebarLink to="/kunjungan-rumah" icon={<Home size={18} />} label="Kunjungan Rumah" />
                   </>
                 )}
                 {(user?.role === 'admin' || user?.role === 'supervisor') && (

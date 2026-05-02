@@ -94,4 +94,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'destroy']);
     // PBI-17 Monitoring Kinerja Petugas Lapangan
     Route::get('/kinerja-petugas', [\App\Http\Controllers\Api\KinerjaController::class, 'getKinerjaData']);
+
+    // PBI-11 Kunjungan Rumah
+    Route::get('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'index']);
+    Route::post('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'store']);
 });

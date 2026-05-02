@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class KunjunganRumah extends Model
 {
     protected $fillable = [
-        'petugas_id',
-        'penerima_bantuan_id',
-        'tanggal_kunjungan',
-        'status_kunjungan',
-        'catatan',
-        'foto_bukti'
+        'tanggal',
+        'nama_penerima',
+        'nik_penerima',
+        'penerima_id',
+        'ringkasan_kondisi',
+        'temuan_detail',
+        'rekomendasi',
+        'foto',
+        'petugas_id'
     ];
 
     public function petugas()
@@ -20,8 +23,8 @@ class KunjunganRumah extends Model
         return $this->belongsTo(User::class, 'petugas_id');
     }
 
-    public function penerimaBantuan()
+    public function penerima()
     {
-        return $this->belongsTo(PenerimaBantuan::class);
+        return $this->belongsTo(PenerimaBantuan::class, 'penerima_id');
     }
 }

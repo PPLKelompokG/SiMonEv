@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('kunjungan_rumahs', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
+            $table->string('nama_penerima');
+            $table->string('nik_penerima')->nullable();
+            $table->unsignedBigInteger('penerima_id')->nullable(); // Optional link to actual penerima
+            $table->string('ringkasan_kondisi');
+            $table->text('temuan_detail')->nullable();
+            $table->text('rekomendasi')->nullable();
+            $table->string('foto')->nullable();
             $table->foreignId('petugas_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('penerima_bantuan_id')->constrained('penerima_bantuans')->onDelete('cascade');
-            $table->date('tanggal_kunjungan');
-            $table->enum('status_kunjungan', ['selesai', 'dijadwalkan', 'gagal'])->default('dijadwalkan');
-            $table->text('catatan')->nullable();
-            $table->string('foto_bukti')->nullable();
             $table->timestamps();
         });
     }
