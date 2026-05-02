@@ -20,6 +20,7 @@ import StatusGizi from './pages/StatusGizi';
 import Kia from './pages/Kia';
 import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
+import KunjunganRumah from './pages/KunjunganRumah';
 
 
 function App() {
@@ -84,7 +85,6 @@ function App() {
                 <PembaruanStatus />
               </ProtectedRoute>
             } />
-            
             <Route path="status-gizi" element={
               <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
                 <StatusGizi />
@@ -94,6 +94,12 @@ function App() {
             <Route path="kia" element={
               <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
                 <Kia />
+              </ProtectedRoute>
+            } />
+
+            <Route path="kunjungan-rumah" element={
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+                <KunjunganRumah />
               </ProtectedRoute>
             } />
           </Route>
