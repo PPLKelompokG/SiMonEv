@@ -92,7 +92,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'show']);
     Route::put('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'update']);
     Route::delete('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'destroy']);
-
     // PBI-17 Monitoring Kinerja Petugas Lapangan
     Route::get('/kinerja-petugas', [\App\Http\Controllers\Api\KinerjaController::class, 'getKinerjaData']);
 });
