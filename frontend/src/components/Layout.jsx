@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck, Edit, X, Heart, ShoppingBag } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, Package, UserCheck, Edit, X, Heart, ShoppingBag, Menu, ChevronDown, ChevronRight, LayoutDashboard, ClipboardList } from 'lucide-react';
 import api from '../api';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -11,30 +11,68 @@ const SidebarLink = ({ to, icon, label }) => {
       className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
     >
       {icon}
-      <span>{label}</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{label}</span>
     </NavLink>
   );
 };
 
-const SidebarSection = ({ title }) => (
-  <div style={{ 
-    fontSize: '0.75rem', 
-    fontWeight: '700', 
-    color: 'var(--pk-text-muted)', 
-    textTransform: 'uppercase', 
-    letterSpacing: '0.1em',
-    marginTop: '1.5rem',
-    marginBottom: '0.75rem',
-    paddingLeft: '1.15rem'
-  }}>
-    {title}
-  </div>
-);
+const AccordionMenu = ({ title, icon, children, defaultOpen = false, accentColor = 'var(--pk-primary)', bgOpacity = 'rgba(255,255,255,0.05)' }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div style={{ marginBottom: '0.5rem' }}>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between',
+          padding: '0.85rem 1.15rem',
+          borderRadius: '12px',
+          cursor: 'pointer',
+          color: isOpen ? accentColor : 'var(--pk-text-muted)',
+          background: isOpen ? bgOpacity : 'transparent',
+          borderLeft: isOpen ? `4px solid ${accentColor}` : '4px solid transparent',
+          transition: 'all 0.2s ease',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          fontSize: '0.75rem',
+          letterSpacing: '0.05em'
+        }}
+        onMouseOver={(e) => { 
+          if(!isOpen) {
+            e.currentTarget.style.color = 'var(--pk-text)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+          }
+        }}
+        onMouseOut={(e) => { 
+          if(!isOpen) {
+            e.currentTarget.style.color = 'var(--pk-text-muted)';
+            e.currentTarget.style.background = 'transparent';
+          }
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {icon}
+          <span style={{ whiteSpace: 'nowrap' }}>{title}</span>
+        </div>
+        {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+      </div>
+      
+      {isOpen && (
+        <div className="animate-fade-in" style={{ paddingLeft: '0.5rem', marginTop: '0.25rem' }}>
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Layout = () => {
   const { user, logout, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   
@@ -98,10 +136,25 @@ const Layout = () => {
   };
 
   return (
-    <div className="app-layout">
+    <div className="app-layout" style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       {/* Sidebar */}
-      <aside className="app-sidebar">
-        <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
+      <aside 
+        className="app-sidebar" 
+        style={{ 
+          width: isSidebarOpen ? '260px' : '0px',
+          minWidth: isSidebarOpen ? '260px' : '0px',
+          opacity: isSidebarOpen ? 1 : 0,
+          visibility: isSidebarOpen ? 'visible' : 'hidden',
+          transition: 'all 0.3s ease',
+          overflowX: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'rgba(15, 23, 42, 0.6)',
+          backdropFilter: 'blur(20px)',
+          borderRight: isSidebarOpen ? '1px solid var(--pk-glass-border)' : 'none'
+        }}
+      >
+        <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)', minWidth: '260px' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
             <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
               <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 8px 16px rgba(139, 92, 246, 0.4)' }}>
@@ -112,57 +165,85 @@ const Layout = () => {
           </Link>
         </div>
         
-        <nav style={{ padding: '0.5rem 1rem 1.5rem 1rem', flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-          <SidebarSection title="UTAMA" />
+        <nav style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', minWidth: '260px' }}>
+          {/* Dashboard Standalone */}
           <SidebarLink to="/dashboard" icon={<Home size={20} />} label="Dashboard" />
           
-          {user?.role === 'admin' && (
-            <>
-              <SidebarSection title="MANAJEMEN PROGRAM" />
-              <SidebarLink to="/program-bantuan" icon={<Briefcase size={20} />} label="Program Bantuan" />
-              <SidebarLink to="/permintaan-kuota" icon={<Activity size={20} />} label="Permintaan Kuota" />
-              <SidebarLink to="/users" icon={<Users size={20} />} label="Manajemen Akun" />
-            </>
-          )}
+          <div style={{ marginTop: '1rem' }}>
+            {user?.role === 'admin' && (
+              <AccordionMenu 
+                title="Manajemen Program" 
+                icon={<Briefcase size={18} />} 
+                defaultOpen={true}
+                accentColor="var(--pk-primary)"
+                bgOpacity="rgba(129, 140, 248, 0.15)"
+              >
+                <SidebarLink to="/program-bantuan" icon={<LayoutDashboard size={18} />} label="Program Bantuan" />
+                <SidebarLink to="/permintaan-kuota" icon={<Activity size={18} />} label="Permintaan Kuota" />
+                <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" />
+              </AccordionMenu>
+            )}
 
-          <SidebarSection title="MANAJEMEN PENERIMA" />
-          <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={20} />} label="Pendaftaran Bantuan" />
-          <SidebarLink to="/manajemen-data-keluarga" icon={<Users size={20} />} label="Manajemen Data Keluarga" />
+            <AccordionMenu 
+              title="Manajemen Penerima" 
+              icon={<Users size={18} />} 
+              defaultOpen={true}
+              accentColor="var(--pk-warning)"
+              bgOpacity="rgba(251, 191, 36, 0.15)"
+            >
+              <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={18} />} label="Pendaftaran Bantuan" />
+              <SidebarLink to="/manajemen-data-keluarga" icon={<Users size={18} />} label="Data Keluarga" />
+            </AccordionMenu>
+            
+            {(user?.role === 'admin' || user?.role === 'supervisor' || user?.role === 'petugas_lapangan') && (
+              <AccordionMenu 
+                title="Evaluasi & Verifikasi" 
+                icon={<CheckCircle size={18} />} 
+                defaultOpen={true}
+                accentColor="var(--pk-success)"
+                bgOpacity="rgba(52, 211, 153, 0.15)"
+              >
+                {(user?.role === 'admin' || user?.role === 'supervisor') && (
+                  <SidebarLink to="/verifikasi" icon={<ClipboardList size={18} />} label="Verifikasi Data" />
+                )}
+                {(user?.role === 'admin' || user?.role === 'supervisor') && (
+                  <SidebarLink to="/kinerja-petugas" icon={<Activity size={18} />} label="Kinerja Petugas" />
+                )}
+                {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
+                  <>
+                    <SidebarLink to="/penyaluran-bantuan" icon={<Package size={18} />} label="Penyaluran Bantuan" />
+                    <SidebarLink to="/distribusi-pangan" icon={<ShoppingBag size={18} />} label="Distribusi Pangan" />
+                  </>
+                )}
+                {(user?.role === 'admin' || user?.role === 'supervisor') && (
+                  <SidebarLink to="/approval-penyaluran" icon={<Package size={18} />} label="Approval Laporan" />
+                )}
+                {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
+                  <SidebarLink to="/pembaruan-status" icon={<UserCheck size={18} />} label="Status Penerima" />
+                )}
+              </AccordionMenu>
+            )}
+
+            {(user?.role === 'admin' || user?.role === 'petugas_lapangan' || user?.role === 'supervisor') && (
+              <AccordionMenu 
+                title="Kesehatan & Gizi" 
+                icon={<Heart size={18} />} 
+                defaultOpen={false}
+                accentColor="var(--pk-danger)"
+                bgOpacity="rgba(248, 113, 113, 0.15)"
+              >
+                <SidebarLink to="/status-gizi" icon={<Heart size={18} />} label="Status Gizi" />
+                <SidebarLink to="/kia" icon={<Activity size={18} />} label="KIA (Ibu & Balita)" />
+              </AccordionMenu>
+            )}
+          </div>
           
-          {(user?.role === 'admin' || user?.role === 'supervisor') && (
-            <>
-              <SidebarSection title="EVALUASI & VERIFIKASI" />
-              <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
-            </>
-          )}
-
-          {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <>
-              <SidebarLink to="/penyaluran-bantuan" icon={<Package size={20} />} label="Penyaluran Bantuan" />
-              <SidebarLink to="/distribusi-pangan" icon={<ShoppingBag size={20} />} label="Distribusi Pangan" />
-            </>
-          )}
-
-          {(user?.role === 'admin' || user?.role === 'supervisor') && (
-            <SidebarLink to="/approval-penyaluran" icon={<Package size={20} />} label="Approval Laporan" />
-          )}
-
-          {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
-            <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Status Penerima" />
-          )}
-
-          <SidebarSection title="KESEHATAN & GIZI" />
-          {(user?.role === 'admin' || user?.role === 'petugas_lapangan' || user?.role === 'supervisor') && (
-            <>
-              <SidebarLink to="/status-gizi" icon={<Heart size={20} />} label="Status Gizi" />
-              <SidebarLink to="/kia" icon={<Activity size={20} />} label="KIA (Ibu & Balita)" />
-            </>
-          )}
-          
-          <div style={{ marginTop: 'auto' }}>
+          <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
             <button 
               onClick={handleLogout}
-              style={{ width: '100%', marginTop: '1rem', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
+              style={{ width: '100%', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
+              onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >
               <LogOut size={18} /> Logout
             </button>
@@ -171,11 +252,20 @@ const Layout = () => {
       </aside>
 
       {/* Main content */}
-      <main className="app-main">
-        <header className="app-header">
-          <div>
+      <main className="app-main" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', transition: 'all 0.3s ease' }}>
+        <header className="app-header" style={{ height: '70px', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem', background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(20px)', zIndex: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              style={{ background: 'transparent', border: 'none', color: 'var(--pk-text)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '8px', transition: 'background 0.2s' }}
+              onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <Menu size={24} />
+            </button>
             <h3 style={{ margin: 0, fontWeight: 500 }}>Sistem Monitoring & Evaluasi</h3>
           </div>
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <span className="badge badge-success" style={{ textTransform: 'capitalize' }}>
               {user?.role?.replace('_', ' ')}
@@ -220,7 +310,7 @@ const Layout = () => {
           </div>
         </header>
         
-        <div className="app-content animate-fade-in">
+        <div className="app-content animate-fade-in" style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
           <Outlet />
         </div>
 

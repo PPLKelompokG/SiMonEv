@@ -19,6 +19,7 @@ import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
 import StatusGizi from './pages/StatusGizi';
 import Kia from './pages/Kia';
 import DistribusiPangan from './pages/DistribusiPangan';
+import KinerjaPetugas from './pages/KinerjaPetugas';
 
 
 function App() {
@@ -51,6 +52,12 @@ function App() {
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
+              </ProtectedRoute>
+            } />
+
+            <Route path="kinerja-petugas" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
+                <KinerjaPetugas />
               </ProtectedRoute>
             } />
 
