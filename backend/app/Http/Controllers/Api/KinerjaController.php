@@ -30,7 +30,7 @@ class KinerjaController extends Controller
         foreach ($petugas as $p) {
             // Jumlah Kunjungan Rumah
             $jmlKunjungan = \App\Models\KunjunganRumah::where('petugas_id', $p->id)
-                ->whereBetween('tanggal_kunjungan', [$startDate, $endDate])
+                ->whereBetween('tanggal', [$startDate, $endDate])
                 ->count();
                 
             // Jumlah Distribusi Bantuan
