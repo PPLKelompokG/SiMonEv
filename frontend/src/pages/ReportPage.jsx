@@ -35,7 +35,8 @@ const ReportPage = () => {
       const link = document.createElement('a');
       link.href = url;
       
-      const extension = format === 'pdf' ? 'pdf' : 'xlsx';
+      // Fallback: karena backend saat ini mengirimkan CSV untuk kedua format
+      const extension = 'csv'; 
       link.setAttribute('download', `Laporan-SiMonEv.${extension}`);
       
       document.body.appendChild(link);
