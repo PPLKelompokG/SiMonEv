@@ -89,13 +89,13 @@ const Login = () => {
         }}>
           {/* Top Right Logo */}
           <div style={{ position: 'absolute', top: '2.5rem', right: '3rem' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.5px' }}>
               SiMon<span style={{ color: '#10b981' }}>Ev</span>
             </span>
           </div>
 
           <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 500, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.5px' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.5px' }}>
               Welcome back
             </h2>
             <p style={{ color: '#9ca3af', fontSize: '0.95rem' }}>
@@ -199,11 +199,6 @@ const Login = () => {
             >
               {loading ? 'Signing in...' : 'Log in'}
             </button>
-            
-            <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.85rem', color: '#9ca3af' }}>
-              Don't have an account? <a href="#" style={{ color: '#ffffff', fontWeight: 600, textDecoration: 'none' }}>Register here</a>
-            </div>
-
           </form>
         </div>
       </div>

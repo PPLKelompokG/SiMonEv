@@ -7,12 +7,13 @@ import {
   Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu
 } from 'lucide-react';
 
-const SidebarLink = ({ to, icon, label }) => {
+const SidebarLink = ({ to, icon, label, onClick }) => {
   return (
     <NavLink
       to={to}
       className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
       title={label}
+      onClick={onClick}
     >
       {icon}
       <span className="sidebar-text">{label}</span>
@@ -21,10 +22,8 @@ const SidebarLink = ({ to, icon, label }) => {
 };
 
 const AccordionGroup = ({ title, icon, isExpanded, onToggle, children }) => {
-  // Render children conditionally to check if there are any accessible links inside
   if (!children) return null;
   
-  // check if children are empty fragments or all falsy
   const hasValidChildren = React.Children.toArray(children).some(child => {
     if (!child) return false;
     if (child.type === React.Fragment) {
@@ -60,12 +59,25 @@ const Layout = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [expandedMenus, setExpandedMenus] = useState(['dashboard', 'penerima']);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Handle window resize for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsSidebarCollapsed(true);
+      } else {
+        setIsSidebarCollapsed(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -81,6 +93,12 @@ const Layout = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
+  const closeSidebarOnMobile = () => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarCollapsed(true);
+    }
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -88,6 +106,12 @@ const Layout = () => {
 
   return (
     <div className="app-layout">
+      {/* Mobile Overlay Backdrop */}
+      <div 
+        className={`mobile-overlay ${!isSidebarCollapsed ? 'active' : ''}`}
+        onClick={() => setIsSidebarCollapsed(true)}
+      ></div>
+
       {/* Sidebar */}
       <aside className={`app-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
@@ -110,10 +134,10 @@ const Layout = () => {
             isExpanded={expandedMenus.includes('dashboard')}
             onToggle={() => toggleMenu('dashboard')}
           >
-            <SidebarLink to="/dashboard" icon={<Activity size={18} />} label="Dashboard" />
-            <SidebarLink to="/peta-sebaran" icon={<MapPin size={18} />} label="Peta Sebaran" />
+            <SidebarLink to="/dashboard" icon={<Activity size={18} />} label="Dashboard" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/peta-sebaran" icon={<MapPin size={18} />} label="Peta Sebaran" onClick={closeSidebarOnMobile} />
             {user?.role === 'admin' && (
-              <SidebarLink to="/dashboard-kpi" icon={<Target size={18} />} label="KPI Kemiskinan" />
+              <SidebarLink to="/dashboard-kpi" icon={<Target size={18} />} label="KPI Kemiskinan" onClick={closeSidebarOnMobile} />
             )}
           </AccordionGroup>
 
@@ -124,8 +148,8 @@ const Layout = () => {
               isExpanded={expandedMenus.includes('master')}
               onToggle={() => toggleMenu('master')}
             >
-              <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" />
-              <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" />
+              <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" onClick={closeSidebarOnMobile} />
+              <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" onClick={closeSidebarOnMobile} />
             </AccordionGroup>
           )}
 
@@ -135,11 +159,11 @@ const Layout = () => {
             isExpanded={expandedMenus.includes('penerima')}
             onToggle={() => toggleMenu('penerima')}
           >
-            <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={18} />} label="Pendaftaran Bantuan" />
+            <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={18} />} label="Pendaftaran Bantuan" onClick={closeSidebarOnMobile} />
             {(user?.role === 'admin' || user?.role === 'supervisor') && (
-              <SidebarLink to="/verifikasi" icon={<CheckCircle size={18} />} label="Verifikasi Data" />
+              <SidebarLink to="/verifikasi" icon={<CheckCircle size={18} />} label="Verifikasi Data" onClick={closeSidebarOnMobile} />
             )}
-            <SidebarLink to="/pembaruan-status" icon={<UserCheck size={18} />} label="Graduasi (Status)" />
+            <SidebarLink to="/pembaruan-status" icon={<UserCheck size={18} />} label="Graduasi (Status)" onClick={closeSidebarOnMobile} />
           </AccordionGroup>
 
           <AccordionGroup 
@@ -148,8 +172,8 @@ const Layout = () => {
             isExpanded={expandedMenus.includes('kesehatan')}
             onToggle={() => toggleMenu('kesehatan')}
           >
-            <SidebarLink to="/status-gizi" icon={<Activity size={18} />} label="Status Gizi" />
-            <SidebarLink to="/kia" icon={<Heart size={18} />} label="Kesehatan Ibu & Anak" />
+            <SidebarLink to="/status-gizi" icon={<Activity size={18} />} label="Status Gizi" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/kia" icon={<Heart size={18} />} label="Kesehatan Ibu & Anak" onClick={closeSidebarOnMobile} />
           </AccordionGroup>
 
           <AccordionGroup 
@@ -158,11 +182,11 @@ const Layout = () => {
             isExpanded={expandedMenus.includes('operasional')}
             onToggle={() => toggleMenu('operasional')}
           >
-            <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={18} />} label="Kunjungan Rumah" />
-            <SidebarLink to="/distribusi-pangan" icon={<Package size={18} />} label="Distribusi Pangan" />
-            <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={18} />} label="Penyaluran Bantuan" />
+            <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={18} />} label="Kunjungan Rumah" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/distribusi-pangan" icon={<Package size={18} />} label="Distribusi Pangan" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={18} />} label="Penyaluran Bantuan" onClick={closeSidebarOnMobile} />
             {(user?.role === 'admin' || user?.role === 'supervisor') && (
-              <SidebarLink to="/approval-penyaluran" icon={<ClipboardCheck size={18} />} label="Approval Penyaluran" />
+              <SidebarLink to="/approval-penyaluran" icon={<ClipboardCheck size={18} />} label="Approval Penyaluran" onClick={closeSidebarOnMobile} />
             )}
           </AccordionGroup>
 
@@ -174,11 +198,11 @@ const Layout = () => {
           >
             {user?.role === 'admin' && (
               <>
-                <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={18} />} label="Kinerja Petugas" />
-                <SidebarLink to="/evaluasi-capaian" icon={<Target size={18} />} label="Evaluasi Capaian" />
+                <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={18} />} label="Kinerja Petugas" onClick={closeSidebarOnMobile} />
+                <SidebarLink to="/evaluasi-capaian" icon={<Target size={18} />} label="Evaluasi Capaian" onClick={closeSidebarOnMobile} />
               </>
             )}
-            <SidebarLink to="/laporan" icon={<FileText size={18} />} label="Laporan" />
+            <SidebarLink to="/laporan" icon={<FileText size={18} />} label="Laporan" onClick={closeSidebarOnMobile} />
           </AccordionGroup>
 
           <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
