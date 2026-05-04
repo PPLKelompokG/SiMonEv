@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import api from '../api';
+import { AuthContext } from '../context/AuthContext';
 import { UserCheck, Search, Plus, CheckCircle, AlertCircle, FolderOpen, RefreshCw, FileText, X, Info } from 'lucide-react';
 
 class ErrorBoundary extends React.Component {
@@ -36,6 +37,7 @@ class ErrorBoundary extends React.Component {
 }
 
 const PembaruanStatusInner = () => {
+  const { user } = useContext(AuthContext);
   const [historiList, setHistoriList] = useState([]);
   const [penerimaList, setPenerimaList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -176,14 +178,16 @@ const PembaruanStatusInner = () => {
             Kelola status aktif, nonaktif, atau kelulusan (graduasi) penerima bantuan
           </p>
         </div>
-        <button
-          className="btn btn-primary"
-          onClick={() => setIsModalOpen(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
-        >
-          <Plus size={18} />
-          Ubah Status Penerima
-        </button>
+        {user?.role !== 'petugas' && (
+          <button
+            className="btn btn-primary"
+            onClick={() => setIsModalOpen(true)}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
+          >
+            <Plus size={18} />
+            Ubah Status Penerima
+          </button>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>

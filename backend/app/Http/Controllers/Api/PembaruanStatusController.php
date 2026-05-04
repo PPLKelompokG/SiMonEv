@@ -39,6 +39,12 @@ class PembaruanStatusController extends Controller
     // Menyimpan perubahan status
     public function store(Request $request)
     {
+        if (!in_array(auth()->user()->role, ['admin', 'supervisor'])) {
+            return response()->json([
+                'message' => 'Akses ditolak: Hanya Admin dan Supervisor yang dapat mengubah status graduasi.'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'penerima_bantuan_id' => 'required|exists:penerima_bantuans,id',
             'status_baru' => 'required|in:aktif,nonaktif,graduasi',
