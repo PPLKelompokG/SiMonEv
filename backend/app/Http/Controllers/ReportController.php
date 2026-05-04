@@ -24,23 +24,13 @@ class ReportController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        // Filter berdasarkan wilayah
-        // CATATAN: Model ProgramBantuan saat ini belum memiliki kolom 'wilayah'.
-        // Jika parameter wilayah dikirim, kita dapat mengabaikannya untuk menghindari SQL Error,
-        // atau Anda bisa menambahkannya di migration ProgramBantuan di masa mendatang.
-        /*
-        if ($request->filled('wilayah')) {
-            $query->where('wilayah', $request->wilayah);
-        }
-        */
-
         // Format data sesuai dengan struktur tabel di frontend
         $reports = $query->latest()->get()->map(function ($item) {
             return [
                 'id' => $item->id,
                 'nama_program' => $item->nama_program,
                 'tanggal' => $item->created_at->format('Y-m-d'),
-                'wilayah' => 'Semua Wilayah', // Placeholder karena tidak ada kolom wilayah
+                'wilayah' => 'Semua Wilayah',
                 'status' => $item->status ? 'Aktif' : 'Nonaktif',
             ];
         });
@@ -66,15 +56,12 @@ class ReportController extends Controller
 
         $programs = $query->latest()->get();
 
-        // Karena library Maatwebsite\Excel dan dompdf/snappy belum terinstal,
-        // kita buat fallback menggunakan format CSV murni dengan header PHP.
-        // Membersihkan output buffer agar tidak ada spasi kosong/karakter sampah (mencegah korup)
         if (ob_get_length()) {
             ob_end_clean();
         }
 
         $format = $request->query('format');
-        $extension = ($format === 'pdf') ? 'csv' : 'csv'; // Paksa ke CSV sementara
+        $extension = 'csv';
         $filename = "Laporan_SiMonEv_" . date('Y-m-d_H-i-s') . "." . $extension;
 
         header('Content-Type: text/csv; charset=utf-8');
@@ -84,10 +71,8 @@ class ReportController extends Controller
 
         $output = fopen('php://output', 'w');
         
-        // Header kolom CSV
         fputcsv($output, ['No', 'Nama Program', 'Kategori SDG', 'Anggaran (Rp)', 'Periode', 'Status', 'Tanggal Ditambahkan']);
 
-        // Isi data CSV
         foreach ($programs as $index => $program) {
             fputcsv($output, [
                 $index + 1,

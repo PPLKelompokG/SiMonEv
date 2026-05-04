@@ -35,7 +35,6 @@ const ReportPage = () => {
       const link = document.createElement('a');
       link.href = url;
       
-      // Fallback: karena backend saat ini mengirimkan CSV untuk kedua format
       const extension = 'csv'; 
       link.setAttribute('download', `Laporan-SiMonEv.${extension}`);
       
@@ -148,8 +147,8 @@ const ReportPage = () => {
             <button 
               className="btn btn-outline" 
               onClick={() => handleExport('pdf')}
-              disabled={exportingPDF}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', opacity: exportingPDF ? 0.7 : 1, cursor: exportingPDF ? 'not-allowed' : 'pointer' }}
+              disabled={exportingPDF || reports.length === 0}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', opacity: (exportingPDF || reports.length === 0) ? 0.6 : 1, cursor: (exportingPDF || reports.length === 0) ? 'not-allowed' : 'pointer' }}
             >
               {exportingPDF ? <div className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', borderTopColor: '#ef4444' }}></div> : <FileText size={16} />}
               {exportingPDF ? 'Memproses...' : 'Ekspor PDF'}
@@ -157,8 +156,8 @@ const ReportPage = () => {
             <button 
               className="btn btn-outline" 
               onClick={() => handleExport('excel')}
-              disabled={exportingExcel}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', opacity: exportingExcel ? 0.7 : 1, cursor: exportingExcel ? 'not-allowed' : 'pointer' }}
+              disabled={exportingExcel || reports.length === 0}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', opacity: (exportingExcel || reports.length === 0) ? 0.6 : 1, cursor: (exportingExcel || reports.length === 0) ? 'not-allowed' : 'pointer' }}
             >
               {exportingExcel ? <div className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', borderTopColor: '#10b981' }}></div> : <Table size={16} />}
               {exportingExcel ? 'Memproses...' : 'Ekspor Excel'}
