@@ -21,8 +21,26 @@
   --pk-glass-border: rgba(255, 255, 255, 0.1);
   --pk-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   
-  --pk-radius: 16px;
-  --pk-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --pk-radius: 12px;
+  --pk-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+[data-theme='light'] {
+  --pk-bg-1: #f8fafc;
+  --pk-bg-2: #f1f5f9;
+  --pk-bg-3: #e2e8f0;
+  --pk-bg-4: #cbd5e1;
+  
+  --pk-primary: #4f46e5;
+  --pk-primary-hover: #4338ca;
+  --pk-secondary: #7c3aed;
+  
+  --pk-text: #0f172a;
+  --pk-text-muted: #475569;
+  
+  --pk-glass-bg: rgba(255, 255, 255, 0.85);
+  --pk-glass-border: rgba(0, 0, 0, 0.1);
+  --pk-glass-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -105,16 +123,51 @@ p { color: var(--pk-text-muted); }
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--pk-primary), var(--pk-secondary), var(--pk-primary));
-  background-size: 200% auto;
-  color: white;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--pk-text);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:hover {
-  background-position: right center;
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme='light'] .btn-primary {
+  background: var(--pk-primary);
+  color: #ffffff;
+  border: 1px solid var(--pk-primary);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+}
+
+[data-theme='light'] .btn-primary:hover {
+  background: var(--pk-primary-hover);
+  border-color: var(--pk-primary-hover);
+}
+
+[data-theme='light'] .btn-outline {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: var(--pk-text);
+}
+
+[data-theme='light'] .btn-outline:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .form-control {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: var(--pk-text);
+  color-scheme: light;
+}
+
+[data-theme='light'] .form-control:focus {
+  background: #ffffff;
+  border-color: var(--pk-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
 .btn-danger {
@@ -238,8 +291,7 @@ tbody tr:hover {
 
 .app-sidebar {
   width: 260px;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(20px);
+  background: var(--pk-glass-bg);
   border-right: 1px solid var(--pk-glass-border);
   display: flex;
   flex-direction: column;
@@ -288,8 +340,7 @@ tbody tr:hover {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(20px);
+  background: var(--pk-glass-bg);
   z-index: 10;
 }
 

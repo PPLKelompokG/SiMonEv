@@ -250,12 +250,13 @@ const DashboardKPI = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
             <div style={{
               padding: '0.6rem', borderRadius: '14px',
-              background: 'linear-gradient(135deg, rgba(129,140,248,0.2), rgba(192,132,252,0.2))',
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
             }}>
-              <Activity size={28} color="#818cf8" strokeWidth={2.5} />
+              <Activity size={28} color="var(--pk-text)" strokeWidth={2.5} />
             </div>
             <h1 style={{ margin: 0, fontSize: '1.85rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
-              Dashboard KPI <span style={{ color: '#818cf8' }}>Kemiskinan</span>
+              Dashboard KPI Kemiskinan
             </h1>
           </div>
           <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.95rem' }}>
@@ -495,8 +496,8 @@ const DashboardKPI = () => {
 
       {/* ─── SUMMARY FOOTER ─── */}
       <div className="glass-panel" style={{
-        background: 'linear-gradient(135deg, rgba(129, 140, 248, 0.08), rgba(192, 132, 252, 0.08))',
-        border: '1px solid rgba(129, 140, 248, 0.15)',
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
         gap: '1.5rem',
@@ -508,9 +509,7 @@ const DashboardKPI = () => {
           </p>
           <h3 style={{
             margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
-            background: 'linear-gradient(135deg, #818cf8, #c084fc)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'var(--pk-text)',
           }}>
             {stats?.persentase_penyaluran || 0}%
           </h3>
@@ -521,9 +520,7 @@ const DashboardKPI = () => {
           </p>
           <h3 style={{
             margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
-            background: 'linear-gradient(135deg, #34d399, #22d3ee)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'var(--pk-text)',
           }}>
             {stats?.tingkat_keberhasilan || 0}%
           </h3>
@@ -534,9 +531,7 @@ const DashboardKPI = () => {
           </p>
           <h3 style={{
             margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
-            background: 'linear-gradient(135deg, #22d3ee, #38bdf8)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'var(--pk-text)',
           }}>
             {formatRupiah(stats?.total_dana_tersalurkan)}
           </h3>
@@ -547,9 +542,7 @@ const DashboardKPI = () => {
           </p>
           <h3 style={{
             margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
-            background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'var(--pk-text)',
           }}>
             {formatNumber(stats?.penerima_disetujui)}
           </h3>
