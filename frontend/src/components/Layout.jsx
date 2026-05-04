@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon
+  Sun, Moon, Target
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -80,6 +80,7 @@ const Layout = () => {
             <>
               <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={20} />} label="Kinerja Petugas" />
               <SidebarLink to="/dashboard-kpi" icon={<Activity size={20} />} label="KPI Kemiskinan" />
+              <SidebarLink to="/evaluasi-capaian" icon={<Target size={20} />} label="Evaluasi Capaian" />
             </>
           )}
 

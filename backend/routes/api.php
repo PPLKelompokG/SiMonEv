@@ -110,4 +110,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/stats', [\App\Http\Controllers\Api\DashboardKpiController::class, 'stats']);
         Route::get('/trends', [\App\Http\Controllers\Api\DashboardKpiController::class, 'trends']);
     });
+
+    // Evaluasi Capaian Program per Periode
+    Route::get('/evaluasi-capaian', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'index']);
+    Route::get('/evaluasi-capaian/statistik', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'statistik']);
+    Route::post('/evaluasi-capaian', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'store']);
+    Route::get('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'show']);
+    Route::put('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'update']);
+    Route::delete('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'destroy']);
 });

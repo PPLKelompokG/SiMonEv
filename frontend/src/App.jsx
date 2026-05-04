@@ -23,6 +23,7 @@ import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
 import DashboardKPI from './pages/DashboardKPI';
+import EvaluasiCapaian from './pages/EvaluasiCapaian';
 
 function App() {
   return (
@@ -72,6 +73,13 @@ function App() {
             <Route path="dashboard-kpi" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <DashboardKPI />
+              </ProtectedRoute>
+            } />
+
+            {/* Evaluasi Capaian Program */}
+            <Route path="evaluasi-capaian" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <EvaluasiCapaian />
               </ProtectedRoute>
             } />
           </Route>
