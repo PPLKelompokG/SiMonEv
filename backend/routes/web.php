@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 
 Route::get('/', function () {
     return view('welcome');
 });
-=======
 use App\Http\Controllers\FamilyMemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeluargaController;
@@ -57,4 +55,3 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 require __DIR__.'/auth.php';
->>>>>>> 0ec43eb9fc5993b396e4e2381842e88a981b6f45

@@ -23,7 +23,7 @@ const Login = () => {
       }, {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       });
-      
+
       login(response.data.user, response.data.token);
       navigate('/dashboard');
     } catch (err) {
@@ -37,8 +37,11 @@ const Login = () => {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--pk-bg)' }}>
       <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '400px', padding: '2.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ width: '56px', height: '56px', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.5rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>
-            SM
+          <div style={{ width: '100px', height: '100px', margin: '0 auto 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', borderRadius: '16px', padding: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+            <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+            <div style={{ display: 'none', width: '100%', height: '100%', background: 'var(--pk-primary)', borderRadius: '12px', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2rem', fontWeight: 'bold' }}>
+              SM
+            </div>
           </div>
           <h2>SiMonEv</h2>
           <p>Sign in to your account</p>
@@ -53,9 +56,9 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label className="form-label">Email Address</label>
-            <input 
-              type="email" 
-              className="form-control" 
+            <input
+              type="email"
+              className="form-control"
               placeholder="admin@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -64,9 +67,9 @@ const Login = () => {
           </div>
           <div className="form-group">
             <label className="form-label">Password</label>
-            <input 
-              type="password" 
-              className="form-control" 
+            <input
+              type="password"
+              className="form-control"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

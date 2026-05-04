@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
-import { Plus, Eye, X } from 'lucide-react';
+import { Plus, Eye, X, MapPin } from 'lucide-react';
+
+const WILAYAH_LIST = [
+  'Coblong', 'Bandung Wetan', 'Cibeunying Kaler', 'Cibeunying Kidul',
+  'Sumur Bandung', 'Andir', 'Cicendo', 'Sukajadi', 'Sukasari', 'Cidadap',
+  'Bandung Kulon', 'Babakan Ciparay', 'Bojongloa Kaler', 'Bojongloa Kidul',
+  'Astana Anyar', 'Regol', 'Lengkong', 'Batununggal', 'Kiaracondong',
+  'Antapani', 'Arcamanik', 'Mandalajati', 'Ujung Berung', 'Cibiru',
+  'Panyileukan', 'Gedebage', 'Rancasari', 'Cinambo', 'Bandung Kidul', 'Buah Batu',
+];
+
+const KONDISI_EKONOMI_LIST = [
+  { value: 'sangat_miskin', label: 'Sangat Miskin' },
+  { value: 'miskin', label: 'Miskin' },
+  { value: 'rentan_miskin', label: 'Rentan Miskin' },
+];
 
 const PenerimaBantuan = () => {
   const [data, setData] = useState([]);
@@ -110,10 +125,20 @@ const PenerimaBantuan = () => {
                 <label className="form-label">Alamat Lengkap</label>
                 <textarea className="form-control" value={formData.alamat} onChange={e => setFormData({...formData, alamat: e.target.value})} required rows={3}></textarea>
               </div>
+              <div className="form-group">
+                <label className="form-label"><MapPin size={14} style={{ display: 'inline', marginRight: 4 }} />Wilayah (Kecamatan)</label>
+                <select className="form-control" value={formData.wilayah} onChange={e => setFormData({...formData, wilayah: e.target.value})} required>
+                  <option value="">-- Pilih Wilayah --</option>
+                  {WILAYAH_LIST.map(w => <option key={w} value={w}>{w}</option>)}
+                </select>
+              </div>
               <div className="grid grid-cols-2">
                 <div className="form-group">
                   <label className="form-label">Kondisi Ekonomi</label>
-                  <input className="form-control" value={formData.kondisi_ekonomi} onChange={e => setFormData({...formData, kondisi_ekonomi: e.target.value})} required />
+                  <select className="form-control" value={formData.kondisi_ekonomi} onChange={e => setFormData({...formData, kondisi_ekonomi: e.target.value})} required>
+                    <option value="">-- Pilih Kondisi --</option>
+                    {KONDISI_EKONOMI_LIST.map(k => <option key={k.value} value={k.value}>{k.label}</option>)}
+                  </select>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Jumlah Tanggungan</label>
