@@ -93,81 +93,43 @@ const PenerimaBantuan = () => {
       </div>
 
       {showModal && (
-        <div style={{ 
-          position: 'fixed', 
-          top: 0, left: 0, right: 0, bottom: 0, 
-          background: 'rgba(15, 23, 42, 0.6)', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          zIndex: 1000, 
-          backdropFilter: 'blur(4px)',
-          animation: 'fadeIn 0.2s ease-out'
-        }}>
-          <div className="card glass-effect animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '600px', 
-            padding: 0, 
-            overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
-          }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              background: 'rgba(255, 255, 255, 0.3)'
-            }}>
-              <h3 style={{ margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <div style={{ width: '8px', height: '24px', background: 'var(--pk-primary)', borderRadius: '4px' }}></div>
-                Pendaftaran Penerima Baru
-              </h3>
-              <button 
-                type="button"
-                onClick={() => setShowModal(false)}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
-              >
-                <X size={24} />
-              </button>
-            </div>
-
-            <div style={{ padding: '1.5rem', maxHeight: 'calc(90vh - 80px)', overflowY: 'auto' }}>
-              {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem' }}>{formError}</p>}
-              <form onSubmit={handleSubmit}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
+          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '600px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--pk-text)', fontWeight: 700 }}>Pendaftaran Penerima Baru</h3>
+            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '8px' }}>{formError}</p>}
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="form-label">NIK (16 Digit)</label>
+                <input className="form-control" value={formData.nik} onChange={e => setFormData({...formData, nik: e.target.value})} required maxLength={16} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Nama Lengkap</label>
+                <input className="form-control" value={formData.nama} onChange={e => setFormData({...formData, nama: e.target.value})} required />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Alamat Lengkap</label>
+                <textarea className="form-control" value={formData.alamat} onChange={e => setFormData({...formData, alamat: e.target.value})} required rows={3}></textarea>
+              </div>
+              <div className="grid grid-cols-2">
                 <div className="form-group">
-                  <label className="form-label">NIK (16 Digit)</label>
-                  <input className="form-control" value={formData.nik} onChange={e => setFormData({...formData, nik: e.target.value})} required maxLength={16} />
+                  <label className="form-label">Kondisi Ekonomi</label>
+                  <input className="form-control" value={formData.kondisi_ekonomi} onChange={e => setFormData({...formData, kondisi_ekonomi: e.target.value})} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Nama Lengkap</label>
-                  <input className="form-control" value={formData.nama} onChange={e => setFormData({...formData, nama: e.target.value})} required />
+                  <label className="form-label">Jumlah Tanggungan</label>
+                  <input type="number" className="form-control" value={formData.jumlah_tanggungan} onChange={e => setFormData({...formData, jumlah_tanggungan: e.target.value})} required min={0} />
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Alamat Lengkap</label>
-                  <textarea className="form-control" value={formData.alamat} onChange={e => setFormData({...formData, alamat: e.target.value})} required rows={3}></textarea>
-                </div>
-                <div className="grid grid-cols-2">
-                  <div className="form-group">
-                    <label className="form-label">Kondisi Ekonomi</label>
-                    <input className="form-control" value={formData.kondisi_ekonomi} onChange={e => setFormData({...formData, kondisi_ekonomi: e.target.value})} required />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Jumlah Tanggungan</label>
-                    <input type="number" className="form-control" value={formData.jumlah_tanggungan} onChange={e => setFormData({...formData, jumlah_tanggungan: e.target.value})} required min={0} />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Foto KTP (Opsional, JPG/PNG)</label>
-                  <input type="file" className="form-control" onChange={e => setFotoKtp(e.target.files[0])} accept="image/*" />
-                </div>
-                
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
-                  <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Batal</button>
-                  <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Daftarkan Data</button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Foto KTP (Opsional, JPG/PNG)</label>
+                <input type="file" className="form-control" onChange={e => setFotoKtp(e.target.files[0])} accept="image/*" />
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem' }}>
+                <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Batal</button>
+                <button type="submit" className="btn btn-primary" style={{ minWidth: '120px' }}>Simpan</button>
+              </div>
+            </form>
           </div>
         </div>
       )}
