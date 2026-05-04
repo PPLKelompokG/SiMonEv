@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown
+  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -12,9 +12,10 @@ const SidebarLink = ({ to, icon, label }) => {
     <NavLink
       to={to}
       className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+      title={label}
     >
       {icon}
-      <span>{label}</span>
+      <span className="sidebar-text">{label}</span>
     </NavLink>
   );
 };
@@ -36,10 +37,10 @@ const AccordionGroup = ({ title, icon, isExpanded, onToggle, children }) => {
 
   return (
     <div className="accordion-group">
-      <div className="accordion-header" onClick={onToggle}>
+      <div className="accordion-header" onClick={onToggle} title={title}>
         <div className="accordion-header-left">
           <span className="accordion-icon">{icon}</span>
-          <span>{title}</span>
+          <span className="sidebar-text">{title}</span>
         </div>
         <div className="accordion-arrow">
           {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
@@ -59,6 +60,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [expandedMenus, setExpandedMenus] = useState(['dashboard', 'penerima']);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -75,6 +77,10 @@ const Layout = () => {
     );
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -83,15 +89,15 @@ const Layout = () => {
   return (
     <div className="app-layout">
       {/* Sidebar */}
-      <aside className="app-sidebar">
+      <aside className={`app-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-            <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
+            <h2 className="logo-wrapper" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
               <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '45px', height: '45px', objectFit: 'contain', background: 'white', borderRadius: '10px', padding: '4px' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
               <div style={{ display: 'none', width: '40px', height: '40px', background: 'var(--pk-primary)', borderRadius: '12px', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
                 <Activity size={24} strokeWidth={2.5} />
               </div>
-              <span style={{ color: 'var(--pk-text)' }}>SiMon<span style={{ color: 'var(--pk-primary)' }}>Ev</span></span>
+              <span className="sidebar-text" style={{ color: 'var(--pk-text)' }}>SiMon<span style={{ color: 'var(--pk-primary)' }}>Ev</span></span>
             </h2>
           </Link>
         </div>
@@ -178,9 +184,11 @@ const Layout = () => {
           <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
             <button
               onClick={handleLogout}
-              style={{ width: '100%', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
+              className="logout-btn"
+              title="Logout"
+              style={{ width: '100%', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
             >
-              <LogOut size={18} /> Logout
+              <LogOut size={18} /> <span className="logout-text">Logout</span>
             </button>
           </div>
         </nav>
@@ -189,7 +197,14 @@ const Layout = () => {
       {/* Main content */}
       <main className="app-main">
         <header className="app-header">
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              onClick={toggleSidebar}
+              style={{ background: 'transparent', border: 'none', color: 'var(--pk-text)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              title="Toggle Sidebar"
+            >
+              <Menu size={24} />
+            </button>
             <h3 style={{ margin: 0, fontWeight: 500 }}>Sistem Monitoring & Evaluasi</h3>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

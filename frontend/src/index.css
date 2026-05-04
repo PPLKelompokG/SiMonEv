@@ -351,6 +351,41 @@ tbody tr:hover {
   border-right: 1px solid var(--pk-glass-border);
   display: flex;
   flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.app-sidebar.collapsed {
+  width: 80px;
+}
+
+/* Hide text when collapsed */
+.app-sidebar.collapsed .sidebar-text,
+.app-sidebar.collapsed .accordion-arrow {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .sidebar-link,
+.app-sidebar.collapsed .accordion-header {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.app-sidebar.collapsed .accordion-header-left {
+  gap: 0;
+}
+
+.app-sidebar.collapsed .logout-text {
+  display: none;
+}
+
+.app-sidebar.collapsed .logout-btn {
+  padding: 0.75rem 0;
+  justify-content: center;
+}
+
+.app-sidebar.collapsed .logo-wrapper {
+  justify-content: center;
 }
 
 .app-main {
