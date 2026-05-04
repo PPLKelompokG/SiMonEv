@@ -4,6 +4,11 @@ import { Download, FileText } from 'lucide-react';
 
 const ReportPage = () => {
   const { user } = useContext(AuthContext);
+  const [filterData, setFilterData] = useState({
+    startDate: '',
+    endDate: '',
+    wilayah: ''
+  });
 
   return (
     <div className="page-container">
@@ -26,6 +31,44 @@ const ReportPage = () => {
             Ekspor Data
           </button>
         )}
+      </div>
+
+      <div className="card glass-effect" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
+        <h3 style={{ margin: '0 0 1.25rem 0', fontWeight: 600, fontSize: '1.1rem', color: 'var(--pk-text)' }}>Filter Data Laporan</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Tanggal Mulai</label>
+            <input 
+              type="date" 
+              className="form-control" 
+              value={filterData.startDate} 
+              onChange={e => setFilterData({...filterData, startDate: e.target.value})} 
+            />
+          </div>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Tanggal Selesai</label>
+            <input 
+              type="date" 
+              className="form-control" 
+              value={filterData.endDate} 
+              onChange={e => setFilterData({...filterData, endDate: e.target.value})} 
+            />
+          </div>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Kecamatan/Kelurahan</label>
+            <select 
+              className="form-control" 
+              value={filterData.wilayah} 
+              onChange={e => setFilterData({...filterData, wilayah: e.target.value})}
+            >
+              <option value="">Semua Wilayah</option>
+              <option value="Kecamatan A">Kecamatan A</option>
+              <option value="Kecamatan B">Kecamatan B</option>
+              <option value="Kelurahan C">Kelurahan C</option>
+              <option value="Kelurahan D">Kelurahan D</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="card glass-effect" style={{ padding: '1.5rem', marginBottom: '2rem', minHeight: '400px' }}>
