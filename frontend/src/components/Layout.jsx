@@ -68,7 +68,10 @@ const Layout = () => {
           <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={20} />} label="Penyaluran Bantuan" />
           <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Graduasi (Status)" />
           {(user?.role === 'admin' || user?.role === 'supervisor') && (
-            <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
+            <>
+              <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
+              <SidebarLink to="/approval-penyaluran" icon={<ClipboardCheck size={20} />} label="Approval Penyaluran" />
+            </>
           )}
 
           {/* New Sprint Routes from Main Branch */}

@@ -63,7 +63,13 @@ function App() {
             {/* Routes from Main Branch */}
             <Route path="penyaluran-bantuan" element={<PenyaluranBantuan />} />
             <Route path="pembaruan-status" element={<PembaruanStatus />} />
-            <Route path="approval-penyaluran" element={<ApprovalPenyaluran />} />
+            
+            <Route path="approval-penyaluran" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
+                <ApprovalPenyaluran />
+              </ProtectedRoute>
+            } />
+
             <Route path="status-gizi" element={<StatusGizi />} />
             <Route path="kia" element={<KIA />} />
             <Route path="distribusi-pangan" element={<DistribusiPangan />} />
