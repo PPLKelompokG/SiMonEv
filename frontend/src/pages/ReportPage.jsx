@@ -44,8 +44,26 @@ const ReportPage = () => {
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
+      console.log('Error Response:', error.response);
       console.error(`Gagal mengekspor data ke ${format.toUpperCase()}:`, error);
-      alert('Gagal mengunduh file laporan. Pastikan endpoint export sudah siap di backend.');
+      
+      let errorMessage = 'Gagal mengunduh file laporan. Pastikan endpoint export sudah siap di backend.';
+      
+      if (error.response && error.response.data instanceof Blob) {
+        try {
+          const textData = await error.response.data.text();
+          const jsonData = JSON.parse(textData);
+          if (jsonData.message) {
+            errorMessage = jsonData.message;
+          }
+        } catch (e) {
+          console.error('Failed to parse error blob as JSON', e);
+        }
+      } else if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      alert(errorMessage);
     } finally {
       if (format === 'pdf') setExportingPDF(false);
       else setExportingExcel(false);
