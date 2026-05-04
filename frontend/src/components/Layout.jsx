@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase } from 'lucide-react';
+import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, FileText } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
   return (
@@ -54,6 +54,8 @@ const Layout = () => {
           {(user?.role === 'admin' || user?.role === 'supervisor') && (
             <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
           )}
+
+          <SidebarLink to="/laporan" icon={<FileText size={20} />} label="Laporan" />
           
           <div style={{ marginTop: 'auto' }}>
             <button 

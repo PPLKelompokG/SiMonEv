@@ -11,6 +11,7 @@ import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
+import ReportPage from './pages/ReportPage';
 
 function App() {
   return (
@@ -42,6 +43,8 @@ function App() {
                 <Verifikasi />
               </ProtectedRoute>
             } />
+            
+            <Route path="laporan" element={<ReportPage />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
