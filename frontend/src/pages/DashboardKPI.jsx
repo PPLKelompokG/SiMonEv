@@ -37,14 +37,14 @@ const getMonthName = (monthStr) => {
 
 /* ───── color palette ───── */
 const COLORS = {
-  primary: '#818cf8',
-  secondary: '#c084fc',
-  success: '#34d399',
-  warning: '#fbbf24',
-  danger: '#f87171',
-  info: '#38bdf8',
-  cyan: '#22d3ee',
-  rose: '#fb7185',
+  primary: '#2563eb', // blue-600
+  secondary: '#10b981', // emerald-500
+  success: '#16a34a',
+  warning: '#f59e0b',
+  danger: '#ef4444',
+  cyan: '#0ea5e9', // sky-500
+  purple: '#3b82f6', // blue-500
+  rose: '#34d399', // emerald-400
   amber: '#f59e0b',
   emerald: '#10b981',
 };

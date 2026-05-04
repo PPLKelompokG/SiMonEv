@@ -31,7 +31,7 @@ class ErrorBoundary extends React.Component {
         </div>
       );
     }
-    return this.props.children; 
+    return this.props.children;
   }
 }
 
@@ -43,7 +43,7 @@ const PembaruanStatusInner = () => {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -129,10 +129,10 @@ const PembaruanStatusInner = () => {
       setSelectedPenerima(null);
       // Reset file input
       document.getElementById('file-upload').value = "";
-      
+
       fetchData(); // Refresh list
       setIsModalOpen(false); // Close modal
-      
+
       setTimeout(() => setMessage(null), 3000);
     } catch (err) {
       console.error(err);
@@ -147,7 +147,7 @@ const PembaruanStatusInner = () => {
   };
 
   const getStatusBadge = (status) => {
-    switch(status) {
+    switch (status) {
       case 'aktif':
         return <span className="badge badge-success">Aktif</span>;
       case 'nonaktif':
@@ -159,7 +159,7 @@ const PembaruanStatusInner = () => {
     }
   };
 
-  const filteredList = historiList.filter(item => 
+  const filteredList = historiList.filter(item =>
     item.penerima_bantuan?.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.penerima_bantuan?.nik?.includes(searchTerm)
   );
@@ -176,8 +176,8 @@ const PembaruanStatusInner = () => {
             Kelola status aktif, nonaktif, atau kelulusan (graduasi) penerima bantuan
           </p>
         </div>
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           onClick={() => setIsModalOpen(true)}
           style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
         >
@@ -223,17 +223,17 @@ const PembaruanStatusInner = () => {
           </h3>
           <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
             <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
-            <input 
-              type="text" 
-              placeholder="Cari penerima / NIK..." 
-              className="form-control" 
+            <input
+              type="text"
+              placeholder="Cari penerima / NIK..."
+              className="form-control"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }} 
+              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }}
             />
           </div>
         </div>
-        
+
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '4rem 0', color: 'var(--pk-primary)' }}>
             <div className="spinner" style={{ borderTopColor: 'var(--pk-primary)', margin: '0 auto 1rem' }}></div>
@@ -257,7 +257,7 @@ const PembaruanStatusInner = () => {
                   <tr key={item.id} className="animate-fade-in">
                     <td style={{ color: 'var(--pk-text-secondary)', fontSize: '0.9rem' }}>
                       {new Date(item.created_at).toLocaleDateString('id-ID', {
-                        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit'
+                        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                       })}
                     </td>
                     <td>
@@ -278,9 +278,9 @@ const PembaruanStatusInner = () => {
                     </td>
                     <td>
                       {item.dokumen_pendukung ? (
-                        <a 
-                          href={`http://localhost:8000/storage/${item.dokumen_pendukung}`} 
-                          target="_blank" 
+                        <a
+                          href={`http://localhost:8000/storage/${item.dokumen_pendukung}`}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="btn btn-outline"
                           style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', borderRadius: '4px' }}
@@ -322,19 +322,19 @@ const PembaruanStatusInner = () => {
           zIndex: 9999,
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '650px', 
-            padding: 0, 
+          <div className="animate-slide-up" style={{
+            width: '100%',
+            maxWidth: '650px',
+            padding: 0,
             overflow: 'hidden',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
           }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)', 
+            <div style={{
+              padding: '1.5rem',
+              borderBottom: '1px solid var(--pk-glass-border)',
               background: 'linear-gradient(to right, rgba(139, 92, 246, 0.05), transparent)',
               display: 'flex',
               justifyContent: 'space-between',
@@ -344,14 +344,14 @@ const PembaruanStatusInner = () => {
                 <div style={{ width: '8px', height: '24px', background: 'var(--pk-primary)', borderRadius: '4px' }}></div>
                 Ubah Status Penerima
               </h3>
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <div style={{ padding: '1.5rem', maxHeight: '75vh', overflowY: 'auto' }}>
               {error && (
                 <div className="alert alert-danger" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem', borderRadius: '12px' }}>
@@ -361,16 +361,16 @@ const PembaruanStatusInner = () => {
               )}
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                
+
                 <div>
                   <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Search size={16} color="var(--pk-secondary)"/> Penerima Bantuan <span style={{color: 'var(--pk-danger)'}}>*</span>
+                    <Search size={16} color="var(--pk-secondary)" /> Penerima Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span>
                   </label>
-                  <select 
-                    className="form-control" 
-                    name="penerima_bantuan_id" 
-                    value={formData.penerima_bantuan_id} 
-                    onChange={handlePenerimaChange} 
+                  <select
+                    className="form-control"
+                    name="penerima_bantuan_id"
+                    value={formData.penerima_bantuan_id}
+                    onChange={handlePenerimaChange}
                     required
                     style={{ background: 'var(--pk-bg)' }}
                   >
@@ -389,12 +389,12 @@ const PembaruanStatusInner = () => {
                     </div>
                     <RefreshCw size={20} color="var(--pk-text-muted)" style={{ opacity: 0.5 }} />
                     <div style={{ flex: 1, marginLeft: '1rem' }}>
-                      <span style={{ fontSize: '0.85rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.25rem' }}>Ubah Menjadi: <span style={{color: 'var(--pk-danger)'}}>*</span></span>
-                      <select 
-                        className="form-control" 
-                        name="status_baru" 
-                        value={formData.status_baru} 
-                        onChange={handleChange} 
+                      <span style={{ fontSize: '0.85rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.25rem' }}>Ubah Menjadi: <span style={{ color: 'var(--pk-danger)' }}>*</span></span>
+                      <select
+                        className="form-control"
+                        name="status_baru"
+                        value={formData.status_baru}
+                        onChange={handleChange}
                         required
                         style={{ padding: '0.5rem' }}
                       >
@@ -408,12 +408,12 @@ const PembaruanStatusInner = () => {
                 )}
 
                 <div>
-                  <label className="form-label" style={{ fontWeight: 600 }}>Alasan Perubahan <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-                  <textarea 
-                    className="form-control" 
-                    name="alasan_perubahan" 
-                    value={formData.alasan_perubahan} 
-                    onChange={handleChange} 
+                  <label className="form-label" style={{ fontWeight: 600 }}>Alasan Perubahan <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
+                  <textarea
+                    className="form-control"
+                    name="alasan_perubahan"
+                    value={formData.alasan_perubahan}
+                    onChange={handleChange}
                     rows="3"
                     placeholder="Jelaskan alasan perubahan status..."
                     required
@@ -423,14 +423,14 @@ const PembaruanStatusInner = () => {
 
                 <div>
                   <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    Dokumen Pendukung <span style={{color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal'}}>(Opsional, Max 2MB)</span>
+                    Dokumen Pendukung <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal' }}>(Opsional, Max 2MB)</span>
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       id="file-upload"
-                      name="dokumen_pendukung" 
-                      onChange={handleFileChange} 
+                      name="dokumen_pendukung"
+                      onChange={handleFileChange}
                       className="form-control"
                       accept=".jpg,.jpeg,.png,.pdf"
                       style={{ background: 'var(--pk-bg)', padding: '0.5rem' }}
@@ -442,17 +442,17 @@ const PembaruanStatusInner = () => {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
-                  <button 
-                    type="button" 
-                    className="btn btn-outline" 
+                  <button
+                    type="button"
+                    className="btn btn-outline"
                     onClick={() => setIsModalOpen(false)}
                     disabled={submitting || loading}
                   >
                     Batal
                   </button>
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary" 
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
                     disabled={submitting || loading || !selectedPenerima}
                     style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
                   >

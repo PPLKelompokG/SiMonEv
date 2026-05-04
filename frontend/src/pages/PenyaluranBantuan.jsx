@@ -12,7 +12,7 @@ const PenyaluranBantuan = () => {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [detailModal, setDetailModal] = useState(null);
@@ -80,7 +80,7 @@ const PenyaluranBantuan = () => {
       });
       fetchData(); // Refresh list
       setIsModalOpen(false); // Close modal on success
-      
+
       // Auto hide message after 3 seconds
       setTimeout(() => setMessage(null), 3000);
     } catch (err) {
@@ -98,7 +98,7 @@ const PenyaluranBantuan = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       await api.put(`/penyaluran-bantuan/${id}/status`, { status_laporan: newStatus });
-      setPenyaluranList(prev => prev.map(item => 
+      setPenyaluranList(prev => prev.map(item =>
         item.id === id ? { ...item, status_laporan: newStatus } : item
       ));
       setMessage('Status berhasil diperbarui.');
@@ -114,7 +114,7 @@ const PenyaluranBantuan = () => {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
   };
 
-  const filteredList = penyaluranList.filter(item => 
+  const filteredList = penyaluranList.filter(item =>
     item.penerima_bantuan?.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.jenis_bantuan?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.penerima_bantuan?.nik?.includes(searchTerm)
@@ -132,8 +132,8 @@ const PenyaluranBantuan = () => {
             Catat dan pantau realisasi distribusi bantuan kepada penerima
           </p>
         </div>
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           onClick={() => setIsModalOpen(true)}
           style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
         >
@@ -165,17 +165,17 @@ const PenyaluranBantuan = () => {
           </h3>
           <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
             <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
-            <input 
-              type="text" 
-              placeholder="Cari penerima / jenis..." 
-              className="form-control" 
+            <input
+              type="text"
+              placeholder="Cari penerima / jenis..."
+              className="form-control"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }} 
+              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }}
             />
           </div>
         </div>
-        
+
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '4rem 0', color: 'var(--pk-primary)' }}>
             <div className="spinner" style={{ borderTopColor: 'var(--pk-primary)', margin: '0 auto 1rem' }}></div>
@@ -214,7 +214,7 @@ const PenyaluranBantuan = () => {
                       {formatRupiah(item.jumlah_bantuan)}
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      <select 
+                      <select
                         className="form-control"
                         value={item.status_laporan}
                         onChange={(e) => handleStatusChange(item.id, e.target.value)}
@@ -226,10 +226,10 @@ const PenyaluranBantuan = () => {
                           fontWeight: 600,
                           border: '1px solid transparent',
                           cursor: item.status_approval === 'approved' ? 'not-allowed' : 'pointer',
-                          color: item.status_laporan === 'dalam antrian' ? '#f59e0b' : 
-                                 item.status_laporan === 'sedang diproses' ? '#60a5fa' : '#34d399',
-                          backgroundColor: item.status_laporan === 'dalam antrian' ? 'rgba(245, 158, 11, 0.1)' : 
-                                           item.status_laporan === 'sedang diproses' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                          color: item.status_laporan === 'dalam antrian' ? '#f59e0b' :
+                            item.status_laporan === 'sedang diproses' ? '#60a5fa' : '#34d399',
+                          backgroundColor: item.status_laporan === 'dalam antrian' ? 'rgba(245, 158, 11, 0.1)' :
+                            item.status_laporan === 'sedang diproses' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(16, 185, 129, 0.1)',
                           WebkitAppearance: 'none',
                           MozAppearance: 'none',
                           appearance: 'none',
@@ -253,13 +253,13 @@ const PenyaluranBantuan = () => {
                         ) : (
                           <span className="badge badge-warning">Pending</span>
                         )}
-                        
-                        <span 
+
+                        <span
                           onClick={() => setDetailModal(item)}
-                          style={{ 
-                            fontSize: '0.75rem', 
-                            color: 'var(--pk-primary)', 
-                            cursor: 'pointer', 
+                          style={{
+                            fontSize: '0.75rem',
+                            color: 'var(--pk-primary)',
+                            cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.2rem',
@@ -299,19 +299,19 @@ const PenyaluranBantuan = () => {
           zIndex: 9999,
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '650px', 
-            padding: 0, 
+          <div className="animate-slide-up" style={{
+            width: '100%',
+            maxWidth: '650px',
+            padding: 0,
             overflow: 'hidden',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
           }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)', 
+            <div style={{
+              padding: '1.5rem',
+              borderBottom: '1px solid var(--pk-glass-border)',
               background: 'linear-gradient(to right, rgba(139, 92, 246, 0.05), transparent)',
               display: 'flex',
               justifyContent: 'space-between',
@@ -321,14 +321,14 @@ const PenyaluranBantuan = () => {
                 <div style={{ width: '8px', height: '24px', background: 'var(--pk-primary)', borderRadius: '4px' }}></div>
                 Form Penyaluran Baru
               </h3>
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <div style={{ padding: '1.5rem', maxHeight: '75vh', overflowY: 'auto' }}>
               {error && (
                 <div className="alert alert-danger" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem', borderRadius: '12px' }}>
@@ -338,16 +338,16 @@ const PenyaluranBantuan = () => {
               )}
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                
+
                 <div>
                   <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <User size={16} color="var(--pk-secondary)"/> Penerima Bantuan <span style={{color: 'var(--pk-danger)'}}>*</span>
+                    <User size={16} color="var(--pk-secondary)" /> Penerima Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span>
                   </label>
-                  <select 
-                    className="form-control" 
-                    name="penerima_bantuan_id" 
-                    value={formData.penerima_bantuan_id} 
-                    onChange={handleChange} 
+                  <select
+                    className="form-control"
+                    name="penerima_bantuan_id"
+                    value={formData.penerima_bantuan_id}
+                    onChange={handleChange}
                     required
                     style={{ background: 'var(--pk-bg)' }}
                   >
@@ -361,12 +361,12 @@ const PenyaluranBantuan = () => {
                 {programList.length > 0 && (
                   <div>
                     <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Package size={16} color="var(--pk-secondary)"/> Program Bantuan <span style={{color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal'}}>(Opsional)</span>
+                      <Package size={16} color="var(--pk-secondary)" /> Program Bantuan <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal' }}>(Opsional)</span>
                     </label>
-                    <select 
-                      className="form-control" 
-                      name="program_bantuan_id" 
-                      value={formData.program_bantuan_id} 
+                    <select
+                      className="form-control"
+                      name="program_bantuan_id"
+                      value={formData.program_bantuan_id}
                       onChange={handleChange}
                       style={{ background: 'var(--pk-bg)' }}
                     >
@@ -381,14 +381,14 @@ const PenyaluranBantuan = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Calendar size={16} color="var(--pk-secondary)"/> Tanggal <span style={{color: 'var(--pk-danger)'}}>*</span>
+                      <Calendar size={16} color="var(--pk-secondary)" /> Tanggal <span style={{ color: 'var(--pk-danger)' }}>*</span>
                     </label>
-                    <input 
-                      type="date" 
-                      className="form-control" 
-                      name="tanggal_penyaluran" 
-                      value={formData.tanggal_penyaluran} 
-                      onChange={handleChange} 
+                    <input
+                      type="date"
+                      className="form-control"
+                      name="tanggal_penyaluran"
+                      value={formData.tanggal_penyaluran}
+                      onChange={handleChange}
                       required
                       style={{ background: 'var(--pk-bg)' }}
                     />
@@ -396,13 +396,13 @@ const PenyaluranBantuan = () => {
 
                   <div>
                     <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Tag size={16} color="var(--pk-secondary)"/> Jenis <span style={{color: 'var(--pk-danger)'}}>*</span>
+                      <Tag size={16} color="var(--pk-secondary)" /> Jenis <span style={{ color: 'var(--pk-danger)' }}>*</span>
                     </label>
-                    <select 
-                      className="form-control" 
-                      name="jenis_bantuan" 
-                      value={formData.jenis_bantuan} 
-                      onChange={handleChange} 
+                    <select
+                      className="form-control"
+                      name="jenis_bantuan"
+                      value={formData.jenis_bantuan}
+                      onChange={handleChange}
                       required
                       style={{ background: 'var(--pk-bg)' }}
                     >
@@ -419,18 +419,18 @@ const PenyaluranBantuan = () => {
 
                 <div>
                   <label className="form-label" style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <DollarSign size={16} color="var(--pk-secondary)"/> Nominal Bantuan <span style={{color: 'var(--pk-danger)'}}>*</span>
+                    <DollarSign size={16} color="var(--pk-secondary)" /> Nominal Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span>
                   </label>
                   <div style={{ position: 'relative' }}>
                     <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', fontWeight: 700, color: 'var(--pk-text)' }}>Rp</span>
-                    <input 
-                      type="number" 
-                      className="form-control" 
-                      name="jumlah_bantuan" 
-                      value={formData.jumlah_bantuan} 
-                      onChange={handleChange} 
+                    <input
+                      type="number"
+                      className="form-control"
+                      name="jumlah_bantuan"
+                      value={formData.jumlah_bantuan}
+                      onChange={handleChange}
                       placeholder="Contoh: 500000"
-                      required 
+                      required
                       min="0"
                       style={{ paddingLeft: '3rem', background: 'var(--pk-bg)' }}
                     />
@@ -438,12 +438,12 @@ const PenyaluranBantuan = () => {
                 </div>
 
                 <div>
-                  <label className="form-label" style={{ fontWeight: 600 }}>Keterangan <span style={{color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal'}}>(Opsional)</span></label>
-                  <textarea 
-                    className="form-control" 
-                    name="keterangan" 
-                    value={formData.keterangan} 
-                    onChange={handleChange} 
+                  <label className="form-label" style={{ fontWeight: 600 }}>Keterangan <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal' }}>(Opsional)</span></label>
+                  <textarea
+                    className="form-control"
+                    name="keterangan"
+                    value={formData.keterangan}
+                    onChange={handleChange}
                     rows="3"
                     placeholder="Tambahkan keterangan jika perlu..."
                     style={{ background: 'var(--pk-bg)', resize: 'vertical' }}
@@ -451,17 +451,17 @@ const PenyaluranBantuan = () => {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
-                  <button 
-                    type="button" 
-                    className="btn btn-outline" 
+                  <button
+                    type="button"
+                    className="btn btn-outline"
                     onClick={() => setIsModalOpen(false)}
                     disabled={submitting || loading}
                   >
                     Batal
                   </button>
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary" 
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
                     disabled={submitting || loading}
                     style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
                   >
@@ -496,19 +496,19 @@ const PenyaluranBantuan = () => {
           zIndex: 9999,
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '500px', 
-            padding: 0, 
+          <div className="animate-slide-up" style={{
+            width: '100%',
+            maxWidth: '500px',
+            padding: 0,
             overflow: 'hidden',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
           }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)', 
+            <div style={{
+              padding: '1.5rem',
+              borderBottom: '1px solid var(--pk-glass-border)',
               background: 'linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent)',
               display: 'flex',
               justifyContent: 'space-between',
@@ -518,14 +518,14 @@ const PenyaluranBantuan = () => {
                 <div style={{ width: '8px', height: '24px', background: 'var(--pk-danger)', borderRadius: '4px' }}></div>
                 Detail Approval Laporan
               </h3>
-              <button 
+              <button
                 onClick={() => setDetailModal(null)}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <div style={{ padding: '1.5rem' }}>
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.2rem' }}>Penerima</label>
@@ -547,10 +547,10 @@ const PenyaluranBantuan = () => {
 
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', display: 'block', marginBottom: '0.5rem' }}>Catatan Koreksi (Supervisor)</label>
-                <div style={{ 
-                  background: 'rgba(239, 68, 68, 0.1)', 
-                  padding: '1rem', 
-                  borderRadius: '8px', 
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  padding: '1rem',
+                  borderRadius: '8px',
                   border: '1px solid rgba(239, 68, 68, 0.2)',
                   color: 'var(--pk-text)',
                   fontSize: '0.9rem',
@@ -561,9 +561,9 @@ const PenyaluranBantuan = () => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
-                <button 
-                  type="button" 
-                  className="btn btn-primary" 
+                <button
+                  type="button"
+                  className="btn btn-primary"
                   onClick={() => setDetailModal(null)}
                 >
                   Tutup

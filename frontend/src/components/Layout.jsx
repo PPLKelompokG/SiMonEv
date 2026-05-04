@@ -45,7 +45,8 @@ const Layout = () => {
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
             <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
-              <div style={{ width: '40px', height: '40px', background: 'var(--pk-primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+              <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '45px', height: '45px', objectFit: 'contain', background: 'white', borderRadius: '50%', padding: '2px' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+              <div style={{ display: 'none', width: '40px', height: '40px', background: 'var(--pk-primary)', borderRadius: '12px', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                 <Activity size={24} strokeWidth={2.5} />
               </div>
               <span style={{ color: 'var(--pk-text)' }}>SiMon<span style={{ color: 'var(--pk-primary)' }}>Ev</span></span>
@@ -113,8 +114,9 @@ const Layout = () => {
             <span className="badge badge-success" style={{ textTransform: 'capitalize' }}>
               {user?.role?.replace('_', ' ')}
             </span>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--pk-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'white' }}>
-              {user?.name?.charAt(0).toUpperCase()}
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', border: '2px solid var(--pk-primary)' }}>
+              <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+              <span style={{ display: 'none', fontWeight: 'bold', color: 'var(--pk-primary)' }}>{user?.name?.charAt(0).toUpperCase()}</span>
             </div>
           </div>
         </header>

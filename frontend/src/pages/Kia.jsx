@@ -26,13 +26,13 @@ const StatCard = ({ icon, label, value, color, sub }) => (
 const Kia = () => {
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('ibu_hamil'); // 'ibu_hamil' or 'balita'
-  
+
   const [ibuHamilData, setIbuHamilData] = useState([]);
   const [balitaData, setBalitaData] = useState([]);
   const [statIbu, setStatIbu] = useState(null);
   const [statBalita, setStatBalita] = useState(null);
   const [penerimas, setPenerimas] = useState([]);
-  
+
   const [loading, setLoading] = useState(true);
   const [showModalIbu, setShowModalIbu] = useState(false);
   const [showModalBalita, setShowModalBalita] = useState(false);
@@ -123,7 +123,7 @@ const Kia = () => {
   const handleEditIbu = (item) => {
     setEditId(item.id);
     setFormIbu({
-      ...item, 
+      ...item,
       tanggal_kunjungan: item.tanggal_kunjungan?.split('T')[0] || '',
       tekanan_darah_sistolik: item.tekanan_darah_sistolik || '',
       tekanan_darah_diastolik: item.tekanan_darah_diastolik || '',
@@ -176,12 +176,12 @@ const Kia = () => {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: '1rem', borderBottom: '1px solid var(--pk-glass-border)', marginBottom: '1.5rem' }}>
-        <button 
+        <button
           onClick={() => setActiveTab('ibu_hamil')}
           style={{ background: 'none', border: 'none', borderBottom: activeTab === 'ibu_hamil' ? '2px solid #ec4899' : '2px solid transparent', padding: '0.75rem 1rem', color: activeTab === 'ibu_hamil' ? '#fff' : 'var(--pk-text-muted)', fontWeight: 600, cursor: 'pointer', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           <User size={18} /> Ibu Hamil
         </button>
-        <button 
+        <button
           onClick={() => setActiveTab('balita')}
           style={{ background: 'none', border: 'none', borderBottom: activeTab === 'balita' ? '2px solid var(--pk-primary)' : '2px solid transparent', padding: '0.75rem 1rem', color: activeTab === 'balita' ? '#fff' : 'var(--pk-text-muted)', fontWeight: 600, cursor: 'pointer', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           <Baby size={18} /> Balita
@@ -309,19 +309,19 @@ const Kia = () => {
               </h3>
               <button onClick={() => setShowModalIbu(false)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}><X size={18} /></button>
             </div>
-            
+
             <div style={{ padding: '1.5rem' }}>
               {formError && <div className="alert alert-danger" style={{ padding: '0.75rem', borderRadius: 8, background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', marginBottom: '1.5rem', color: '#f87171' }}>{formError}</div>}
-              
+
               <form onSubmit={handleSubmitIbu} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {/* Section: Informasi Dasar */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
                   <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
-                     Informasi Dasar
+                    Informasi Dasar
                   </h4>
                   <div className="form-group" style={{ marginBottom: '1rem' }}>
                     <label className="form-label">Penerima Bantuan</label>
-                    <select className="form-control" required value={formIbu.penerima_bantuan_id} onChange={e => setFormIbu({...formIbu, penerima_bantuan_id: e.target.value})}>
+                    <select className="form-control" required value={formIbu.penerima_bantuan_id} onChange={e => setFormIbu({ ...formIbu, penerima_bantuan_id: e.target.value })}>
                       <option value="">Pilih Penerima...</option>
                       {penerimas.map(p => <option key={p.id} value={p.id}>{p.nama}</option>)}
                     </select>
@@ -329,11 +329,11 @@ const Kia = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tanggal Kunjungan</label>
-                      <input type="date" className="form-control" required value={formIbu.tanggal_kunjungan} onChange={e => setFormIbu({...formIbu, tanggal_kunjungan: e.target.value})} />
+                      <input type="date" className="form-control" required value={formIbu.tanggal_kunjungan} onChange={e => setFormIbu({ ...formIbu, tanggal_kunjungan: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Usia Kehamilan (minggu)</label>
-                      <input type="number" className="form-control" required min="1" max="42" placeholder="Contoh: 12" value={formIbu.usia_kehamilan} onChange={e => setFormIbu({...formIbu, usia_kehamilan: e.target.value})} />
+                      <input type="number" className="form-control" required min="1" max="42" placeholder="Contoh: 12" value={formIbu.usia_kehamilan} onChange={e => setFormIbu({ ...formIbu, usia_kehamilan: e.target.value })} />
                     </div>
                   </div>
                 </div>
@@ -341,25 +341,25 @@ const Kia = () => {
                 {/* Section: Hasil Pemeriksaan */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
                   <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
-                     Hasil Pemeriksaan Medis
+                    Hasil Pemeriksaan Medis
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Berat Badan (kg)</label>
-                      <input type="number" className="form-control" step="0.1" required placeholder="0.0" value={formIbu.berat_badan} onChange={e => setFormIbu({...formIbu, berat_badan: e.target.value})} />
+                      <input type="number" className="form-control" step="0.1" required placeholder="0.0" value={formIbu.berat_badan} onChange={e => setFormIbu({ ...formIbu, berat_badan: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tensi Sistolik</label>
-                      <input type="number" className="form-control" placeholder="120" value={formIbu.tekanan_darah_sistolik} onChange={e => setFormIbu({...formIbu, tekanan_darah_sistolik: e.target.value})} />
+                      <input type="number" className="form-control" placeholder="120" value={formIbu.tekanan_darah_sistolik} onChange={e => setFormIbu({ ...formIbu, tekanan_darah_sistolik: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tensi Diastolik</label>
-                      <input type="number" className="form-control" placeholder="80" value={formIbu.tekanan_darah_diastolik} onChange={e => setFormIbu({...formIbu, tekanan_darah_diastolik: e.target.value})} />
+                      <input type="number" className="form-control" placeholder="80" value={formIbu.tekanan_darah_diastolik} onChange={e => setFormIbu({ ...formIbu, tekanan_darah_diastolik: e.target.value })} />
                     </div>
                   </div>
                   <div className="form-group" style={{ marginBottom: 0 }}>
                     <label className="form-label">Status Kunjungan (Trimester)</label>
-                    <select className="form-control" value={formIbu.status_kunjungan} onChange={e => setFormIbu({...formIbu, status_kunjungan: e.target.value})}>
+                    <select className="form-control" value={formIbu.status_kunjungan} onChange={e => setFormIbu({ ...formIbu, status_kunjungan: e.target.value })}>
                       <option value="K1">K1 (Kunjungan Trimester 1)</option>
                       <option value="K2">K2 (Kunjungan Trimester 2)</option>
                       <option value="K3">K3 (Kunjungan Trimester 3)</option>
@@ -370,22 +370,22 @@ const Kia = () => {
 
                 {/* Section: Tindakan */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                   <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
-                     Tindakan & Catatan
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                    Tindakan & Catatan
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', border: formIbu.sudah_fe ? '1px solid #ec4899' : '1px solid var(--pk-glass-border)', borderRadius: 8, cursor: 'pointer', transition: '0.2s' }}>
-                      <input type="checkbox" checked={formIbu.sudah_fe} onChange={e => setFormIbu({...formIbu, sudah_fe: e.target.checked})} style={{ width: 18, height: 18, accentColor: '#ec4899' }} /> 
+                      <input type="checkbox" checked={formIbu.sudah_fe} onChange={e => setFormIbu({ ...formIbu, sudah_fe: e.target.checked })} style={{ width: 18, height: 18, accentColor: '#ec4899' }} />
                       <span style={{ fontWeight: formIbu.sudah_fe ? 600 : 400, color: formIbu.sudah_fe ? '#fff' : 'var(--pk-text-muted)' }}>Sudah dpt Tablet Fe</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', border: formIbu.sudah_tt ? '1px solid #ec4899' : '1px solid var(--pk-glass-border)', borderRadius: 8, cursor: 'pointer', transition: '0.2s' }}>
-                      <input type="checkbox" checked={formIbu.sudah_tt} onChange={e => setFormIbu({...formIbu, sudah_tt: e.target.checked})} style={{ width: 18, height: 18, accentColor: '#ec4899' }} /> 
+                      <input type="checkbox" checked={formIbu.sudah_tt} onChange={e => setFormIbu({ ...formIbu, sudah_tt: e.target.checked })} style={{ width: 18, height: 18, accentColor: '#ec4899' }} />
                       <span style={{ fontWeight: formIbu.sudah_tt ? 600 : 400, color: formIbu.sudah_tt ? '#fff' : 'var(--pk-text-muted)' }}>Sudah Imunisasi TT</span>
                     </label>
                   </div>
                   <div className="form-group" style={{ marginBottom: 0 }}>
                     <label className="form-label">Catatan Tambahan</label>
-                    <textarea className="form-control" rows="3" placeholder="Tuliskan keluhan atau catatan medis lainnya..." value={formIbu.catatan} onChange={e => setFormIbu({...formIbu, catatan: e.target.value})} style={{ resize: 'vertical' }} />
+                    <textarea className="form-control" rows="3" placeholder="Tuliskan keluhan atau catatan medis lainnya..." value={formIbu.catatan} onChange={e => setFormIbu({ ...formIbu, catatan: e.target.value })} style={{ resize: 'vertical' }} />
                   </div>
                 </div>
 
@@ -416,22 +416,22 @@ const Kia = () => {
 
             <div style={{ padding: '1.5rem' }}>
               {formError && <div className="alert alert-danger" style={{ padding: '0.75rem', borderRadius: 8, background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', marginBottom: '1.5rem', color: '#f87171' }}>{formError}</div>}
-              
+
               <form onSubmit={handleSubmitBalita} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                
+
                 {/* Section: Data Anak */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
                   <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
-                     Data Anak & Orang Tua
+                    Data Anak & Orang Tua
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Nama Balita</label>
-                      <input type="text" className="form-control" required placeholder="Nama Lengkap Balita" value={formBalita.nama_balita} onChange={e => setFormBalita({...formBalita, nama_balita: e.target.value})} />
+                      <input type="text" className="form-control" required placeholder="Nama Lengkap Balita" value={formBalita.nama_balita} onChange={e => setFormBalita({ ...formBalita, nama_balita: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Penerima (Orang Tua)</label>
-                      <select className="form-control" required value={formBalita.penerima_bantuan_id} onChange={e => setFormBalita({...formBalita, penerima_bantuan_id: e.target.value})}>
+                      <select className="form-control" required value={formBalita.penerima_bantuan_id} onChange={e => setFormBalita({ ...formBalita, penerima_bantuan_id: e.target.value })}>
                         <option value="">Pilih Orang Tua...</option>
                         {penerimas.map(p => <option key={p.id} value={p.id}>{p.nama}</option>)}
                       </select>
@@ -440,11 +440,11 @@ const Kia = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tanggal Lahir</label>
-                      <input type="date" className="form-control" required value={formBalita.tanggal_lahir} onChange={e => setFormBalita({...formBalita, tanggal_lahir: e.target.value})} />
+                      <input type="date" className="form-control" required value={formBalita.tanggal_lahir} onChange={e => setFormBalita({ ...formBalita, tanggal_lahir: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Jenis Kelamin</label>
-                      <select className="form-control" required value={formBalita.jenis_kelamin} onChange={e => setFormBalita({...formBalita, jenis_kelamin: e.target.value})}>
+                      <select className="form-control" required value={formBalita.jenis_kelamin} onChange={e => setFormBalita({ ...formBalita, jenis_kelamin: e.target.value })}>
                         <option value="laki_laki">Laki-laki</option>
                         <option value="perempuan">Perempuan</option>
                       </select>
@@ -455,41 +455,41 @@ const Kia = () => {
                 {/* Section: Pengukuran */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
                   <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
-                     Hasil Pengukuran
+                    Hasil Pengukuran
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tanggal Kunjungan</label>
-                      <input type="date" className="form-control" required value={formBalita.tanggal_kunjungan} onChange={e => setFormBalita({...formBalita, tanggal_kunjungan: e.target.value})} />
+                      <input type="date" className="form-control" required value={formBalita.tanggal_kunjungan} onChange={e => setFormBalita({ ...formBalita, tanggal_kunjungan: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Usia (Bulan)</label>
-                      <input type="number" className="form-control" required min="0" max="60" placeholder="0 - 60" value={formBalita.usia_bulan} onChange={e => setFormBalita({...formBalita, usia_bulan: e.target.value})} />
+                      <input type="number" className="form-control" required min="0" max="60" placeholder="0 - 60" value={formBalita.usia_bulan} onChange={e => setFormBalita({ ...formBalita, usia_bulan: e.target.value })} />
                     </div>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Berat Badan (kg)</label>
-                      <input type="number" className="form-control" step="0.1" required placeholder="0.0" value={formBalita.berat_badan} onChange={e => setFormBalita({...formBalita, berat_badan: e.target.value})} />
+                      <input type="number" className="form-control" step="0.1" required placeholder="0.0" value={formBalita.berat_badan} onChange={e => setFormBalita({ ...formBalita, berat_badan: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Tinggi Badan (cm)</label>
-                      <input type="number" className="form-control" step="0.1" placeholder="0.0" value={formBalita.tinggi_badan} onChange={e => setFormBalita({...formBalita, tinggi_badan: e.target.value})} />
+                      <input type="number" className="form-control" step="0.1" placeholder="0.0" value={formBalita.tinggi_badan} onChange={e => setFormBalita({ ...formBalita, tinggi_badan: e.target.value })} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
                       <label className="form-label">Lingkar Kepala (cm)</label>
-                      <input type="number" className="form-control" step="0.1" placeholder="0.0" value={formBalita.lingkar_kepala} onChange={e => setFormBalita({...formBalita, lingkar_kepala: e.target.value})} />
+                      <input type="number" className="form-control" step="0.1" placeholder="0.0" value={formBalita.lingkar_kepala} onChange={e => setFormBalita({ ...formBalita, lingkar_kepala: e.target.value })} />
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Section: Imunisasi */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
                     <h4 style={{ margin: 0, fontSize: '0.9rem', color: 'var(--pk-text-muted)' }}>Status Imunisasi & Vitamin</h4>
                     <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>Lengkapi data imunisasi</span>
                   </div>
-                  
+
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
                     {[
                       { key: 'imunisasi_hb0', label: 'HB0 (0-7 Hari)' },
@@ -506,7 +506,7 @@ const Kia = () => {
                       { key: 'dapat_vit_a', label: 'Vitamin A' }
                     ].map(item => (
                       <label key={item.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(0,0,0,0.15)', border: formBalita[item.key] ? '1px solid #3b82f6' : '1px solid var(--pk-glass-border)', borderRadius: 8, cursor: 'pointer', transition: '0.2s', fontSize: '0.8rem' }}>
-                        <input type="checkbox" checked={formBalita[item.key]} onChange={e => setFormBalita({...formBalita, [item.key]: e.target.checked})} style={{ accentColor: '#3b82f6' }} /> 
+                        <input type="checkbox" checked={formBalita[item.key]} onChange={e => setFormBalita({ ...formBalita, [item.key]: e.target.checked })} style={{ accentColor: '#3b82f6' }} />
                         <span style={{ color: formBalita[item.key] ? '#fff' : 'var(--pk-text-muted)', fontWeight: formBalita[item.key] ? 600 : 400 }}>{item.label}</span>
                       </label>
                     ))}
@@ -515,7 +515,7 @@ const Kia = () => {
 
                 <div className="form-group" style={{ marginBottom: 0 }}>
                   <label className="form-label">Catatan Tambahan</label>
-                  <textarea className="form-control" rows="3" placeholder="Perkembangan anak, anjuran dokter, dsb..." value={formBalita.catatan} onChange={e => setFormBalita({...formBalita, catatan: e.target.value})} style={{ resize: 'vertical' }} />
+                  <textarea className="form-control" rows="3" placeholder="Perkembangan anak, anjuran dokter, dsb..." value={formBalita.catatan} onChange={e => setFormBalita({ ...formBalita, catatan: e.target.value })} style={{ resize: 'vertical' }} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem', paddingTop: '1rem', borderTop: '1px solid var(--pk-glass-border)' }}>

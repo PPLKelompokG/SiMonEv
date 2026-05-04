@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import distribusiPanganService from '../api/distribusiPanganService';
-import { 
-  ShoppingBag, Search, Plus, CheckCircle, AlertCircle, 
-  FolderOpen, Calendar, MapPin, Truck, Trash2, 
-  User, Edit, Info, X, BarChart3 
+import {
+  ShoppingBag, Search, Plus, CheckCircle, AlertCircle,
+  FolderOpen, Calendar, MapPin, Truck, Trash2,
+  User, Edit, Info, X, BarChart3
 } from 'lucide-react';
 
 const DistribusiPangan = () => {
@@ -12,13 +12,13 @@ const DistribusiPangan = () => {
   const [statistik, setStatistik] = useState(null);
   const [penerimaList, setPenerimaList] = useState([]);
   const [komoditasList, setKomoditasList] = useState([]);
-  
+
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Modal states
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -37,7 +37,7 @@ const DistribusiPangan = () => {
       { jenis_komoditas: 'beras', kuantitas: '', satuan: 'kg', keterangan: '' }
     ]
   };
-  
+
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const DistribusiPangan = () => {
   const handleItemChange = (index, field, value) => {
     const newItems = [...formData.items];
     newItems[index][field] = value;
-    
+
     // Auto-update satuan if komoditas changes
     if (field === 'jenis_komoditas') {
       const selectedKomoditas = komoditasList.find(k => k.value === value);
@@ -93,7 +93,7 @@ const DistribusiPangan = () => {
         newItems[index]['satuan'] = selectedKomoditas.satuan;
       }
     }
-    
+
     setFormData(prev => ({ ...prev, items: newItems }));
   };
 
@@ -141,7 +141,7 @@ const DistribusiPangan = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Apakah Anda yakin ingin menghapus data distribusi ini?')) return;
-    
+
     try {
       await distribusiPanganService.delete(id);
       showMessage('Data distribusi berhasil dihapus');
@@ -154,13 +154,13 @@ const DistribusiPangan = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validasi sederhana
     if (!formData.penerima_bantuan_id) {
       setError('Pilih penerima bantuan terlebih dahulu');
       return;
     }
-    
+
     const invalidItems = formData.items.filter(item => !item.kuantitas || item.kuantitas <= 0);
     if (invalidItems.length > 0) {
       setError('Pastikan semua item memiliki kuantitas yang valid (lebih dari 0)');
@@ -188,7 +188,7 @@ const DistribusiPangan = () => {
     }
   };
 
-  const filteredList = distribusiList.filter(item => 
+  const filteredList = distribusiList.filter(item =>
     item.penerima_bantuan?.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.penerima_bantuan?.nik?.includes(searchTerm) ||
     item.periode_bulan?.includes(searchTerm)
@@ -206,8 +206,8 @@ const DistribusiPangan = () => {
             Pencatatan dan pemantauan distribusi komoditas pangan dasar
           </p>
         </div>
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           onClick={openAddForm}
           style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
         >
@@ -238,13 +238,13 @@ const DistribusiPangan = () => {
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.total_distribusi}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Catatan penyaluran</div>
           </div>
-          
+
           <div className="glass-panel" style={{ padding: '1.25rem', borderLeft: '4px solid #10b981' }}>
             <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Penerima Aktif</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.total_penerima_aktif}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Keluarga penerima manfaat</div>
           </div>
-          
+
           <div className="glass-panel" style={{ padding: '1.25rem', borderLeft: '4px solid #f59e0b' }}>
             <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Distribusi Bulan Ini</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.distribusi_bulan_ini}</div>
@@ -262,17 +262,17 @@ const DistribusiPangan = () => {
           </h3>
           <div className="search-bar" style={{ position: 'relative', width: '300px' }}>
             <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
-            <input 
-              type="text" 
-              placeholder="Cari penerima atau NIK..." 
-              className="form-control" 
+            <input
+              type="text"
+              placeholder="Cari penerima atau NIK..."
+              className="form-control"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }} 
+              style={{ paddingLeft: '2.5rem', borderRadius: '2rem', background: 'var(--pk-bg)', padding: '0.5rem 2.5rem', height: '36px' }}
             />
           </div>
         </div>
-        
+
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '4rem 0', color: 'var(--pk-primary)' }}>
             <div className="spinner" style={{ borderTopColor: 'var(--pk-primary)', margin: '0 auto 1rem' }}></div>
@@ -309,25 +309,25 @@ const DistribusiPangan = () => {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                         {item.items?.map((it, idx) => (
                           <span key={idx} className="badge" style={{ background: 'var(--pk-bg-secondary)', color: 'var(--pk-primary)', fontSize: '0.75rem' }}>
-                            {komoditasList.find(k => k.value === it.jenis_komoditas)?.label || it.jenis_komoditas} 
+                            {komoditasList.find(k => k.value === it.jenis_komoditas)?.label || it.jenis_komoditas}
                             ({it.kuantitas} {it.satuan})
                           </span>
                         ))}
                       </div>
                     </td>
                     <td>
-                      <span className="badge" style={{ 
-                        background: item.metode_distribusi === 'langsung' ? 'rgba(16, 185, 129, 0.1)' : 
-                                    item.metode_distribusi === 'dikirim' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-                        color: item.metode_distribusi === 'langsung' ? '#10b981' : 
-                               item.metode_distribusi === 'dikirim' ? '#3b82f6' : '#f59e0b',
+                      <span className="badge" style={{
+                        background: item.metode_distribusi === 'langsung' ? 'rgba(16, 185, 129, 0.1)' :
+                          item.metode_distribusi === 'dikirim' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                        color: item.metode_distribusi === 'langsung' ? '#10b981' :
+                          item.metode_distribusi === 'dikirim' ? '#3b82f6' : '#f59e0b',
                         textTransform: 'capitalize'
                       }}>
                         {item.metode_distribusi}
                       </span>
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      <button 
+                      <button
                         onClick={() => {
                           setSelectedDistribusi(item);
                           setIsDetailModalOpen(true);
@@ -367,9 +367,9 @@ const DistribusiPangan = () => {
           zIndex: 9999,
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '800px', 
+          <div className="animate-slide-up" style={{
+            width: '100%',
+            maxWidth: '800px',
             maxHeight: '90vh',
             display: 'flex',
             flexDirection: 'column',
@@ -379,9 +379,9 @@ const DistribusiPangan = () => {
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
           }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)', 
+            <div style={{
+              padding: '1.5rem',
+              borderBottom: '1px solid var(--pk-glass-border)',
               background: 'linear-gradient(to right, rgba(139, 92, 246, 0.05), transparent)',
               display: 'flex',
               justifyContent: 'space-between',
@@ -391,14 +391,14 @@ const DistribusiPangan = () => {
                 <div style={{ width: '8px', height: '24px', background: 'var(--pk-primary)', borderRadius: '4px' }}></div>
                 {isEditMode ? 'Edit Distribusi Pangan' : 'Catat Distribusi Pangan Baru'}
               </h3>
-              <button 
+              <button
                 onClick={() => setIsFormModalOpen(false)}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <div style={{ padding: '1.5rem', overflowY: 'auto', flex: 1 }}>
               {error && (
                 <div className="alert alert-danger" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem', borderRadius: '12px' }}>
@@ -408,21 +408,21 @@ const DistribusiPangan = () => {
               )}
 
               <form id="distribusi-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                
+
                 {/* Bagian 1: Info Utama */}
                 <div style={{ background: 'var(--pk-bg)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--pk-glass-border)' }}>
                   <h4 style={{ margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--pk-text)', fontSize: '1.1rem' }}>
                     <User size={18} color="var(--pk-primary)" /> Informasi Penerima & Waktu
                   </h4>
-                  
+
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label" style={{ fontWeight: 600 }}>Penerima Bantuan <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-                      <select 
-                        className="form-control" 
-                        name="penerima_bantuan_id" 
-                        value={formData.penerima_bantuan_id} 
-                        onChange={handleInputChange} 
+                      <label className="form-label" style={{ fontWeight: 600 }}>Penerima Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
+                      <select
+                        className="form-control"
+                        name="penerima_bantuan_id"
+                        value={formData.penerima_bantuan_id}
+                        onChange={handleInputChange}
                         required
                         style={{ background: 'var(--pk-bg-2)' }}
                       >
@@ -434,26 +434,26 @@ const DistribusiPangan = () => {
                     </div>
 
                     <div>
-                      <label className="form-label" style={{ fontWeight: 600 }}>Tanggal Distribusi <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-                      <input 
-                        type="date" 
-                        className="form-control" 
-                        name="tanggal_distribusi" 
-                        value={formData.tanggal_distribusi} 
-                        onChange={handleInputChange} 
+                      <label className="form-label" style={{ fontWeight: 600 }}>Tanggal Distribusi <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        name="tanggal_distribusi"
+                        value={formData.tanggal_distribusi}
+                        onChange={handleInputChange}
                         required
                         style={{ background: 'var(--pk-bg-2)' }}
                       />
                     </div>
 
                     <div>
-                      <label className="form-label" style={{ fontWeight: 600 }}>Periode Bulan <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-                      <input 
-                        type="month" 
-                        className="form-control" 
-                        name="periode_bulan" 
-                        value={formData.periode_bulan} 
-                        onChange={handleInputChange} 
+                      <label className="form-label" style={{ fontWeight: 600 }}>Periode Bulan <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
+                      <input
+                        type="month"
+                        className="form-control"
+                        name="periode_bulan"
+                        value={formData.periode_bulan}
+                        onChange={handleInputChange}
                         required
                         style={{ background: 'var(--pk-bg-2)' }}
                       />
@@ -465,10 +465,10 @@ const DistribusiPangan = () => {
                 <div style={{ background: 'var(--pk-bg)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--pk-glass-border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <h4 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--pk-text)', fontSize: '1.1rem' }}>
-                      <ShoppingBag size={18} color="var(--pk-primary)" /> Detail Komoditas Pangan <span style={{color: 'var(--pk-danger)'}}>*</span>
+                      <ShoppingBag size={18} color="var(--pk-primary)" /> Detail Komoditas Pangan <span style={{ color: 'var(--pk-danger)' }}>*</span>
                     </h4>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={addItem}
                       className="btn btn-outline"
                       style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
@@ -478,17 +478,17 @@ const DistribusiPangan = () => {
                   </div>
 
                   {formData.items.map((item, index) => (
-                    <div key={index} style={{ 
-                      display: 'flex', gap: '1rem', alignItems: 'flex-start', 
-                      background: 'var(--pk-bg-2)', padding: '1rem', borderRadius: '8px', 
-                      marginBottom: '1rem', border: '1px solid var(--pk-glass-border)' 
+                    <div key={index} style={{
+                      display: 'flex', gap: '1rem', alignItems: 'flex-start',
+                      background: 'var(--pk-bg-2)', padding: '1rem', borderRadius: '8px',
+                      marginBottom: '1rem', border: '1px solid var(--pk-glass-border)'
                     }}>
                       <div style={{ flex: 2 }}>
                         <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 600 }}>Komoditas</label>
-                        <select 
-                          className="form-control" 
-                          value={item.jenis_komoditas} 
-                          onChange={(e) => handleItemChange(index, 'jenis_komoditas', e.target.value)} 
+                        <select
+                          className="form-control"
+                          value={item.jenis_komoditas}
+                          onChange={(e) => handleItemChange(index, 'jenis_komoditas', e.target.value)}
                           required
                         >
                           {komoditasList.map(k => (
@@ -496,16 +496,16 @@ const DistribusiPangan = () => {
                           ))}
                         </select>
                       </div>
-                      
+
                       <div style={{ flex: 1 }}>
                         <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 600 }}>Kuantitas</label>
-                        <input 
-                          type="number" 
+                        <input
+                          type="number"
                           step="0.01"
                           min="0.1"
-                          className="form-control" 
-                          value={item.kuantitas} 
-                          onChange={(e) => handleItemChange(index, 'kuantitas', e.target.value)} 
+                          className="form-control"
+                          value={item.kuantitas}
+                          onChange={(e) => handleItemChange(index, 'kuantitas', e.target.value)}
                           required
                           placeholder="0.00"
                         />
@@ -513,26 +513,26 @@ const DistribusiPangan = () => {
 
                       <div style={{ flex: 1 }}>
                         <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 600 }}>Satuan</label>
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          value={item.satuan} 
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={item.satuan}
                           readOnly
                           style={{ background: 'rgba(0,0,0,0.1)', cursor: 'not-allowed' }}
                         />
                       </div>
 
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeItem(index)}
                         disabled={formData.items.length <= 1}
-                        style={{ 
+                        style={{
                           marginTop: '1.7rem',
-                          background: 'rgba(239, 68, 68, 0.1)', 
-                          color: 'var(--pk-danger)', 
-                          border: 'none', 
-                          padding: '0.5rem', 
-                          borderRadius: '8px', 
+                          background: 'rgba(239, 68, 68, 0.1)',
+                          color: 'var(--pk-danger)',
+                          border: 'none',
+                          padding: '0.5rem',
+                          borderRadius: '8px',
                           cursor: formData.items.length <= 1 ? 'not-allowed' : 'pointer',
                           opacity: formData.items.length <= 1 ? 0.5 : 1
                         }}
@@ -548,14 +548,14 @@ const DistribusiPangan = () => {
                   <h4 style={{ margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--pk-text)', fontSize: '1.1rem' }}>
                     <Truck size={18} color="var(--pk-primary)" /> Pelaksanaan Distribusi
                   </h4>
-                  
+
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div>
                       <label className="form-label" style={{ fontWeight: 600 }}>Metode Distribusi</label>
-                      <select 
-                        className="form-control" 
-                        name="metode_distribusi" 
-                        value={formData.metode_distribusi} 
+                      <select
+                        className="form-control"
+                        name="metode_distribusi"
+                        value={formData.metode_distribusi}
                         onChange={handleInputChange}
                         style={{ background: 'var(--pk-bg-2)' }}
                       >
@@ -566,25 +566,25 @@ const DistribusiPangan = () => {
                     </div>
 
                     <div>
-                      <label className="form-label" style={{ fontWeight: 600 }}>Lokasi Distribusi <span style={{color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal'}}>(Opsional)</span></label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
-                        name="lokasi_distribusi" 
-                        value={formData.lokasi_distribusi} 
-                        onChange={handleInputChange} 
+                      <label className="form-label" style={{ fontWeight: 600 }}>Lokasi Distribusi <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal' }}>(Opsional)</span></label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="lokasi_distribusi"
+                        value={formData.lokasi_distribusi}
+                        onChange={handleInputChange}
                         placeholder="Contoh: Balai Desa, Rumah Penerima..."
                         style={{ background: 'var(--pk-bg-2)' }}
                       />
                     </div>
 
                     <div style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label" style={{ fontWeight: 600 }}>Catatan Khusus <span style={{color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal'}}>(Opsional)</span></label>
-                      <textarea 
-                        className="form-control" 
-                        name="catatan" 
-                        value={formData.catatan} 
-                        onChange={handleInputChange} 
+                      <label className="form-label" style={{ fontWeight: 600 }}>Catatan Khusus <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', fontWeight: 'normal' }}>(Opsional)</span></label>
+                      <textarea
+                        className="form-control"
+                        name="catatan"
+                        value={formData.catatan}
+                        onChange={handleInputChange}
                         rows="2"
                         placeholder="Tambahkan keterangan jika perlu..."
                         style={{ background: 'var(--pk-bg-2)', resize: 'vertical' }}
@@ -595,27 +595,27 @@ const DistribusiPangan = () => {
 
               </form>
             </div>
-            
-            <div style={{ 
-              padding: '1.25rem 1.5rem', 
+
+            <div style={{
+              padding: '1.25rem 1.5rem',
               borderTop: '1px solid var(--pk-glass-border)',
-              display: 'flex', 
-              justifyContent: 'flex-end', 
+              display: 'flex',
+              justifyContent: 'flex-end',
               gap: '1rem',
               background: 'var(--pk-bg)'
             }}>
-              <button 
-                type="button" 
-                className="btn btn-outline" 
+              <button
+                type="button"
+                className="btn btn-outline"
                 onClick={() => setIsFormModalOpen(false)}
                 disabled={submitting}
               >
                 Batal
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 form="distribusi-form"
-                className="btn btn-primary" 
+                className="btn btn-primary"
                 disabled={submitting}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)' }}
               >
@@ -648,19 +648,19 @@ const DistribusiPangan = () => {
           zIndex: 9999,
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '600px', 
-            padding: 0, 
+          <div className="animate-slide-up" style={{
+            width: '100%',
+            maxWidth: '600px',
+            padding: 0,
             overflow: 'hidden',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
           }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)', 
+            <div style={{
+              padding: '1.5rem',
+              borderBottom: '1px solid var(--pk-glass-border)',
               background: 'linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent)',
               display: 'flex',
               justifyContent: 'space-between',
@@ -671,14 +671,14 @@ const DistribusiPangan = () => {
                 Detail Distribusi Pangan
               </h3>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button 
+                <button
                   onClick={() => openEditForm(selectedDistribusi)}
                   style={{ background: 'rgba(59, 130, 246, 0.1)', border: 'none', cursor: 'pointer', color: '#3b82f6', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   title="Edit"
                 >
                   <Edit size={16} />
                 </button>
-                <button 
+                <button
                   onClick={() => setIsDetailModalOpen(false)}
                   style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 >
@@ -686,9 +686,9 @@ const DistribusiPangan = () => {
                 </button>
               </div>
             </div>
-            
+
             <div style={{ padding: '1.5rem', maxHeight: '70vh', overflowY: 'auto' }}>
-              
+
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', background: 'var(--pk-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--pk-glass-border)' }}>
                 <div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', marginBottom: '0.2rem' }}>Penerima</div>
@@ -752,10 +752,10 @@ const DistribusiPangan = () => {
               {selectedDistribusi.catatan && (
                 <div style={{ marginBottom: '1.5rem' }}>
                   <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', marginBottom: '0.5rem' }}>Catatan</div>
-                  <div style={{ 
-                    background: 'var(--pk-bg)', 
-                    padding: '1rem', 
-                    borderRadius: '8px', 
+                  <div style={{
+                    background: 'var(--pk-bg)',
+                    padding: '1rem',
+                    borderRadius: '8px',
                     border: '1px solid var(--pk-glass-border)',
                     fontSize: '0.9rem',
                     lineHeight: '1.5'
@@ -769,8 +769,8 @@ const DistribusiPangan = () => {
                 <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>
                   Dicatat oleh: <span style={{ fontWeight: 500, color: 'var(--pk-text)' }}>{selectedDistribusi.petugas?.name}</span>
                 </div>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => handleDelete(selectedDistribusi.id)}
                   style={{ background: 'transparent', border: 'none', color: 'var(--pk-danger)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 500 }}
                 >
