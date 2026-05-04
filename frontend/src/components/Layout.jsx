@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target, UserCheck, DollarSign
+  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -19,10 +19,46 @@ const SidebarLink = ({ to, icon, label }) => {
   );
 };
 
+const AccordionGroup = ({ title, icon, isExpanded, onToggle, children }) => {
+  // Render children conditionally to check if there are any accessible links inside
+  if (!children) return null;
+  
+  // check if children are empty fragments or all falsy
+  const hasValidChildren = React.Children.toArray(children).some(child => {
+    if (!child) return false;
+    if (child.type === React.Fragment) {
+      return React.Children.toArray(child.props.children).some(c => c);
+    }
+    return true;
+  });
+
+  if (!hasValidChildren) return null;
+
+  return (
+    <div className="accordion-group">
+      <div className="accordion-header" onClick={onToggle}>
+        <div className="accordion-header-left">
+          <span className="accordion-icon">{icon}</span>
+          <span>{title}</span>
+        </div>
+        <div className="accordion-arrow">
+          {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+        </div>
+      </div>
+      <div className={`accordion-content ${isExpanded ? 'expanded' : ''}`}>
+        <div className="accordion-content-inner">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Layout = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const [expandedMenus, setExpandedMenus] = useState(['dashboard', 'penerima']);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -31,6 +67,12 @@ const Layout = () => {
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const toggleMenu = (menu) => {
+    setExpandedMenus(prev => 
+      prev.includes(menu) ? prev.filter(m => m !== menu) : [...prev, menu]
+    );
   };
 
   const handleLogout = async () => {
@@ -55,42 +97,83 @@ const Layout = () => {
         </div>
 
         <nav style={{ padding: '1.5rem 1rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto' }}>
-          <SidebarLink to="/dashboard" icon={<Home size={20} />} label="Dashboard" />
-
-          {user?.role === 'admin' && (
-            <>
-              <SidebarLink to="/users" icon={<Users size={20} />} label="Manajemen Akun" />
-              <SidebarLink to="/program-bantuan" icon={<Briefcase size={20} />} label="Program Bantuan" />
-            </>
-          )}
-
-          <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={20} />} label="Pendaftaran Bantuan" />
-          <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={20} />} label="Penyaluran Bantuan" />
-          <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Graduasi (Status)" />
-          {(user?.role === 'admin' || user?.role === 'supervisor') && (
-            <>
-              <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
-              <SidebarLink to="/approval-penyaluran" icon={<ClipboardCheck size={20} />} label="Approval Penyaluran" />
-            </>
-          )}
-
-          {/* New Sprint Routes from Main Branch */}
-          <SidebarLink to="/status-gizi" icon={<Activity size={20} />} label="Status Gizi" />
-          <SidebarLink to="/kia" icon={<Heart size={20} />} label="Kesehatan Ibu & Anak" />
-          <SidebarLink to="/distribusi-pangan" icon={<Package size={20} />} label="Distribusi Pangan" />
-          <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={20} />} label="Kunjungan Rumah" />
-          <SidebarLink to="/peta-sebaran" icon={<MapPin size={20} />} label="Peta Sebaran" />
           
+          <AccordionGroup 
+            title="Dashboard & Peta" 
+            icon={<Home size={20} />} 
+            isExpanded={expandedMenus.includes('dashboard')}
+            onToggle={() => toggleMenu('dashboard')}
+          >
+            <SidebarLink to="/dashboard" icon={<Activity size={18} />} label="Dashboard" />
+            <SidebarLink to="/peta-sebaran" icon={<MapPin size={18} />} label="Peta Sebaran" />
+            {user?.role === 'admin' && (
+              <SidebarLink to="/dashboard-kpi" icon={<Target size={18} />} label="KPI Kemiskinan" />
+            )}
+          </AccordionGroup>
+
           {user?.role === 'admin' && (
-            <>
-              <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={20} />} label="Kinerja Petugas" />
-              <SidebarLink to="/dashboard-kpi" icon={<Activity size={20} />} label="KPI Kemiskinan" />
-              <SidebarLink to="/evaluasi-capaian" icon={<Target size={20} />} label="Evaluasi Capaian" />
-            </>
+            <AccordionGroup 
+              title="Data Master" 
+              icon={<Briefcase size={20} />} 
+              isExpanded={expandedMenus.includes('master')}
+              onToggle={() => toggleMenu('master')}
+            >
+              <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" />
+              <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" />
+            </AccordionGroup>
           )}
 
-          {/* PBI-06 Laporan */}
-          <SidebarLink to="/laporan" icon={<FileText size={20} />} label="Laporan" />
+          <AccordionGroup 
+            title="Penerima Manfaat" 
+            icon={<Users size={20} />} 
+            isExpanded={expandedMenus.includes('penerima')}
+            onToggle={() => toggleMenu('penerima')}
+          >
+            <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={18} />} label="Pendaftaran Bantuan" />
+            {(user?.role === 'admin' || user?.role === 'supervisor') && (
+              <SidebarLink to="/verifikasi" icon={<CheckCircle size={18} />} label="Verifikasi Data" />
+            )}
+            <SidebarLink to="/pembaruan-status" icon={<UserCheck size={18} />} label="Graduasi (Status)" />
+          </AccordionGroup>
+
+          <AccordionGroup 
+            title="Kesehatan & Gizi" 
+            icon={<Heart size={20} />} 
+            isExpanded={expandedMenus.includes('kesehatan')}
+            onToggle={() => toggleMenu('kesehatan')}
+          >
+            <SidebarLink to="/status-gizi" icon={<Activity size={18} />} label="Status Gizi" />
+            <SidebarLink to="/kia" icon={<Heart size={18} />} label="Kesehatan Ibu & Anak" />
+          </AccordionGroup>
+
+          <AccordionGroup 
+            title="Operasional Lapangan" 
+            icon={<Package size={20} />} 
+            isExpanded={expandedMenus.includes('operasional')}
+            onToggle={() => toggleMenu('operasional')}
+          >
+            <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={18} />} label="Kunjungan Rumah" />
+            <SidebarLink to="/distribusi-pangan" icon={<Package size={18} />} label="Distribusi Pangan" />
+            <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={18} />} label="Penyaluran Bantuan" />
+            {(user?.role === 'admin' || user?.role === 'supervisor') && (
+              <SidebarLink to="/approval-penyaluran" icon={<ClipboardCheck size={18} />} label="Approval Penyaluran" />
+            )}
+          </AccordionGroup>
+
+          <AccordionGroup 
+            title="Monitoring & Evaluasi" 
+            icon={<FileText size={20} />} 
+            isExpanded={expandedMenus.includes('monitoring')}
+            onToggle={() => toggleMenu('monitoring')}
+          >
+            {user?.role === 'admin' && (
+              <>
+                <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={18} />} label="Kinerja Petugas" />
+                <SidebarLink to="/evaluasi-capaian" icon={<Target size={18} />} label="Evaluasi Capaian" />
+              </>
+            )}
+            <SidebarLink to="/laporan" icon={<FileText size={18} />} label="Laporan" />
+          </AccordionGroup>
 
           <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
             <button
