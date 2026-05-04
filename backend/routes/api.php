@@ -118,4 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'show']);
     Route::put('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'update']);
     Route::delete('/evaluasi-capaian/{id}', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'destroy']);
+
+    // Peta Sebaran Penerima Bantuan
+    Route::get('/peta-sebaran', [\App\Http\Controllers\Api\PetaSebaranController::class, 'sebaranWilayah']);
 });

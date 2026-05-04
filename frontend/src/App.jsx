@@ -24,6 +24,7 @@ import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
 import DashboardKPI from './pages/DashboardKPI';
 import EvaluasiCapaian from './pages/EvaluasiCapaian';
+import PetaSebaran from './pages/PetaSebaran';
 
 function App() {
   return (
@@ -80,6 +81,13 @@ function App() {
             <Route path="evaluasi-capaian" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <EvaluasiCapaian />
+              </ProtectedRoute>
+            } />
+
+            {/* Peta Sebaran Penerima */}
+            <Route path="peta-sebaran" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PetaSebaran />
               </ProtectedRoute>
             } />
           </Route>

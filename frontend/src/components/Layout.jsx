@@ -81,6 +81,7 @@ const Layout = () => {
               <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={20} />} label="Kinerja Petugas" />
               <SidebarLink to="/dashboard-kpi" icon={<Activity size={20} />} label="KPI Kemiskinan" />
               <SidebarLink to="/evaluasi-capaian" icon={<Target size={20} />} label="Evaluasi Capaian" />
+              <SidebarLink to="/peta-sebaran" icon={<MapPin size={20} />} label="Peta Sebaran" />
             </>
           )}
 
