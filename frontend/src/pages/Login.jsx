@@ -37,9 +37,9 @@ const Login = () => {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--pk-bg)' }}>
       <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '400px', padding: '2.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ width: '80px', height: '80px', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', borderRadius: '50%', padding: '4px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
-            <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
-            <div style={{ display: 'none', width: '100%', height: '100%', background: 'var(--pk-primary)', borderRadius: '50%', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.5rem', fontWeight: 'bold' }}>
+          <div style={{ width: '100px', height: '100px', margin: '0 auto 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', borderRadius: '16px', padding: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+            <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+            <div style={{ display: 'none', width: '100%', height: '100%', background: 'var(--pk-primary)', borderRadius: '12px', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2rem', fontWeight: 'bold' }}>
               SM
             </div>
           </div>

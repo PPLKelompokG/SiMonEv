@@ -404,3 +404,13 @@ tbody tr:hover {
   padding: 2rem;
   overflow-y: auto;
 }
+
+/* Hide scrollbar globally */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
