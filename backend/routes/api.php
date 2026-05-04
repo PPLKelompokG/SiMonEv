@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PenerimaBantuanController;
 use App\Http\Controllers\Api\ProgramBantuanController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,4 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/program-bantuan/{id}', [ProgramBantuanController::class, 'show']);
     Route::put('/program-bantuan/{id}', [ProgramBantuanController::class, 'update']);
     Route::delete('/program-bantuan/{id}', [ProgramBantuanController::class, 'destroy']);
+
+    // PBI-06 (Laporan & Ekspor Data Program)
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/export', [ReportController::class, 'export']);
 });
