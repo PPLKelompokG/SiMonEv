@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Download, FileText } from 'lucide-react';
+import { Download, FileText, Table } from 'lucide-react';
 
 const ReportPage = () => {
   const { user } = useContext(AuthContext);
@@ -85,6 +85,20 @@ const ReportPage = () => {
             <FileText size={20} style={{ color: 'var(--pk-primary)' }} />
             Pratinjau Laporan
           </h3>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <button 
+              className="btn btn-outline" 
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)' }}
+            >
+              <FileText size={16} /> Ekspor PDF
+            </button>
+            <button 
+              className="btn btn-outline" 
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)' }}
+            >
+              <Table size={16} /> Ekspor Excel
+            </button>
+          </div>
         </div>
 
         <div className="table-responsive">
