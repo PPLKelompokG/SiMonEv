@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PenerimaBantuan;
+use App\Models\ProgramBantuan;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -12,31 +12,36 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $query = PenerimaBantuan::query();
+        $query = ProgramBantuan::query();
 
-        // Filter berdasarkan tanggal mulai
-        if ($request->filled('tanggal_mulai')) {
-            $query->whereDate('created_at', '>=', $request->tanggal_mulai);
+        // Filter berdasarkan tanggal mulai (menggunakan created_at)
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
         }
 
-        // Filter berdasarkan tanggal selesai
-        if ($request->filled('tanggal_selesai')) {
-            $query->whereDate('created_at', '<=', $request->tanggal_selesai);
+        // Filter berdasarkan tanggal selesai (menggunakan created_at)
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
         }
 
         // Filter berdasarkan wilayah
+        // CATATAN: Model ProgramBantuan saat ini belum memiliki kolom 'wilayah'.
+        // Jika parameter wilayah dikirim, kita dapat mengabaikannya untuk menghindari SQL Error,
+        // atau Anda bisa menambahkannya di migration ProgramBantuan di masa mendatang.
+        /*
         if ($request->filled('wilayah')) {
             $query->where('wilayah', $request->wilayah);
         }
+        */
 
         // Format data sesuai dengan struktur tabel di frontend
         $reports = $query->latest()->get()->map(function ($item) {
             return [
                 'id' => $item->id,
-                'nama_program' => 'Bantuan Sosial - ' . $item->nama,
+                'nama_program' => $item->nama_program,
                 'tanggal' => $item->created_at->format('Y-m-d'),
-                'wilayah' => $item->wilayah ?? '-',
-                'status' => ucfirst($item->status),
+                'wilayah' => 'Semua Wilayah', // Placeholder karena tidak ada kolom wilayah
+                'status' => $item->status ? 'Aktif' : 'Nonaktif',
             ];
         });
 
