@@ -88,6 +88,12 @@ class PenyaluranBantuanController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+        if (!in_array(auth()->user()->role, ['admin', 'supervisor'])) {
+            return response()->json([
+                'message' => 'Akses ditolak: Hanya Admin dan Supervisor yang dapat mengubah progress penyaluran.'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'status_laporan' => 'required|in:dalam antrian,sedang diproses,sudah diproses',
         ]);
@@ -96,6 +102,12 @@ class PenyaluranBantuanController extends Controller
 
         if (!$penyaluran) {
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        if ($penyaluran->status_approval !== 'approved') {
+            return response()->json([
+                'message' => 'Progress hanya bisa diubah setelah penyaluran disetujui (Approved).'
+            ], 400);
         }
 
         $penyaluran->update([

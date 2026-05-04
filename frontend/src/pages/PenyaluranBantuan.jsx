@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import api from '../api';
+import { AuthContext } from '../context/AuthContext';
 import { Package, Search, Plus, FileText, CheckCircle, AlertCircle, FolderOpen, Calendar, DollarSign, Tag, User, X, Info } from 'lucide-react';
 
 const PenyaluranBantuan = () => {
+  const { user } = useContext(AuthContext);
   const [penyaluranList, setPenyaluranList] = useState([]);
   const [penerimaList, setPenerimaList] = useState([]);
   const [programList, setProgramList] = useState([]);
@@ -218,14 +220,14 @@ const PenyaluranBantuan = () => {
                         className="form-control"
                         value={item.status_laporan}
                         onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                        disabled={item.status_approval === 'approved'}
+                        disabled={item.status_approval !== 'approved' || (user?.role !== 'admin' && user?.role !== 'supervisor')}
                         style={{
                           padding: '0.4rem 0.75rem',
                           fontSize: '0.75rem',
                           borderRadius: '9999px',
                           fontWeight: 600,
                           border: '1px solid transparent',
-                          cursor: item.status_approval === 'approved' ? 'not-allowed' : 'pointer',
+                          cursor: (item.status_approval !== 'approved' || (user?.role !== 'admin' && user?.role !== 'supervisor')) ? 'not-allowed' : 'pointer',
                           color: item.status_laporan === 'dalam antrian' ? '#f59e0b' :
                             item.status_laporan === 'sedang diproses' ? '#60a5fa' : '#34d399',
                           backgroundColor: item.status_laporan === 'dalam antrian' ? 'rgba(245, 158, 11, 0.1)' :
@@ -236,7 +238,7 @@ const PenyaluranBantuan = () => {
                           textAlign: 'center',
                           width: 'auto',
                           display: 'inline-block',
-                          opacity: item.status_approval === 'approved' ? 0.6 : 1
+                          opacity: (item.status_approval !== 'approved' || (user?.role !== 'admin' && user?.role !== 'supervisor')) ? 0.6 : 1
                         }}
                       >
                         <option value="dalam antrian">Dalam Antrian</option>
