@@ -178,7 +178,7 @@ const PembaruanStatusInner = () => {
             Kelola status aktif, nonaktif, atau kelulusan (graduasi) penerima bantuan
           </p>
         </div>
-        {user?.role !== 'petugas' && (
+        {user?.role !== 'petugas_lapangan' && (
           <button
             className="btn btn-primary"
             onClick={() => setIsModalOpen(true)}

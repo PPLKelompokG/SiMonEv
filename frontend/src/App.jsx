@@ -92,7 +92,7 @@ function App() {
 
             {/* Peta Sebaran Penerima */}
             <Route path="peta-sebaran" element={
-              <ProtectedRoute allowedRoles={['admin', 'supervisor', 'petugas']}>
+              <ProtectedRoute allowedRoles={['admin', 'supervisor', 'petugas_lapangan']}>
                 <PetaSebaran />
               </ProtectedRoute>
             } />
