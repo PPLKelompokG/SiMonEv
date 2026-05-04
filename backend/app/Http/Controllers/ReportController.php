@@ -54,9 +54,53 @@ class ReportController extends Controller
 
     public function export(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Fungsi export belum diimplementasikan'
-        ], 200);
+        $query = ProgramBantuan::query();
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $programs = $query->latest()->get();
+
+        // Karena library Maatwebsite\Excel dan dompdf/snappy belum terinstal,
+        // kita buat fallback menggunakan format CSV murni dengan header PHP.
+        // Membersihkan output buffer agar tidak ada spasi kosong/karakter sampah (mencegah korup)
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        $format = $request->query('format');
+        $extension = ($format === 'pdf') ? 'csv' : 'csv'; // Paksa ke CSV sementara
+        $filename = "Laporan_SiMonEv_" . date('Y-m-d_H-i-s') . "." . $extension;
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        
+        // Header kolom CSV
+        fputcsv($output, ['No', 'Nama Program', 'Kategori SDG', 'Anggaran (Rp)', 'Periode', 'Status', 'Tanggal Ditambahkan']);
+
+        // Isi data CSV
+        foreach ($programs as $index => $program) {
+            fputcsv($output, [
+                $index + 1,
+                $program->nama_program,
+                $program->kategori_sdg,
+                $program->anggaran,
+                $program->periode,
+                $program->status ? 'Aktif' : 'Nonaktif',
+                $program->created_at->format('Y-m-d')
+            ]);
+        }
+
+        fclose($output);
+        exit;
     }
 }
