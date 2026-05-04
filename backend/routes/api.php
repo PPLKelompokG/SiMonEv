@@ -111,6 +111,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/trends', [\App\Http\Controllers\Api\DashboardKpiController::class, 'trends']);
     });
 
+    // Main Dashboard Summary
+    Route::get('/dashboard/summary', function() {
+        return Illuminate\Support\Facades\Cache::remember('main_dashboard_summary', 30, function() {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'users' => \App\Models\User::count(),
+                    'penerima' => \App\Models\PenerimaBantuan::count(),
+                    'pending' => \App\Models\PenerimaBantuan::whereNotIn('status', ['disetujui', 'ditolak'])->count(),
+                    'verified' => \App\Models\PenerimaBantuan::whereIn('status', ['disetujui', 'ditolak'])->count(),
+                    'recent_activities' => \App\Models\PenerimaBantuan::latest()->take(5)->get(),
+                ]
+            ]);
+        });
+    });
+
     // Evaluasi Capaian Program per Periode
     Route::get('/evaluasi-capaian', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'index']);
     Route::get('/evaluasi-capaian/statistik', [\App\Http\Controllers\Api\EvaluasiCapaianController::class, 'statistik']);

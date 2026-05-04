@@ -25,31 +25,17 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
         setLoading(true);
-        // Fetch penerima bantuan list
-        const penerimaRes = await api.get('/penerima-bantuan');
-        const penerimaData = penerimaRes.data.data || [];
-        
-        let usersCount = '-';
-        try {
-           if (user?.role === 'admin') {
-             const userRes = await api.get('/users');
-             usersCount = userRes.data.data?.length || 0;
-           }
-        } catch (e) { console.error('Gagal fetch users', e); }
-
-        const pendingCount = penerimaData.filter(p => p.status !== 'disetujui' && p.status !== 'ditolak').length;
-        const verifiedCount = penerimaData.filter(p => ['disetujui', 'ditolak'].includes(p.status)).length;
+        const res = await api.get('/dashboard/summary');
+        const data = res.data.data;
         
         setStats({
-          users: usersCount,
-          penerima: penerimaData.length,
-          pending: pendingCount,
-          verified: verifiedCount
+          users: user?.role === 'admin' ? data.users : '-',
+          penerima: data.penerima,
+          pending: data.pending,
+          verified: data.verified
         });
 
-        // Set recent activities by mapping the 5 most recently added records
-        const sortedPenerima = [...penerimaData].sort((a, b) => b.id - a.id).slice(0, 5);
-        setRecentActivities(sortedPenerima);
+        setRecentActivities(data.recent_activities || []);
 
       } catch (e) {
         console.error("Dashboard data fetch error:", e);
