@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const StatCard = ({ title, value, icon, color }) => (
   <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
-    <div style={{ background: `rgba(255,255,255,0.05)`, padding: '1rem', borderRadius: '12px', color: color }}>
+    <div style={{ background: `var(--pk-highlight)`, padding: '1rem', borderRadius: '12px', color: color }}>
       {icon}
     </div>
     <div>
@@ -63,12 +63,12 @@ const Dashboard = () => {
           style={{ 
             borderRadius: '99px',
             padding: '0.75rem 1.75rem',
-            background: 'rgba(255, 255, 255, 0.08)',
+            background: 'var(--pk-highlight)',
             boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
             display: 'flex',
             alignItems: 'center',
             gap: '0.6rem',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
+            border: '1px solid var(--pk-glass-border)',
             color: 'var(--pk-text)',
             fontWeight: 600,
             fontSize: '0.95rem',
@@ -77,8 +77,8 @@ const Dashboard = () => {
             transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             transform: loading ? 'scale(0.98)' : 'scale(1)'
           }}
-          onMouseOver={(e) => { if(!loading) { e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)'; } }}
-          onMouseOut={(e) => { if(!loading) { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)'; } }}
+          onMouseOver={(e) => { if(!loading) { e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'; e.currentTarget.style.background = 'var(--pk-glass-border)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)'; } }}
+          onMouseOut={(e) => { if(!loading) { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.background = 'var(--pk-highlight)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)'; } }}
         >
           <RefreshCw size={18} style={{ animation: loading ? 'spin-slow 1s linear infinite' : 'none' }} />
           {loading ? 'Refreshing...' : 'Refresh Data'}
@@ -101,8 +101,8 @@ const Dashboard = () => {
         ) : recentActivities.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {recentActivities.map(activity => (
-              <div key={activity.id} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', transition: 'var(--pk-transition)' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'}>
-                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div key={activity.id} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', background: 'var(--pk-highlight)', borderRadius: '12px', border: '1px solid var(--pk-highlight)', transition: 'var(--pk-transition)' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--pk-highlight)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--pk-highlight)'}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'var(--pk-highlight)', border: '1px solid var(--pk-glass-border)', color: 'var(--pk-text)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <FileText size={20} />
                 </div>
                 <div style={{ flex: 1 }}>

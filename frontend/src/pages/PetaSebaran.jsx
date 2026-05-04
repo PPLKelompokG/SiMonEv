@@ -100,7 +100,7 @@ const PetaSebaran = () => {
         <div>
           <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ background: 'var(--pk-primary)', borderRadius: 10, padding: '6px 8px', display: 'inline-flex' }}>
-              <MapPin size={20} color="#fff" />
+              <MapPin size={20} color='var(--pk-text)' />
             </span>
             Peta Sebaran Penerima Bantuan
           </h2>
@@ -189,7 +189,7 @@ const PetaSebaran = () => {
                 const isSelected = selected?.wilayah === w.wilayah;
                 return (
                   <div key={i} onClick={() => setSelected(w)}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 0.75rem', borderRadius: 10, marginBottom: 4, cursor: 'pointer', background: isSelected ? 'rgba(255,255,255,0.08)' : 'transparent', border: isSelected ? '1px solid rgba(255,255,255,0.15)' : '1px solid transparent', transition: 'all 0.2s' }}>
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 0.75rem', borderRadius: 10, marginBottom: 4, cursor: 'pointer', background: isSelected ? 'var(--pk-highlight)' : 'transparent', border: isSelected ? '1px solid var(--pk-glass-border)' : '1px solid transparent', transition: 'all 0.2s' }}>
                     <div style={{ width: 28, height: 28, borderRadius: '50%', background: `${color}22`, color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.7rem', flexShrink: 0 }}>
                       {i + 1}
                     </div>
@@ -197,7 +197,7 @@ const PetaSebaran = () => {
                       <div style={{ fontWeight: 600, fontSize: '0.82rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{w.wilayah}</div>
                       <div style={{ fontSize: '0.7rem', color: 'var(--pk-text-muted)' }}>{w.total_penerima} penerima</div>
                     </div>
-                    <div style={{ width: 50, height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden', flexShrink: 0 }}>
+                    <div style={{ width: 50, height: 6, background: 'var(--pk-glass-border)', borderRadius: 3, overflow: 'hidden', flexShrink: 0 }}>
                       <div style={{ height: '100%', width: `${(w.total_penerima / maxPenerima) * 100}%`, background: color, borderRadius: 3 }} />
                     </div>
                   </div>
@@ -221,7 +221,7 @@ const PetaSebaran = () => {
                   ['Rentan Miskin', selected.rentan_miskin, '#0ea5e9'],
                   ['Rata-rata Tanggungan', Number(selected.rata_tanggungan || 0).toFixed(1), 'var(--pk-text)'],
                 ].map(([label, val, col], i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', padding: '0.3rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', padding: '0.3rem 0', borderBottom: '1px solid var(--pk-highlight)' }}>
                     <span style={{ color: 'var(--pk-text-muted)' }}>{label}</span>
                     <span style={{ fontWeight: 600, color: col }}>{val}</span>
                   </div>

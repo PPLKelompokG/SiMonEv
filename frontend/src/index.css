@@ -20,6 +20,7 @@
   --pk-glass-bg: rgba(30, 41, 59, 0.6);
   --pk-glass-border: rgba(255, 255, 255, 0.1);
   --pk-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --pk-highlight: rgba(255, 255, 255, 0.05);
 
   --pk-radius: 12px;
   --pk-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -39,8 +40,9 @@
   --pk-text-muted: #475569;
 
   --pk-glass-bg: rgba(255, 255, 255, 0.85);
-  --pk-glass-border: rgba(0, 0, 0, 0.1);
+  --pk-glass-border: rgba(0, 0, 0, 0.12);
   --pk-glass-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --pk-highlight: rgba(0, 0, 0, 0.04);
 }
 
 * {

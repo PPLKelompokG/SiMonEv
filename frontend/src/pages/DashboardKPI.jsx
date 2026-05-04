@@ -58,19 +58,19 @@ const CustomTooltip = ({ active, payload, label, formatter }) => {
     <div style={{
       background: 'rgba(15, 23, 42, 0.95)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(255,255,255,0.15)',
+      border: '1px solid var(--pk-glass-border)',
       borderRadius: '12px',
       padding: '0.875rem 1.125rem',
       boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
     }}>
-      <p style={{ margin: 0, fontWeight: 600, color: '#f8fafc', marginBottom: '0.5rem', fontSize: '0.85rem' }}>
+      <p style={{ margin: 0, fontWeight: 600, color: 'var(--pk-text)', marginBottom: '0.5rem', fontSize: '0.85rem' }}>
         {label}
       </p>
       {payload.map((item, idx) => (
         <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: item.color }} />
-          <span style={{ color: '#94a3b8', fontSize: '0.8rem' }}>{item.name}:</span>
-          <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.8rem' }}>
+          <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem' }}>{item.name}:</span>
+          <span style={{ color: 'var(--pk-text)', fontWeight: 600, fontSize: '0.8rem' }}>
             {formatter ? formatter(item.value) : formatNumber(item.value)}
           </span>
         </div>
@@ -124,14 +124,14 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
         )}
       </div>
 
-      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, color: '#f8fafc' }}>
+      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, color: 'var(--pk-text)' }}>
         {value}
       </h2>
-      <p style={{ margin: '0.35rem 0 0', fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
+      <p style={{ margin: '0.35rem 0 0', fontSize: '0.85rem', color: 'var(--pk-text-muted)', fontWeight: 500 }}>
         {title}
       </p>
       {subtitle && (
-        <p style={{ margin: '0.25rem 0 0', fontSize: '0.75rem', color: '#64748b' }}>
+        <p style={{ margin: '0.25rem 0 0', fontSize: '0.75rem', color: 'var(--pk-text-muted)' }}>
           {subtitle}
         </p>
       )}
@@ -147,7 +147,7 @@ const ChartCard = ({ title, icon, children, style = {} }) => (
     <div style={{
       display: 'flex', alignItems: 'center', gap: '0.75rem',
       marginBottom: '1.5rem', paddingBottom: '1rem',
-      borderBottom: '1px solid rgba(255,255,255,0.08)'
+      borderBottom: '1px solid var(--pk-highlight)'
     }}>
       <div style={{
         padding: '0.5rem', borderRadius: '10px',
@@ -155,7 +155,7 @@ const ChartCard = ({ title, icon, children, style = {} }) => (
       }}>
         {icon}
       </div>
-      <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: '#f8fafc' }}>{title}</h3>
+      <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: 'var(--pk-text)' }}>{title}</h3>
     </div>
     {children}
   </div>
@@ -247,7 +247,7 @@ const DashboardKPI = () => {
           borderTopColor: '#818cf8',
           animation: 'spin 0.8s linear infinite',
         }} />
-        <p style={{ color: '#94a3b8', fontSize: '1rem', fontWeight: 500 }}>Memuat Dashboard KPI...</p>
+        <p style={{ color: 'var(--pk-text-muted)', fontSize: '1rem', fontWeight: 500 }}>Memuat Dashboard KPI...</p>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
@@ -264,8 +264,8 @@ const DashboardKPI = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
             <div style={{
               padding: '0.6rem', borderRadius: '14px',
-              background: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'var(--pk-highlight)',
+              border: '1px solid var(--pk-glass-border)',
             }}>
               <Activity size={28} color="var(--pk-text)" strokeWidth={2.5} />
             </div>
@@ -273,14 +273,14 @@ const DashboardKPI = () => {
               Dashboard KPI Kemiskinan
             </h1>
           </div>
-          <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.95rem' }}>
+          <p style={{ margin: 0, color: 'var(--pk-text-muted)', fontSize: '0.95rem' }}>
             Monitoring indikator kemiskinan & efektivitas program bantuan sosial
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {lastUpdated && (
-            <span style={{ color: '#64748b', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <Calendar size={14} />
               {lastUpdated.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
             </span>
@@ -387,9 +387,9 @@ const DashboardKPI = () => {
                     <stop offset="100%" stopColor={COLORS.primary} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                <XAxis dataKey="bulan" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-highlight)" />
+                <XAxis dataKey="bulan" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
+                <YAxis tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Area
                   type="monotone" dataKey="Penerima Baru"
@@ -401,7 +401,7 @@ const DashboardKPI = () => {
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data trend pendaftaran
             </div>
           )}
@@ -418,19 +418,19 @@ const DashboardKPI = () => {
                     <stop offset="100%" stopColor={COLORS.cyan} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                <XAxis dataKey="bulan" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-                <YAxis yAxisId="left" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickFormatter={(v) => `${(v / 1000000).toFixed(0)}jt`} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-highlight)" />
+                <XAxis dataKey="bulan" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
+                <YAxis yAxisId="left" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} tickFormatter={(v) => `${(v / 1000000).toFixed(0)}jt`} />
+                <YAxis yAxisId="right" orientation="right" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
                 <Tooltip content={<CustomTooltip formatter={(v) => typeof v === 'number' && v > 10000 ? formatRupiah(v) : formatNumber(v)} />} />
-                <Legend wrapperStyle={{ color: '#94a3b8', fontSize: '0.8rem' }} />
+                <Legend wrapperStyle={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem' }} />
                 <Bar yAxisId="right" dataKey="Jumlah Distribusi" fill={COLORS.secondary} radius={[6, 6, 0, 0]} opacity={0.7} />
                 <Area yAxisId="left" type="monotone" dataKey="Dana Tersalurkan" stroke={COLORS.cyan} strokeWidth={3} fill="url(#gradientDana)"
                   dot={{ fill: COLORS.cyan, strokeWidth: 2, r: 4 }} />
               </ComposedChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data trend penyaluran dana
             </div>
           )}
@@ -470,15 +470,15 @@ const DashboardKPI = () => {
                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <div style={{ width: 12, height: 12, borderRadius: '3px', background: item.color, flexShrink: 0 }} />
                     <div>
-                      <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.9rem' }}>{formatNumber(item.value)}</span>
-                      <span style={{ color: '#94a3b8', fontSize: '0.8rem', marginLeft: '0.4rem' }}>{item.name}</span>
+                      <span style={{ color: 'var(--pk-text)', fontWeight: 600, fontSize: '0.9rem' }}>{formatNumber(item.value)}</span>
+                      <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.8rem', marginLeft: '0.4rem' }}>{item.name}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           ) : (
-            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data status penerima
             </div>
           )}
@@ -489,9 +489,9 @@ const DashboardKPI = () => {
           {programData.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={programData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" horizontal={false} />
-                <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-                <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} width={120} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-highlight)" horizontal={false} />
+                <XAxis type="number" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
+                <YAxis type="category" dataKey="name" tick={{ fill: 'var(--pk-text-muted)', fontSize: 11 }} width={120} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="value" name="Jumlah Program" radius={[0, 8, 8, 0]}>
                   {programData.map((entry, idx) => (
@@ -501,7 +501,7 @@ const DashboardKPI = () => {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data program
             </div>
           )}
@@ -520,15 +520,15 @@ const DashboardKPI = () => {
           {graduasiData.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={graduasiData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                <XAxis dataKey="bulan" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} allowDecimals={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-highlight)" />
+                <XAxis dataKey="bulan" tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} />
+                <YAxis tick={{ fill: 'var(--pk-text-muted)', fontSize: 12 }} axisLine={{ stroke: 'var(--pk-glass-border)' }} allowDecimals={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="Graduasi" fill={COLORS.success} radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data graduasi
             </div>
           )}
@@ -560,15 +560,15 @@ const DashboardKPI = () => {
                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: 10, height: 10, borderRadius: '3px', background: item.color, flexShrink: 0 }} />
                     <div>
-                      <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.85rem' }}>{formatNumber(item.value)}×</span>
-                      <span style={{ color: '#94a3b8', fontSize: '0.75rem', marginLeft: '0.3rem' }}>{item.name}</span>
+                      <span style={{ color: 'var(--pk-text)', fontWeight: 600, fontSize: '0.85rem' }}>{formatNumber(item.value)}×</span>
+                      <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.75rem', marginLeft: '0.3rem' }}>{item.name}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           ) : (
-            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pk-text-muted)' }}>
               Belum ada data penyaluran
             </div>
           )}
@@ -577,15 +577,15 @@ const DashboardKPI = () => {
 
       {/* ─── SUMMARY FOOTER ─── */}
       <div className="glass-panel" style={{
-        background: 'rgba(255, 255, 255, 0.03)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--pk-highlight)',
+        border: '1px solid var(--pk-highlight)',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
         gap: '1.5rem',
         animation: 'fadeIn 0.6s ease-out 0.5s both',
       }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Efisiensi Penyaluran
           </p>
           <h3 style={{
@@ -596,7 +596,7 @@ const DashboardKPI = () => {
           </h3>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Tingkat Keberhasilan
           </p>
           <h3 style={{
@@ -607,7 +607,7 @@ const DashboardKPI = () => {
           </h3>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Dana Tersalurkan
           </p>
           <h3 style={{
@@ -618,7 +618,7 @@ const DashboardKPI = () => {
           </h3>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Penerima Aktif
           </p>
           <h3 style={{
@@ -629,7 +629,7 @@ const DashboardKPI = () => {
           </h3>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Graduasi Bulan Ini
           </p>
           <h3 style={{

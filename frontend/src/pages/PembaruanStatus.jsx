@@ -155,7 +155,7 @@ const PembaruanStatusInner = () => {
       case 'nonaktif':
         return <span className="badge badge-warning">Nonaktif</span>;
       case 'graduasi':
-        return <span className="badge" style={{ background: 'var(--pk-primary)', color: 'white' }}>Graduasi</span>;
+        return <span className="badge" style={{ background: 'var(--pk-primary)', color: '#ffffff' }}>Graduasi</span>;
       default:
         return <span className="badge">{status}</span>;
     }
@@ -331,7 +331,7 @@ const PembaruanStatusInner = () => {
             maxWidth: '650px',
             padding: 0,
             overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--pk-glass-border)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
