@@ -10,6 +10,14 @@ const ReportPage = () => {
     wilayah: ''
   });
 
+  const [dummyData] = useState([
+    { id: 1, nama_program: 'Bantuan Pangan Non Tunai', tanggal: '2026-05-01', wilayah: 'Kecamatan A', status: 'Selesai' },
+    { id: 2, nama_program: 'Program Keluarga Harapan', tanggal: '2026-05-02', wilayah: 'Kecamatan B', status: 'Proses' },
+    { id: 3, nama_program: 'Bantuan Langsung Tunai', tanggal: '2026-05-03', wilayah: 'Kelurahan C', status: 'Tertunda' },
+    { id: 4, nama_program: 'Bantuan Pendidikan Anak', tanggal: '2026-05-04', wilayah: 'Kecamatan A', status: 'Selesai' },
+    { id: 5, nama_program: 'Subsidi Listrik', tanggal: '2026-05-05', wilayah: 'Kelurahan D', status: 'Proses' },
+  ]);
+
   return (
     <div className="page-container">
       <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -79,9 +87,37 @@ const ReportPage = () => {
           </h3>
         </div>
 
-        {/* Kontainer kosong untuk tabel pratinjau yang akan diimplementasikan nanti */}
-        <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--pk-text-muted)' }}>
-          <p>Tabel pratinjau data laporan akan ditampilkan di sini.</p>
+        <div className="table-responsive">
+          <table className="table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ width: '5%', textAlign: 'center' }}>No</th>
+                <th>Nama Program</th>
+                <th>Tanggal</th>
+                <th>Wilayah</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dummyData.map((item, index) => (
+                <tr key={item.id}>
+                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                  <td>
+                    <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>
+                      {item.nama_program}
+                    </div>
+                  </td>
+                  <td>{item.tanggal}</td>
+                  <td>{item.wilayah}</td>
+                  <td>
+                    <span className={`badge ${item.status === 'Selesai' ? 'badge-success' : item.status === 'Tertunda' ? 'badge-danger' : 'badge-warning'}`}>
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
