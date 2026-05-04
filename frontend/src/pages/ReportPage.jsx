@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Download, FileText, Table } from 'lucide-react';
+import api from '../api';
 
 const ReportPage = () => {
   const { user } = useContext(AuthContext);
@@ -10,13 +11,32 @@ const ReportPage = () => {
     wilayah: ''
   });
 
-  const [dummyData] = useState([
-    { id: 1, nama_program: 'Bantuan Pangan Non Tunai', tanggal: '2026-05-01', wilayah: 'Kecamatan A', status: 'Selesai' },
-    { id: 2, nama_program: 'Program Keluarga Harapan', tanggal: '2026-05-02', wilayah: 'Kecamatan B', status: 'Proses' },
-    { id: 3, nama_program: 'Bantuan Langsung Tunai', tanggal: '2026-05-03', wilayah: 'Kelurahan C', status: 'Tertunda' },
-    { id: 4, nama_program: 'Bantuan Pendidikan Anak', tanggal: '2026-05-04', wilayah: 'Kecamatan A', status: 'Selesai' },
-    { id: 5, nama_program: 'Subsidi Listrik', tanggal: '2026-05-05', wilayah: 'Kelurahan D', status: 'Proses' },
-  ]);
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get('/reports', {
+        params: {
+          start_date: filterData.startDate,
+          end_date: filterData.endDate,
+          wilayah: filterData.wilayah
+        }
+      });
+      if (res.data.success) {
+        setReports(res.data.data);
+      }
+    } catch (error) {
+      console.error("Gagal mengambil data laporan:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, [filterData.startDate, filterData.endDate, filterData.wilayah]);
 
   return (
     <div className="page-container">
@@ -113,23 +133,38 @@ const ReportPage = () => {
               </tr>
             </thead>
             <tbody>
-              {dummyData.map((item, index) => (
-                <tr key={item.id}>
-                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                  <td>
-                    <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>
-                      {item.nama_program}
-                    </div>
-                  </td>
-                  <td>{item.tanggal}</td>
-                  <td>{item.wilayah}</td>
-                  <td>
-                    <span className={`badge ${item.status === 'Selesai' ? 'badge-success' : item.status === 'Tertunda' ? 'badge-danger' : 'badge-warning'}`}>
-                      {item.status}
-                    </span>
+              {loading ? (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--pk-text-muted)' }}>
+                    <div className="spinner" style={{ borderTopColor: 'var(--pk-primary)', margin: '0 auto 1rem' }}></div>
+                    Memuat data laporan...
                   </td>
                 </tr>
-              ))}
+              ) : reports.length > 0 ? (
+                reports.map((item, index) => (
+                  <tr key={item.id}>
+                    <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                    <td>
+                      <div style={{ fontWeight: 600, color: 'var(--pk-text)' }}>
+                        {item.nama_program}
+                      </div>
+                    </td>
+                    <td>{item.tanggal}</td>
+                    <td>{item.wilayah}</td>
+                    <td>
+                      <span className={`badge ${['Aktif', 'Selesai', 'disetujui'].includes(item.status) ? 'badge-success' : 'badge-danger'}`}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--pk-text-muted)' }}>
+                    Tidak ada data laporan yang ditemukan.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
