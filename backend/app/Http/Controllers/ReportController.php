@@ -56,36 +56,40 @@ class ReportController extends Controller
 
         $programs = $query->latest()->get();
 
-        if (ob_get_length()) {
-            ob_end_clean();
-        }
-
         $format = $request->query('format');
-        $extension = 'csv';
-        $filename = "Laporan_SiMonEv_" . date('Y-m-d_H-i-s') . "." . $extension;
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        $output = fopen('php://output', 'w');
-        
-        fputcsv($output, ['No', 'Nama Program', 'Kategori SDG', 'Anggaran (Rp)', 'Periode', 'Status', 'Tanggal Ditambahkan']);
-
-        foreach ($programs as $index => $program) {
-            fputcsv($output, [
-                $index + 1,
-                $program->nama_program,
-                $program->kategori_sdg,
-                $program->anggaran,
-                $program->periode,
-                $program->status ? 'Aktif' : 'Nonaktif',
-                $program->created_at->format('Y-m-d')
-            ]);
+        if ($format === 'pdf') {
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reports.pdf', compact('programs'));
+            return $pdf->download('Laporan_SiMonEv_' . date('Y-m-d_H-i-s') . '.pdf');
         }
 
-        fclose($output);
-        exit;
+        $filename = "Laporan_SiMonEv_" . date('Y-m-d_H-i-s') . ".csv";
+        
+        return response()->streamDownload(function () use ($programs) {
+            $output = fopen('php://output', 'w');
+            
+            // Add BOM for proper UTF-8 Excel rendering
+            fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            fputcsv($output, ['No', 'Nama Program', 'Kategori SDG', 'Anggaran (Rp)', 'Periode', 'Status', 'Tanggal Ditambahkan']);
+
+            foreach ($programs as $index => $program) {
+                fputcsv($output, [
+                    $index + 1,
+                    $program->nama_program,
+                    $program->kategori_sdg,
+                    $program->anggaran,
+                    $program->periode,
+                    $program->status ? 'Aktif' : 'Nonaktif',
+                    $program->created_at->format('Y-m-d')
+                ]);
+            }
+
+            fclose($output);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=utf-8',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
+        ]);
     }
 }
