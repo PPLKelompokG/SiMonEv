@@ -13,6 +13,44 @@ const ReportPage = () => {
 
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [exportingPDF, setExportingPDF] = useState(false);
+  const [exportingExcel, setExportingExcel] = useState(false);
+
+  const handleExport = async (format) => {
+    if (format === 'pdf') setExportingPDF(true);
+    else setExportingExcel(true);
+
+    try {
+      const res = await api.get('/reports/export', {
+        params: {
+          start_date: filterData.startDate,
+          end_date: filterData.endDate,
+          wilayah: filterData.wilayah,
+          format: format
+        },
+        responseType: 'blob'
+      });
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      
+      const extension = format === 'pdf' ? 'pdf' : 'xlsx';
+      link.setAttribute('download', `Laporan-SiMonEv.${extension}`);
+      
+      document.body.appendChild(link);
+      link.click();
+      
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(`Gagal mengekspor data ke ${format.toUpperCase()}:`, error);
+      alert('Gagal mengunduh file laporan. Pastikan endpoint export sudah siap di backend.');
+    } finally {
+      if (format === 'pdf') setExportingPDF(false);
+      else setExportingExcel(false);
+    }
+  };
 
   const fetchReports = async () => {
     try {
@@ -108,15 +146,21 @@ const ReportPage = () => {
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button 
               className="btn btn-outline" 
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)' }}
+              onClick={() => handleExport('pdf')}
+              disabled={exportingPDF}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', opacity: exportingPDF ? 0.7 : 1, cursor: exportingPDF ? 'not-allowed' : 'pointer' }}
             >
-              <FileText size={16} /> Ekspor PDF
+              {exportingPDF ? <div className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', borderTopColor: '#ef4444' }}></div> : <FileText size={16} />}
+              {exportingPDF ? 'Memproses...' : 'Ekspor PDF'}
             </button>
             <button 
               className="btn btn-outline" 
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)' }}
+              onClick={() => handleExport('excel')}
+              disabled={exportingExcel}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', opacity: exportingExcel ? 0.7 : 1, cursor: exportingExcel ? 'not-allowed' : 'pointer' }}
             >
-              <Table size={16} /> Ekspor Excel
+              {exportingExcel ? <div className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', borderTopColor: '#10b981' }}></div> : <Table size={16} />}
+              {exportingExcel ? 'Memproses...' : 'Ekspor Excel'}
             </button>
           </div>
         </div>
