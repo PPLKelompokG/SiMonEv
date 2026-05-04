@@ -11,17 +11,17 @@ import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
-import ManajemenDataKeluarga from './pages/ManajemenDataKeluarga';
-import PermintaanKuota from './pages/PermintaanKuota';
+import ReportPage from './pages/ReportPage';
+
+// Pages from Main (Sprint 2/3)
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
 import StatusGizi from './pages/StatusGizi';
-import Kia from './pages/Kia';
+import KIA from './pages/KIA';
 import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
-
 
 function App() {
   return (
@@ -47,61 +47,25 @@ function App() {
             } />
 
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
-            <Route path="manajemen-data-keluarga" element={<ManajemenDataKeluarga />} />
-            <Route path="permintaan-kuota" element={<PermintaanKuota />} />
-            
+
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
                 <Verifikasi />
               </ProtectedRoute>
             } />
 
-            <Route path="kinerja-petugas" element={
-              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
-                <KinerjaPetugas />
-              </ProtectedRoute>
-            } />
+            {/* PBI-06 Laporan */}
+            <Route path="laporan" element={<ReportPage />} />
 
-            <Route path="approval-penyaluran" element={
-              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
-                <ApprovalPenyaluran />
-              </ProtectedRoute>
-            } />
-
-            <Route path="penyaluran-bantuan" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
-                <PenyaluranBantuan />
-              </ProtectedRoute>
-            } />
-
-            <Route path="distribusi-pangan" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
-                <DistribusiPangan />
-              </ProtectedRoute>
-            } />
-
-            <Route path="pembaruan-status" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
-                <PembaruanStatus />
-              </ProtectedRoute>
-            } />
-            <Route path="status-gizi" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
-                <StatusGizi />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="kia" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
-                <Kia />
-              </ProtectedRoute>
-            } />
-
-            <Route path="kunjungan-rumah" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
-                <KunjunganRumah />
-              </ProtectedRoute>
-            } />
+            {/* Routes from Main Branch */}
+            <Route path="penyaluran-bantuan" element={<PenyaluranBantuan />} />
+            <Route path="pembaruan-status" element={<PembaruanStatus />} />
+            <Route path="approval-penyaluran" element={<ApprovalPenyaluran />} />
+            <Route path="status-gizi" element={<StatusGizi />} />
+            <Route path="kia" element={<KIA />} />
+            <Route path="distribusi-pangan" element={<DistribusiPangan />} />
+            <Route path="kinerja-petugas" element={<KinerjaPetugas />} />
+            <Route path="kunjungan-rumah" element={<KunjunganRumah />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

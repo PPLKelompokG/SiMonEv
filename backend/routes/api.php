@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PenerimaBantuanController;
 use App\Http\Controllers\Api\ProgramBantuanController;
 use App\Http\Controllers\Api\UserManagementController;
 use App\Http\Controllers\Api\VerifikasiPenerimaController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Api\PenyaluranBantuanController;
 use App\Http\Controllers\Api\PembaruanStatusController;
 use App\Http\Controllers\Api\KiaController;
@@ -39,6 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/program-bantuan/{id}', [ProgramBantuanController::class, 'show']);
     Route::put('/program-bantuan/{id}', [ProgramBantuanController::class, 'update']);
     Route::delete('/program-bantuan/{id}', [ProgramBantuanController::class, 'destroy']);
+
+    // PBI-06 (Laporan & Ekspor Data Program)
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/export', [ReportController::class, 'export']);
 
     // PBI-09 Penyaluran Bantuan
     Route::get('/penyaluran-bantuan/penerima-disetujui', [PenyaluranBantuanController::class, 'getApprovedPenerima']);
@@ -92,6 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'show']);
     Route::put('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'update']);
     Route::delete('/distribusi-pangan/{id}', [DistribusiPanganController::class, 'destroy']);
+
     // PBI-17 Monitoring Kinerja Petugas Lapangan
     Route::get('/kinerja-petugas', [\App\Http\Controllers\Api\KinerjaController::class, 'getKinerjaData']);
 

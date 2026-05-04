@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
-import { Plus, Eye } from 'lucide-react';
+import { Plus, Eye, X } from 'lucide-react';
 
 const PenerimaBantuan = () => {
   const [data, setData] = useState([]);
@@ -93,10 +93,10 @@ const PenerimaBantuan = () => {
       </div>
 
       {showModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)', maxHeight: '90vh', overflowY: 'auto' }}>
-            <h3 style={{ marginBottom: '1.5rem' }}>Pendaftaran Penerima Baru</h3>
-            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem' }}>{formError}</p>}
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
+          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '600px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--pk-text)', fontWeight: 700 }}>Pendaftaran Penerima Baru</h3>
+            {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '8px' }}>{formError}</p>}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label">NIK (16 Digit)</label>
@@ -125,9 +125,9 @@ const PenerimaBantuan = () => {
                 <input type="file" className="form-control" onChange={e => setFotoKtp(e.target.files[0])} accept="image/*" />
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem' }}>
                 <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Batal</button>
-                <button type="submit" className="btn btn-primary">Daftarkan Data</button>
+                <button type="submit" className="btn btn-primary" style={{ minWidth: '120px' }}>Simpan</button>
               </div>
             </form>
           </div>

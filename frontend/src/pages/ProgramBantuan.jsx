@@ -285,45 +285,13 @@ const ProgramBantuan = () => {
 
       {/* Modal Form */}
       {isModalOpen && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(15, 23, 42, 0.6)',
-          backdropFilter: 'blur(4px)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000,
-          animation: 'fadeIn 0.2s ease-out'
-        }}>
-          <div className="card glass-effect animate-slide-up" style={{ 
-            width: '100%', 
-            maxWidth: '600px', 
-            padding: 0, 
-            overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
-          }}>
-            <div style={{ 
-              padding: '1.5rem', 
-              borderBottom: '1px solid var(--pk-glass-border)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              background: 'rgba(255, 255, 255, 0.3)'
-            }}>
-              <h3 style={{ margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <div style={{ width: '8px', height: '24px', background: 'var(--pk-primary)', borderRadius: '4px' }}></div>
-                {currentProgram ? 'Edit Program Bantuan' : 'Tambah Program Baru'}
-              </h3>
-              <button 
-                onClick={closeModal}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }}
-              >
-                <X size={24} />
-              </button>
-            </div>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
+          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '600px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--pk-text)', fontWeight: 700 }}>
+              {currentProgram ? 'Edit Program Bantuan' : 'Tambah Program Baru'}
+            </h3>
             
-            <form onSubmit={handleSubmit} style={{ padding: '1.5rem' }}>
+            <form onSubmit={handleSubmit}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                 <div style={{ gridColumn: '1 / -1' }}>
                   <label className="form-label" style={{ fontWeight: 600 }}>Nama Program Bantuan</label>
@@ -413,7 +381,7 @@ const ProgramBantuan = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem' }}>
                 <button 
                   type="button" 
                   className="btn btn-outline"
@@ -426,10 +394,10 @@ const ProgramBantuan = () => {
                   type="submit" 
                   className="btn btn-primary"
                   disabled={submitting}
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                  style={{ minWidth: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
                 >
                   {submitting && <div className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }}></div>}
-                  {currentProgram ? 'Simpan Perubahan' : 'Tambah Program'}
+                  Simpan
                 </button>
               </div>
             </form>
