@@ -104,4 +104,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // PBI-11 Kunjungan Rumah
     Route::get('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'index']);
     Route::post('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'store']);
+
+    // Dashboard KPI Kemiskinan
+    Route::prefix('dashboard-kpi')->group(function () {
+        Route::get('/stats', [\App\Http\Controllers\Api\DashboardKpiController::class, 'stats']);
+        Route::get('/trends', [\App\Http\Controllers\Api\DashboardKpiController::class, 'trends']);
+    });
 });

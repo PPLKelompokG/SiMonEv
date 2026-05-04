@@ -22,6 +22,7 @@ import KIA from './pages/KIA';
 import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
+import DashboardKPI from './pages/DashboardKPI';
 
 function App() {
   return (
@@ -66,6 +67,13 @@ function App() {
             <Route path="distribusi-pangan" element={<DistribusiPangan />} />
             <Route path="kinerja-petugas" element={<KinerjaPetugas />} />
             <Route path="kunjungan-rumah" element={<KunjunganRumah />} />
+
+            {/* Dashboard KPI Kemiskinan */}
+            <Route path="dashboard-kpi" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <DashboardKPI />
+              </ProtectedRoute>
+            } />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
