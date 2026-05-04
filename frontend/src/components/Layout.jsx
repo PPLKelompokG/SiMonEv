@@ -79,13 +79,13 @@ const Layout = () => {
           <SidebarLink to="/kia" icon={<Heart size={20} />} label="Kesehatan Ibu & Anak" />
           <SidebarLink to="/distribusi-pangan" icon={<Package size={20} />} label="Distribusi Pangan" />
           <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={20} />} label="Kunjungan Rumah" />
+          <SidebarLink to="/peta-sebaran" icon={<MapPin size={20} />} label="Peta Sebaran" />
           
           {user?.role === 'admin' && (
             <>
               <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={20} />} label="Kinerja Petugas" />
               <SidebarLink to="/dashboard-kpi" icon={<Activity size={20} />} label="KPI Kemiskinan" />
               <SidebarLink to="/evaluasi-capaian" icon={<Target size={20} />} label="Evaluasi Capaian" />
-              <SidebarLink to="/peta-sebaran" icon={<MapPin size={20} />} label="Peta Sebaran" />
             </>
           )}
 
