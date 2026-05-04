@@ -18,6 +18,7 @@ class PenerimaBantuan extends Model
         'jumlah_tanggungan',
         'foto_ktp',
         'status',
+        'status_penerima',
         'catatan_verifikasi',
         'created_by',
         'verified_by',
@@ -36,5 +37,25 @@ class PenerimaBantuan extends Model
     public function verifier()
     {
         return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function historiStatus()
+    {
+        return $this->hasMany(HistoriStatusPenerima::class, 'penerima_bantuan_id');
+    }
+
+    public function statusGizi()
+    {
+        return $this->hasMany(StatusGizi::class, 'penerima_bantuan_id');
+    }
+
+    public function kesehatanIbuHamil()
+    {
+        return $this->hasMany(KesehatanIbuHamil::class, 'penerima_bantuan_id');
+    }
+
+    public function kesehatanBalita()
+    {
+        return $this->hasMany(KesehatanBalita::class, 'penerima_bantuan_id');
     }
 }

@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Home, Users, UserPlus, CheckCircle, LogOut, Activity, Briefcase, FileText } from 'lucide-react';
+import { 
+  Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
+  Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package
+} from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
   return (
-    <NavLink 
-      to={to} 
+    <NavLink
+      to={to}
       className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
     >
       {icon}
@@ -38,10 +41,10 @@ const Layout = () => {
             </h2>
           </Link>
         </div>
-        
-        <nav style={{ padding: '1.5rem 1rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+        <nav style={{ padding: '1.5rem 1rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto' }}>
           <SidebarLink to="/dashboard" icon={<Home size={20} />} label="Dashboard" />
-          
+
           {user?.role === 'admin' && (
             <>
               <SidebarLink to="/users" icon={<Users size={20} />} label="Manajemen Akun" />
@@ -50,17 +53,28 @@ const Layout = () => {
           )}
 
           <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={20} />} label="Pendaftaran Bantuan" />
-          
+
           {(user?.role === 'admin' || user?.role === 'supervisor') && (
             <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
           )}
 
-          <SidebarLink to="/laporan" icon={<FileText size={20} />} label="Laporan" />
+          {/* New Sprint Routes from Main Branch */}
+          <SidebarLink to="/status-gizi" icon={<Activity size={20} />} label="Status Gizi" />
+          <SidebarLink to="/kia" icon={<Heart size={20} />} label="Kesehatan Ibu & Anak" />
+          <SidebarLink to="/distribusi-pangan" icon={<Package size={20} />} label="Distribusi Pangan" />
+          <SidebarLink to="/kunjungan-rumah" icon={<MapPin size={20} />} label="Kunjungan Rumah" />
           
-          <div style={{ marginTop: 'auto' }}>
-            <button 
+          {user?.role === 'admin' && (
+            <SidebarLink to="/kinerja-petugas" icon={<BarChart3 size={20} />} label="Kinerja Petugas" />
+          )}
+
+          {/* PBI-06 Laporan */}
+          <SidebarLink to="/laporan" icon={<FileText size={20} />} label="Laporan" />
+
+          <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
+            <button
               onClick={handleLogout}
-              style={{ width: '100%', marginTop: '1rem', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
+              style={{ width: '100%', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
             >
               <LogOut size={18} /> Logout
             </button>
@@ -78,12 +92,12 @@ const Layout = () => {
             <span className="badge badge-success" style={{ textTransform: 'capitalize' }}>
               {user?.role?.replace('_', ' ')}
             </span>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'white' }}>
               {user?.name?.charAt(0).toUpperCase()}
             </div>
           </div>
         </header>
-        
+
         <div className="app-content animate-fade-in">
           <Outlet />
         </div>

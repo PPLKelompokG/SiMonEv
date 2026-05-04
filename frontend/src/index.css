@@ -158,6 +158,12 @@ p { color: var(--pk-text-muted); }
   color: var(--pk-text);
   font-family: inherit;
   transition: var(--pk-transition);
+  color-scheme: dark;
+}
+
+option {
+  background-color: var(--pk-bg-4);
+  color: var(--pk-text);
 }
 
 .form-control:focus {
