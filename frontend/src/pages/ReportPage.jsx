@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Download, FileText, Table } from 'lucide-react';
+import { Download, FileText, Table, FolderOpen } from 'lucide-react';
 import api from '../api';
 
 const ReportPage = () => {
@@ -194,7 +194,7 @@ const ReportPage = () => {
                         {item.nama_program}
                       </div>
                     </td>
-                    <td>{item.tanggal}</td>
+                    <td>{item.tanggal ? item.tanggal.split('-').reverse().join('-') : '-'}</td>
                     <td>{item.wilayah}</td>
                     <td>
                       <span className={`badge ${['Aktif', 'Selesai', 'disetujui'].includes(item.status) ? 'badge-success' : 'badge-danger'}`}>
@@ -205,8 +205,10 @@ const ReportPage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--pk-text-muted)' }}>
-                    Tidak ada data laporan yang ditemukan.
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--pk-text-muted)' }}>
+                    <FolderOpen size={48} style={{ margin: '0 auto 1rem', opacity: 0.5, color: 'var(--pk-primary)' }} />
+                    <p style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>Belum ada data untuk periode ini</p>
+                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.875rem', opacity: 0.7 }}>Silakan sesuaikan filter tanggal atau wilayah di atas.</p>
                   </td>
                 </tr>
               )}
