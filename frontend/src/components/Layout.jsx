@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target
+  Sun, Moon, Target, UserCheck, DollarSign
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label }) => {
@@ -65,7 +65,8 @@ const Layout = () => {
           )}
 
           <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={20} />} label="Pendaftaran Bantuan" />
-
+          <SidebarLink to="/penyaluran-bantuan" icon={<DollarSign size={20} />} label="Penyaluran Bantuan" />
+          <SidebarLink to="/pembaruan-status" icon={<UserCheck size={20} />} label="Graduasi (Status)" />
           {(user?.role === 'admin' || user?.role === 'supervisor') && (
             <SidebarLink to="/verifikasi" icon={<CheckCircle size={20} />} label="Verifikasi Data" />
           )}

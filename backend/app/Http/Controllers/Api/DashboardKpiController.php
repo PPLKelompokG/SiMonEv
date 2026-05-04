@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PenerimaBantuan;
 use App\Models\PenyaluranBantuan;
 use App\Models\ProgramBantuan;
+use App\Models\HistoriStatusPenerima;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +29,10 @@ class DashboardKpiController extends Controller
         // Graduasi (status_penerima = 'graduasi')
         $penerimaGraduasi = PenerimaBantuan::where('status_penerima', 'graduasi')->count();
 
+        // Status penerima breakdown (aktif, nonaktif, graduasi)
+        $penerimaAktif    = PenerimaBantuan::where('status_penerima', 'aktif')->count();
+        $penerimaNonaktif = PenerimaBantuan::where('status_penerima', 'nonaktif')->count();
+
         // Total dana tersalurkan (dari penyaluran yang sudah approved)
         $totalDanaTersalurkan = PenyaluranBantuan::where('status_approval', 'approved')
             ->sum('jumlah_bantuan');
@@ -48,6 +53,21 @@ class DashboardKpiController extends Controller
             ? round(($penyaluranApproved / $totalPenyaluran) * 100, 1)
             : 0;
 
+        // Penyaluran per jenis bantuan
+        $penyaluranPerJenis = PenyaluranBantuan::select(
+                'jenis_bantuan',
+                DB::raw('COUNT(*) as total'),
+                DB::raw('SUM(jumlah_bantuan) as total_dana')
+            )
+            ->groupBy('jenis_bantuan')
+            ->get();
+
+        // Total perubahan status bulan ini
+        $graduasiBulanIni = HistoriStatusPenerima::where('status_baru', 'graduasi')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
         return response()->json([
             'success' => true,
             'data' => [
@@ -56,6 +76,8 @@ class DashboardKpiController extends Controller
                 'penerima_diajukan'       => $penerimaDiajukan,
                 'penerima_ditolak'        => $penerimaDitolak,
                 'penerima_graduasi'       => $penerimaGraduasi,
+                'penerima_aktif'          => $penerimaAktif,
+                'penerima_nonaktif'       => $penerimaNonaktif,
                 'total_dana_tersalurkan'  => $totalDanaTersalurkan,
                 'program_aktif'           => $programAktif,
                 'total_program'           => $totalProgram,
@@ -63,6 +85,8 @@ class DashboardKpiController extends Controller
                 'persentase_penyaluran'   => $persentasePenyaluran,
                 'total_penyaluran'        => $totalPenyaluran,
                 'penyaluran_approved'     => $penyaluranApproved,
+                'penyaluran_per_jenis'    => $penyaluranPerJenis,
+                'graduasi_bulan_ini'      => $graduasiBulanIni,
             ],
         ]);
     }
@@ -111,14 +135,40 @@ class DashboardKpiController extends Controller
             ->groupBy('kategori_sdg')
             ->get();
 
+        // Tren graduasi per bulan (dari histori_status_penerimas)
+        $graduasiTrends = HistoriStatusPenerima::where('status_baru', 'graduasi')
+            ->where('created_at', '>=', now()->subMonths(12))
+            ->select(
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as bulan"),
+                DB::raw('COUNT(*) as total_graduasi')
+            )
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        // Tren penyaluran per jenis bantuan per bulan
+        $penyaluranJenisTrends = PenyaluranBantuan::where('tanggal_penyaluran', '>=', now()->subMonths(12))
+            ->select(
+                DB::raw("DATE_FORMAT(tanggal_penyaluran, '%Y-%m') as bulan"),
+                'jenis_bantuan',
+                DB::raw('COUNT(*) as total'),
+                DB::raw('SUM(jumlah_bantuan) as total_dana')
+            )
+            ->groupBy('bulan', 'jenis_bantuan')
+            ->orderBy('bulan')
+            ->get();
+
         return response()->json([
             'success' => true,
             'data' => [
-                'pendaftaran'       => $pendaftaranTrends,
-                'dana'              => $danaTrends,
-                'status_breakdown'  => $statusTrends,
-                'program_breakdown' => $programBreakdown,
+                'pendaftaran'          => $pendaftaranTrends,
+                'dana'                 => $danaTrends,
+                'status_breakdown'     => $statusTrends,
+                'program_breakdown'    => $programBreakdown,
+                'graduasi'             => $graduasiTrends,
+                'penyaluran_per_jenis' => $penyaluranJenisTrends,
             ],
         ]);
     }
 }
+

@@ -223,6 +223,20 @@ const DashboardKPI = () => {
     { name: 'Ditolak', value: stats.penerima_ditolak, color: COLORS.danger },
   ].filter(d => d.value > 0) : [];
 
+  /* graduasi trend */
+  const graduasiData = trends?.graduasi?.map(item => ({
+    bulan: getMonthName(item.bulan),
+    'Graduasi': item.total_graduasi,
+  })) || [];
+
+  /* penyaluran per jenis pie */
+  const penyaluranJenisData = stats?.penyaluran_per_jenis?.map((item, idx) => ({
+    name: item.jenis_bantuan || 'Lainnya',
+    value: item.total,
+    dana: parseFloat(item.total_dana),
+    color: PIE_COLORS[idx % PIE_COLORS.length],
+  })) || [];
+
   /* ───── Loading state ───── */
   if (loading) {
     return (
@@ -494,6 +508,73 @@ const DashboardKPI = () => {
         </ChartCard>
       </div>
 
+      {/* ─── CHART ROW 3: Graduasi Trend + Penyaluran per Jenis ─── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: graduasiData.length > 0 || penyaluranJenisData.length > 0 ? '1fr 1fr' : '1fr',
+        gap: '1.25rem',
+        marginBottom: '1.75rem',
+      }}>
+        {/* Trend Graduasi per Bulan */}
+        <ChartCard title="Trend Graduasi Penerima (Lulus Program)" icon={<Award size={20} color={COLORS.success} />}>
+          {graduasiData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={graduasiData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <XAxis dataKey="bulan" tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
+                <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} allowDecimals={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="Graduasi" fill={COLORS.success} radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+              Belum ada data graduasi
+            </div>
+          )}
+        </ChartCard>
+
+        {/* Penyaluran per Jenis Bantuan */}
+        <ChartCard title="Penyaluran per Jenis Bantuan" icon={<BarChart3 size={20} color={COLORS.cyan} />}>
+          {penyaluranJenisData.length > 0 ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem' }}>
+              <ResponsiveContainer width="55%" height={280}>
+                <PieChart>
+                  <Pie
+                    data={penyaluranJenisData}
+                    cx="50%" cy="50%"
+                    innerRadius={55} outerRadius={95}
+                    paddingAngle={4}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {penyaluranJenisData.map((entry, idx) => (
+                      <Cell key={idx} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<CustomTooltip />} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {penyaluranJenisData.map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{ width: 10, height: 10, borderRadius: '3px', background: item.color, flexShrink: 0 }} />
+                    <div>
+                      <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.85rem' }}>{formatNumber(item.value)}×</span>
+                      <span style={{ color: '#94a3b8', fontSize: '0.75rem', marginLeft: '0.3rem' }}>{item.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+              Belum ada data penyaluran
+            </div>
+          )}
+        </ChartCard>
+      </div>
+
       {/* ─── SUMMARY FOOTER ─── */}
       <div className="glass-panel" style={{
         background: 'rgba(255, 255, 255, 0.03)',
@@ -544,7 +625,18 @@ const DashboardKPI = () => {
             margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
             color: 'var(--pk-text)',
           }}>
-            {formatNumber(stats?.penerima_disetujui)}
+            {formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)}
+          </h3>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+            Graduasi Bulan Ini
+          </p>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            color: COLORS.success,
+          }}>
+            {formatNumber(stats?.graduasi_bulan_ini || 0)}
           </h3>
         </div>
       </div>
