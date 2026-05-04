@@ -60,7 +60,7 @@ const BmiMeter = ({ bmi }) => {
         <span style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>BMI Dihitung Otomatis</span>
         <span style={{ fontWeight: 700, color: cfg.color }}>{bmi}</span>
       </div>
-      <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ height: 8, background: 'var(--pk-glass-border)', borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, background: cfg.color, borderRadius: 4, transition: 'width 0.4s ease' }} />
       </div>
       <div style={{ marginTop: 6, fontSize: '0.8rem', fontWeight: 600, color: cfg.color }}>
@@ -179,7 +179,7 @@ const StatusGizi = () => {
         <div>
           <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ background: 'linear-gradient(135deg,#22c55e,#16a34a)', borderRadius: 10, padding: '6px 8px', display: 'inline-flex' }}>
-              <Activity size={20} color="#fff" />
+              <Activity size={20} color='var(--pk-text)' />
             </span>
             Status Gizi Penerima
           </h2>
@@ -339,7 +339,7 @@ const StatusGizi = () => {
             maxWidth: '650px',
             padding: 0,
             overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--pk-glass-border)',
             margin: '1rem',
             background: 'var(--pk-bg-2)',
             borderRadius: 'var(--pk-radius)'
@@ -537,7 +537,7 @@ const StatusGizi = () => {
                   {d.usia_saat_ukur && <Row label="Usia Saat Ukur" value={`${d.usia_saat_ukur} tahun`} />}
                   <Row label="Dicatat oleh" value={d.petugas?.name || '-'} />
                   {d.catatan && (
-                    <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ padding: '0.75rem', background: 'var(--pk-highlight)', borderRadius: 8, border: '1px solid var(--pk-glass-border)' }}>
                       <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginBottom: 4 }}>Catatan</div>
                       <div style={{ fontSize: '0.875rem' }}>{d.catatan}</div>
                     </div>
@@ -557,7 +557,7 @@ const StatusGizi = () => {
 };
 
 const Row = ({ label, value }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '0.6rem' }}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.6rem' }}>
     <span style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', flexShrink: 0, marginRight: '1rem' }}>{label}</span>
     <span style={{ fontWeight: 500, textAlign: 'right' }}>{value}</span>
   </div>

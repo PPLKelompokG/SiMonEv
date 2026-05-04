@@ -154,7 +154,7 @@ const Kia = () => {
         <div>
           <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ background: 'linear-gradient(135deg,#ec4899,#db2777)', borderRadius: 10, padding: '6px 8px', display: 'inline-flex' }}>
-              <HeartPulse size={20} color="#fff" />
+              <HeartPulse size={20} color='var(--pk-text)' />
             </span>
             Kesehatan Ibu & Anak (KIA)
           </h2>
@@ -307,7 +307,7 @@ const Kia = () => {
                 <HeartPulse size={22} />
                 {editId ? 'Edit Data Ibu Hamil' : 'Catat Data Ibu Hamil'}
               </h3>
-              <button onClick={() => setShowModalIbu(false)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}><X size={18} /></button>
+              <button onClick={() => setShowModalIbu(false)} style={{ background: 'var(--pk-glass-border)', border: 'none', color: 'var(--pk-text)', cursor: 'pointer', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'var(--pk-glass-border)'}><X size={18} /></button>
             </div>
 
             <div style={{ padding: '1.5rem' }}>
@@ -316,7 +316,7 @@ const Kia = () => {
               <form onSubmit={handleSubmitIbu} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {/* Section: Informasi Dasar */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     Informasi Dasar
                   </h4>
                   <div className="form-group" style={{ marginBottom: '1rem' }}>
@@ -340,7 +340,7 @@ const Kia = () => {
 
                 {/* Section: Hasil Pemeriksaan */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     Hasil Pemeriksaan Medis
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
@@ -370,7 +370,7 @@ const Kia = () => {
 
                 {/* Section: Tindakan */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     Tindakan & Catatan
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
@@ -411,7 +411,7 @@ const Kia = () => {
                 <Baby size={22} />
                 {editId ? 'Edit Data Balita' : 'Catat Data Balita'}
               </h3>
-              <button onClick={() => setShowModalBalita(false)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}><X size={18} /></button>
+              <button onClick={() => setShowModalBalita(false)} style={{ background: 'var(--pk-glass-border)', border: 'none', color: 'var(--pk-text)', cursor: 'pointer', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'var(--pk-glass-border)'}><X size={18} /></button>
             </div>
 
             <div style={{ padding: '1.5rem' }}>
@@ -421,7 +421,7 @@ const Kia = () => {
 
                 {/* Section: Data Anak */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     Data Anak & Orang Tua
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
@@ -454,7 +454,7 @@ const Kia = () => {
 
                 {/* Section: Pengukuran */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--pk-text-muted)', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     Hasil Pengukuran
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
@@ -485,7 +485,7 @@ const Kia = () => {
 
                 {/* Section: Imunisasi */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--pk-glass-border)', padding: '1.25rem', borderRadius: 12 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid var(--pk-highlight)', paddingBottom: '0.5rem' }}>
                     <h4 style={{ margin: 0, fontSize: '0.9rem', color: 'var(--pk-text-muted)' }}>Status Imunisasi & Vitamin</h4>
                     <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>Lengkapi data imunisasi</span>
                   </div>

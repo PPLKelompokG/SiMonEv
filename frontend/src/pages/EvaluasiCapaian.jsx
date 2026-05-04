@@ -33,7 +33,7 @@ const SkorBar = ({ skor }) => {
   const color = skor >= 100 ? '#2563eb' : skor >= 80 ? '#16a34a' : '#ef4444';
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 120 }}>
-      <div style={{ flex: 1, height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ flex: 1, height: 8, background: 'var(--pk-glass-border)', borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${Math.min(pct, 100)}%`, background: color, borderRadius: 4, transition: 'width 0.4s ease' }} />
       </div>
       <span style={{ fontWeight: 700, color, fontSize: '0.85rem', minWidth: 45, textAlign: 'right' }}>{skor}%</span>
@@ -118,7 +118,7 @@ const EvaluasiCapaian = () => {
         <div>
           <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ background: 'var(--pk-primary)', borderRadius: 10, padding: '6px 8px', display: 'inline-flex' }}>
-              <Target size={20} color="#fff" />
+              <Target size={20} color='var(--pk-text)' />
             </span>
             Evaluasi Capaian Program
           </h2>
@@ -185,7 +185,7 @@ const EvaluasiCapaian = () => {
                         <div style={{ fontWeight: 600 }}>{item.program_bantuan?.nama_program || '-'}</div>
                         <div style={{ fontSize: '0.7rem', color: 'var(--pk-text-muted)' }}>{item.program_bantuan?.kategori_sdg}</div>
                       </td>
-                      <td><span style={{ fontSize: '0.8rem', padding: '3px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>{item.periode}</span></td>
+                      <td><span style={{ fontSize: '0.8rem', padding: '3px 8px', borderRadius: 6, background: 'var(--pk-highlight)', border: '1px solid var(--pk-glass-border)' }}>{item.periode}</span></td>
                       <td>
                         <div style={{ fontWeight: 500 }}>{item.nama_indikator}</div>
                         <div style={{ fontSize: '0.7rem', color: 'var(--pk-text-muted)' }}>Satuan: {item.satuan}</div>
@@ -246,8 +246,8 @@ const EvaluasiCapaian = () => {
       {/* Modal Input */}
       {showModal && createPortal(
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, animation: 'fadeIn 0.2s ease-out' }}>
-          <div style={{ width: '100%', maxWidth: 650, padding: 0, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)', margin: '1rem', background: 'var(--pk-bg-2)', borderRadius: 'var(--pk-radius)' }}>
-            <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--pk-glass-border)', background: 'rgba(255,255,255,0.03)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ width: '100%', maxWidth: 650, padding: 0, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px var(--pk-glass-border)', margin: '1rem', background: 'var(--pk-bg-2)', borderRadius: 'var(--pk-radius)' }}>
+            <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--pk-glass-border)', background: 'var(--pk-highlight)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem' }}>
                 <div style={{ width: 8, height: 24, background: 'var(--pk-primary)', borderRadius: 4 }} />
                 {editId ? 'Edit Evaluasi Capaian' : 'Input Evaluasi Capaian Baru'}
@@ -313,7 +313,7 @@ const EvaluasiCapaian = () => {
                       <span style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>Skor Capaian (Otomatis)</span>
                       <span style={{ fontWeight: 700, color: STATUS_CONFIG[previewStatus]?.color }}>{previewSkor}%</span>
                     </div>
-                    <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ height: 8, background: 'var(--pk-glass-border)', borderRadius: 4, overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${Math.min(previewSkor, 100)}%`, background: STATUS_CONFIG[previewStatus]?.color, borderRadius: 4, transition: 'width 0.4s ease' }} />
                     </div>
                     <div style={{ marginTop: 6, fontSize: '0.8rem', fontWeight: 600, color: STATUS_CONFIG[previewStatus]?.color }}>

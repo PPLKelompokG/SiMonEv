@@ -15,7 +15,7 @@ const StatCard = ({ title, value, icon, borderColor, iconColor }) => (
       width: '50px', 
       height: '50px', 
       borderRadius: '12px', 
-      background: 'rgba(255,255,255,0.05)', 
+      background: 'var(--pk-highlight)', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center',
@@ -123,11 +123,11 @@ const KinerjaPetugas = () => {
         <div style={{ width: '100%', height: 350 }}>
           <ResponsiveContainer>
             <BarChart data={data.chart_data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-glass-border)" vertical={false} />
               <XAxis dataKey="name" stroke="var(--pk-text-muted)" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="var(--pk-text-muted)" fontSize={12} tickLine={false} axisLine={false} />
               <Tooltip 
-                cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                cursor={{ fill: 'var(--pk-highlight)' }}
                 contentStyle={{ backgroundColor: 'var(--pk-bg-3)', borderColor: 'var(--pk-glass-border)', borderRadius: '8px', color: 'var(--pk-text)' }}
               />
               <Legend wrapperStyle={{ paddingTop: '10px' }} />
