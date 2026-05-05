@@ -318,7 +318,7 @@ const ProgramBantuan = () => {
                     value={formData.kategori_sdg}
                     onChange={handleInputChange}
                   >
-                    <option value="">-- Pilih Kategori --</option>
+                    <option value="">Pilih Kategori</option>
                     <option value="Tanpa Kemiskinan">Tanpa Kemiskinan</option>
                     <option value="Tanpa Kelaparan">Tanpa Kelaparan</option>
                     <option value="Pendidikan Berkualitas">Pendidikan Berkualitas</option>

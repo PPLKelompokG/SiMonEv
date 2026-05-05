@@ -378,7 +378,7 @@ const PembaruanStatusInner = () => {
                     required
                     style={{ background: 'var(--pk-bg)' }}
                   >
-                    <option value="">-- Cari / Pilih Penerima --</option>
+                    <option value="">Cari / Pilih Penerima</option>
                     {penerimaList.map(p => (
                       <option key={p.id} value={p.id}>{p.nik} - {p.nama}</option>
                     ))}
@@ -402,7 +402,7 @@ const PembaruanStatusInner = () => {
                         required
                         style={{ padding: '0.5rem' }}
                       >
-                        <option value="">-- Pilih --</option>
+                        <option value="">Pilih</option>
                         {selectedPenerima.status_penerima !== 'aktif' && <option value="aktif">Aktif</option>}
                         {selectedPenerima.status_penerima !== 'nonaktif' && <option value="nonaktif">Nonaktif</option>}
                         {selectedPenerima.status_penerima !== 'graduasi' && <option value="graduasi">Graduasi</option>}

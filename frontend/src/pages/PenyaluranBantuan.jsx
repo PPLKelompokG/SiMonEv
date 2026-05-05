@@ -353,7 +353,7 @@ const PenyaluranBantuan = () => {
                     required
                     style={{ background: 'var(--pk-bg)' }}
                   >
-                    <option value="">-- Pilih Penerima (Disetujui) --</option>
+                    <option value="">Pilih Penerima (Disetujui)</option>
                     {penerimaList.map(p => (
                       <option key={p.id} value={p.id}>{p.nik} - {p.nama}</option>
                     ))}
@@ -372,7 +372,7 @@ const PenyaluranBantuan = () => {
                       onChange={handleChange}
                       style={{ background: 'var(--pk-bg)' }}
                     >
-                      <option value="">-- Pilih Program Bantuan --</option>
+                      <option value="">Pilih Program Bantuan</option>
                       {programList.map(p => (
                         <option key={p.id} value={p.id}>{p.nama_program}</option>
                       ))}
@@ -408,7 +408,7 @@ const PenyaluranBantuan = () => {
                       required
                       style={{ background: 'var(--pk-bg)' }}
                     >
-                      <option value="">-- Jenis --</option>
+                      <option value="">Jenis</option>
                       <option value="Tunai">Tunai</option>
                       <option value="Sembako">Sembako</option>
                       <option value="Pendidikan">Pendidikan</option>

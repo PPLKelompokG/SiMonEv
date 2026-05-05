@@ -4,24 +4,25 @@ import 'leaflet/dist/leaflet.css';
 import { MapPin, Users, AlertTriangle, TrendingUp, Search, Layers } from 'lucide-react';
 import api from '../api';
 
-/* ── Koordinat kelurahan/kecamatan Bandung (sample) ── */
+/* ── Koordinat kecamatan Kabupaten Bandung Barat ── */
 const WILAYAH_COORDS = {
-  'Coblong': [-6.885, 107.617], 'Bandung Wetan': [-6.907, 107.615],
-  'Cibeunying Kaler': [-6.889, 107.627], 'Cibeunying Kidul': [-6.903, 107.635],
-  'Sumur Bandung': [-6.916, 107.610], 'Andir': [-6.912, 107.585],
-  'Cicendo': [-6.905, 107.591], 'Sukajadi': [-6.882, 107.596],
-  'Sukasari': [-6.868, 107.592], 'Cidadap': [-6.870, 107.607],
-  'Bandung Kulon': [-6.925, 107.577], 'Babakan Ciparay': [-6.935, 107.578],
-  'Bojongloa Kaler': [-6.932, 107.592], 'Bojongloa Kidul': [-6.942, 107.588],
-  'Astana Anyar': [-6.927, 107.601], 'Regol': [-6.930, 107.612],
-  'Lengkong': [-6.924, 107.624], 'Batununggal': [-6.934, 107.632],
-  'Kiaracondong': [-6.923, 107.643], 'Antapani': [-6.910, 107.653],
-  'Arcamanik': [-6.917, 107.668], 'Mandalajati': [-6.890, 107.660],
-  'Ujung Berung': [-6.903, 107.707], 'Cibiru': [-6.915, 107.724],
-  'Panyileukan': [-6.930, 107.713], 'Gedebage': [-6.945, 107.693],
-  'Rancasari': [-6.955, 107.668], 'Cinambo': [-6.928, 107.688],
-  'Bandung Kidul': [-6.953, 107.635], 'Buah Batu': [-6.946, 107.646],
-  // Fallback for unknown areas - spread around center Bandung
+  'Batujajar': [-6.891, 107.491],
+  'Cihampelas': [-6.924, 107.502],
+  'Cikalongwetan': [-6.746, 107.447],
+  'Cililin': [-6.953, 107.464],
+  'Cipatat': [-6.822, 107.399],
+  'Cipeundeuy': [-6.762, 107.369],
+  'Cipongkor': [-6.985, 107.411],
+  'Cisarua': [-6.797, 107.545],
+  'Gununghalu': [-7.027, 107.359],
+  'Lembang': [-6.814, 107.618],
+  'Ngamprah': [-6.840, 107.513],
+  'Padalarang': [-6.841, 107.473],
+  'Parongpong': [-6.804, 107.575],
+  'Rongga': [-7.037, 107.288],
+  'Saguling': [-6.912, 107.412],
+  'Sindangkerta': [-6.992, 107.448],
+  // Fallback for unknown areas - center of Bandung City
   '_default': [-6.917, 107.619],
 };
 
@@ -151,7 +152,7 @@ const PetaSebaran = () => {
               </button>
             </div>
 
-            <MapContainer center={[-6.917, 107.619]} zoom={13} style={{ height: '100%', minHeight: 500, borderRadius: 'var(--pk-radius)' }} attributionControl={false}>
+            <MapContainer center={[-6.840, 107.513]} zoom={11} style={{ height: '100%', minHeight: 500, borderRadius: 'var(--pk-radius)' }} attributionControl={false}>
               <TileLayer url={MAP_URLS[mapMode]} />
               <FitBounds points={points} />
               {points.map((w, i) => {

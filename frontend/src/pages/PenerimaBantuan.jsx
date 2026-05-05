@@ -3,12 +3,10 @@ import api from '../api';
 import { Plus, Eye, X, MapPin } from 'lucide-react';
 
 const WILAYAH_LIST = [
-  'Coblong', 'Bandung Wetan', 'Cibeunying Kaler', 'Cibeunying Kidul',
-  'Sumur Bandung', 'Andir', 'Cicendo', 'Sukajadi', 'Sukasari', 'Cidadap',
-  'Bandung Kulon', 'Babakan Ciparay', 'Bojongloa Kaler', 'Bojongloa Kidul',
-  'Astana Anyar', 'Regol', 'Lengkong', 'Batununggal', 'Kiaracondong',
-  'Antapani', 'Arcamanik', 'Mandalajati', 'Ujung Berung', 'Cibiru',
-  'Panyileukan', 'Gedebage', 'Rancasari', 'Cinambo', 'Bandung Kidul', 'Buah Batu',
+  'Batujajar', 'Cihampelas', 'Cikalongwetan', 'Cililin', 
+  'Cipatat', 'Cipeundeuy', 'Cipongkor', 'Cisarua', 
+  'Gununghalu', 'Lembang', 'Ngamprah', 'Padalarang', 
+  'Parongpong', 'Rongga', 'Saguling', 'Sindangkerta'
 ];
 
 const KONDISI_EKONOMI_LIST = [
@@ -128,7 +126,7 @@ const PenerimaBantuan = () => {
               <div className="form-group">
                 <label className="form-label"><MapPin size={14} style={{ display: 'inline', marginRight: 4 }} />Wilayah (Kecamatan)</label>
                 <select className="form-control" value={formData.wilayah} onChange={e => setFormData({...formData, wilayah: e.target.value})} required>
-                  <option value="">-- Pilih Wilayah --</option>
+                  <option value="">Pilih Wilayah</option>
                   {WILAYAH_LIST.map(w => <option key={w} value={w}>{w}</option>)}
                 </select>
               </div>
@@ -136,7 +134,7 @@ const PenerimaBantuan = () => {
                 <div className="form-group">
                   <label className="form-label">Kondisi Ekonomi</label>
                   <select className="form-control" value={formData.kondisi_ekonomi} onChange={e => setFormData({...formData, kondisi_ekonomi: e.target.value})} required>
-                    <option value="">-- Pilih Kondisi --</option>
+                    <option value="">Pilih Kondisi</option>
                     {KONDISI_EKONOMI_LIST.map(k => <option key={k.value} value={k.value}>{k.label}</option>)}
                   </select>
                 </div>

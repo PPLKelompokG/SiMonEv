@@ -426,7 +426,7 @@ const DistribusiPangan = () => {
                         required
                         style={{ background: 'var(--pk-bg-2)' }}
                       >
-                        <option value="">-- Pilih Penerima (Disetujui) --</option>
+                        <option value="">Pilih Penerima (Disetujui)</option>
                         {penerimaList.map(p => (
                           <option key={p.id} value={p.id}>{p.nik} - {p.nama}</option>
                         ))}

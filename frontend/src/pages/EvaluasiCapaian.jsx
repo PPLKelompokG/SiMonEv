@@ -266,7 +266,7 @@ const EvaluasiCapaian = () => {
                 <div>
                   <label className="form-label" style={{ fontWeight: 600 }}>Program Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
                   <select className="form-control" required value={form.program_bantuan_id} onChange={e => setForm({ ...form, program_bantuan_id: e.target.value })}>
-                    <option value="">-- Pilih Program --</option>
+                    <option value="">Pilih Program</option>
                     {programs.map(p => <option key={p.id} value={p.id}>{p.nama_program}</option>)}
                   </select>
                 </div>
