@@ -95,7 +95,7 @@ const Login = () => {
           </div>
 
           <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.5px' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 1100, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.5px' }}>
               Welcome back
             </h2>
             <p style={{ color: '#9ca3af', fontSize: '0.95rem' }}>
@@ -163,9 +163,7 @@ const Login = () => {
                 <input type="checkbox" style={{ accentColor: '#10b981', cursor: 'pointer' }} />
                 Remember me
               </label>
-              <a href="#" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#d1d5db'}>
-                Forgot the password?
-              </a>
+              
             </div>
 
             <button 

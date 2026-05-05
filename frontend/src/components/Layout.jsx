@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu
+  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu, User
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label, onClick }) => {
@@ -60,6 +60,8 @@ const Layout = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [expandedMenus, setExpandedMenus] = useState(['dashboard', 'penerima']);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth <= 768);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -77,6 +79,17 @@ const Layout = () => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Handle click outside for profile menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const toggleTheme = () => {
@@ -204,17 +217,6 @@ const Layout = () => {
             )}
             <SidebarLink to="/laporan" icon={<FileText size={18} />} label="Laporan" onClick={closeSidebarOnMobile} />
           </AccordionGroup>
-
-          <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
-            <button
-              onClick={handleLogout}
-              className="logout-btn"
-              title="Logout"
-              style={{ width: '100%', background: 'transparent', color: 'var(--pk-danger)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'var(--pk-transition)' }}
-            >
-              <LogOut size={18} /> <span className="logout-text">Logout</span>
-            </button>
-          </div>
         </nav>
       </aside>
 
@@ -239,13 +241,47 @@ const Layout = () => {
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <span className="badge badge-success" style={{ textTransform: 'capitalize' }}>
+            <span className="badge badge-success" style={{ textTransform: 'capitalize', display: window.innerWidth <= 480 ? 'none' : 'inline-block' }}>
               {user?.role?.replace('_', ' ')}
             </span>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', border: '2px solid var(--pk-primary)' }}>
-              <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
-              <span style={{ display: 'none', fontWeight: 'bold', color: 'var(--pk-primary)' }}>{user?.name?.charAt(0).toUpperCase()}</span>
+            
+            {/* Profile Menu Container */}
+            <div ref={profileMenuRef} style={{ position: 'relative' }}>
+              <div 
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', border: '2px solid var(--pk-primary)', cursor: 'pointer', transition: 'var(--pk-transition)' }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                <span style={{ display: 'none', fontWeight: 'bold', color: 'var(--pk-primary)' }}>{user?.name?.charAt(0).toUpperCase()}</span>
+              </div>
+
+              {/* Dropdown UI */}
+              {isProfileMenuOpen && (
+                <div className="animate-fade-in" style={{
+                  position: 'absolute', top: 'calc(100% + 0.5rem)', right: 0, width: '220px', 
+                  background: 'var(--pk-glass-bg)', backdropFilter: 'blur(16px)', border: '1px solid var(--pk-glass-border)',
+                  borderRadius: '12px', boxShadow: 'var(--pk-glass-shadow)', padding: '1rem',
+                  display: 'flex', flexDirection: 'column', gap: '0.5rem', zIndex: 1050
+                }}>
+                  <div style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '0.75rem', marginBottom: '0.25rem' }}>
+                    <p style={{ margin: 0, fontWeight: 600, color: 'var(--pk-text)', fontSize: '0.95rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.name || 'User'}</p>
+                    <p style={{ margin: 0, color: 'var(--pk-text-muted)', fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.email || 'user@example.com'}</p>
+                  </div>                  
+
+                  <button 
+                    onClick={handleLogout} 
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--pk-danger)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', textAlign: 'left', transition: 'var(--pk-transition)', fontSize: '0.9rem', width: '100%' }} 
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'} 
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  >
+                    <LogOut size={16} /> Log Out
+                  </button>
+                </div>
+              )}
             </div>
+
           </div>
         </header>
 
