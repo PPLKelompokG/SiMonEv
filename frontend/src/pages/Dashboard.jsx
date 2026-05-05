@@ -54,7 +54,8 @@ const Dashboard = () => {
       <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '2rem', fontWeight: 800 }}>Welcome back, <span>{user?.name}</span>!</h1>
-          <p style={{ color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>System Overview and Quick Actions</p>
+          <p style={{ color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Sistem Monitoring dan Evaluasi
+Program Pengentasan Kemiskinan</p>
         </div>
         <button 
           onClick={fetchDashboardData}

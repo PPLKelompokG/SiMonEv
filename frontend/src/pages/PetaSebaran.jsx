@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MapPin, Users, AlertTriangle, TrendingUp, Search } from 'lucide-react';
+import { MapPin, Users, AlertTriangle, TrendingUp, Search, Layers } from 'lucide-react';
 import api from '../api';
 
 /* ── Koordinat kelurahan/kecamatan Bandung (sample) ── */
@@ -74,6 +74,12 @@ const PetaSebaran = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(null);
+  const [mapMode, setMapMode] = useState('dark');
+
+  const MAP_URLS = {
+    dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,9 +133,26 @@ const PetaSebaran = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '1.5rem' }}>
           {/* Map */}
-          <div className="glass-panel" style={{ padding: 0, overflow: 'hidden', minHeight: 500 }}>
+          <div className="glass-panel" style={{ padding: 0, overflow: 'hidden', minHeight: 500, position: 'relative' }}>
+            
+            {/* Map Mode Toggle */}
+            <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 1000, display: 'flex', background: 'var(--pk-glass-bg)', backdropFilter: 'blur(8px)', borderRadius: '8px', border: '1px solid var(--pk-glass-border)', overflow: 'hidden' }}>
+              <button 
+                onClick={() => setMapMode('dark')} 
+                style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', fontWeight: 600, background: mapMode === 'dark' ? 'var(--pk-primary)' : 'transparent', color: mapMode === 'dark' ? '#fff' : 'var(--pk-text-muted)', border: 'none', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <Layers size={14} /> Dark
+              </button>
+              <button 
+                onClick={() => setMapMode('satellite')} 
+                style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', fontWeight: 600, background: mapMode === 'satellite' ? 'var(--pk-primary)' : 'transparent', color: mapMode === 'satellite' ? '#fff' : 'var(--pk-text-muted)', border: 'none', borderLeft: '1px solid var(--pk-glass-border)', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <MapPin size={14} /> Satelit
+              </button>
+            </div>
+
             <MapContainer center={[-6.917, 107.619]} zoom={13} style={{ height: '100%', minHeight: 500, borderRadius: 'var(--pk-radius)' }} attributionControl={false}>
-              <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+              <TileLayer url={MAP_URLS[mapMode]} />
               <FitBounds points={points} />
               {points.map((w, i) => {
                 const radius = Math.max(12, Math.min(40, (w.total_penerima / maxPenerima) * 40));

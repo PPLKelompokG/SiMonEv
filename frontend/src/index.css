@@ -351,6 +351,41 @@ tbody tr:hover {
   border-right: 1px solid var(--pk-glass-border);
   display: flex;
   flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.app-sidebar.collapsed {
+  width: 80px;
+}
+
+/* Hide text when collapsed */
+.app-sidebar.collapsed .sidebar-text,
+.app-sidebar.collapsed .accordion-arrow {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .sidebar-link,
+.app-sidebar.collapsed .accordion-header {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.app-sidebar.collapsed .accordion-header-left {
+  gap: 0;
+}
+
+.app-sidebar.collapsed .logout-text {
+  display: none;
+}
+
+.app-sidebar.collapsed .logout-btn {
+  padding: 0.75rem 0;
+  justify-content: center;
+}
+
+.app-sidebar.collapsed .logo-wrapper {
+  justify-content: center;
 }
 
 .app-main {
@@ -415,4 +450,209 @@ tbody tr:hover {
 * {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Accordion Sidebar Styles */
+.accordion-group {
+  margin-bottom: 0.5rem;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--pk-text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: var(--pk-transition);
+  user-select: none;
+}
+
+.accordion-header:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--pk-text);
+}
+
+.accordion-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.accordion-icon {
+  color: var(--pk-primary);
+}
+
+.accordion-arrow {
+  transition: transform 0.3s ease;
+}
+
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+  padding-left: 0.5rem;
+}
+
+.accordion-content.expanded {
+  grid-template-rows: 1fr;
+}
+
+.accordion-content-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.accordion-content .sidebar-link {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+/* -----------------------------------------------------
+   MOBILE RESPONSIVENESS
+----------------------------------------------------- */
+
+.mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Mobile Overlay Backdrop */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 990;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Layout adjustments */
+  .app-layout {
+    flex-direction: column;
+  }
+  
+  /* Sidebar Off-canvas */
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    width: 260px !important; /* Force width on mobile */
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  /* When collapsed on mobile, actually slide it out of view completely */
+  .app-sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 260px !important; 
+  }
+
+  /* Reset hidden elements that are normally hidden when collapsed on desktop */
+  .app-sidebar.collapsed .sidebar-text,
+  .app-sidebar.collapsed .accordion-arrow {
+    display: block !important;
+  }
+  .app-sidebar.collapsed .sidebar-link,
+  .app-sidebar.collapsed .accordion-header {
+    justify-content: space-between; /* or flex-start */
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .app-sidebar.collapsed .accordion-header-left {
+    gap: 0.75rem;
+  }
+  .app-sidebar.collapsed .logout-text {
+    display: inline;
+  }
+  .app-sidebar.collapsed .logout-btn {
+    padding: 0.75rem;
+    justify-content: center;
+  }
+  .app-sidebar.collapsed .logo-wrapper {
+    justify-content: flex-start;
+  }
+  
+  /* Header & Content adjustments */
+  .app-header {
+    padding: 0 1rem;
+    height: 60px;
+  }
+  
+  .app-header h3 {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-content {
+    padding: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Grid adaptations */
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Table optimizations */
+  .table-container {
+    margin: 0 -1rem; /* Negative margin to allow full-width scroll */
+    padding: 0 1rem;
+    width: calc(100% + 2rem);
+    border-radius: 0;
+  }
+  
+  th, td {
+    padding: 0.75rem 0.5rem;
+    white-space: nowrap; /* Prevent stacking in table cells */
+  }
+
+  /* Badges */
+  .badge {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  /* Glass panels on mobile */
+  .glass-panel {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .app-header h3 {
+    display: none; /* Hide title on very small screens to save space */
+  }
 }

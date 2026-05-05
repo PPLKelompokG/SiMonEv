@@ -12,6 +12,7 @@ import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
 import ReportPage from './pages/ReportPage';
+import Profile from './pages/Profile';
 
 // Pages from Main (Sprint 2/3)
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
@@ -48,6 +49,8 @@ function App() {
                 <ProgramBantuan />
               </ProtectedRoute>
             } />
+
+            <Route path="profile" element={<Profile />} />
 
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
 
