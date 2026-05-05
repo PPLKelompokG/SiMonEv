@@ -385,7 +385,7 @@ const StatusGizi = () => {
                     onChange={e => setForm({ ...form, penerima_bantuan_id: e.target.value })}
                     style={{ background: 'var(--pk-bg)' }}
                   >
-                    <option value="">-- Pilih Penerima --</option>
+                    <option value="">Pilih Penerima</option>
                     {penerimas.map(p => (
                       <option key={p.id} value={p.id}>{p.nik} - {p.nama}</option>
                     ))}
