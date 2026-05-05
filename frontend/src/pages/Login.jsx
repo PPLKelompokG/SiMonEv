@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
@@ -10,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const containerRef = useRef(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,16 +34,78 @@ const Login = () => {
     }
   };
 
+  const handleMouseMove = (e) => {
+    if (containerRef.current) {
+      // Calculate mouse position relative to center of screen, from -1 to 1
+      const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
+      const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
+      
+      containerRef.current.style.setProperty('--mouse-x', xRatio);
+      containerRef.current.style.setProperty('--mouse-y', yRatio);
+    }
+  };
+
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      background: '#000000', // Very dark/black background outside
-      padding: '2rem',
-      fontFamily: "'Inter', sans-serif"
-    }}>
+    <div 
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="login-bg-animate"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '2rem',
+        fontFamily: "'Inter', sans-serif",
+        position: 'relative',
+        overflow: 'hidden',
+        // Default ratios
+        '--mouse-x': 0,
+        '--mouse-y': 0
+      }}
+    >
+      {/* Scattered Parallax Glowing Orbs */}
+      <div 
+        className="orb orb-1"
+        style={{
+          position: 'absolute', top: '-10%', left: '-10%', width: '50vw', height: '50vw',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.4) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * 60px), calc(var(--mouse-y) * 60px))',
+          transition: 'transform 1s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-2"
+        style={{
+          position: 'absolute', bottom: '-20%', right: '-10%', width: '60vw', height: '60vw',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.35) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * -80px), calc(var(--mouse-y) * -80px))',
+          transition: 'transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-3"
+        style={{
+          position: 'absolute', top: '30%', right: '-5%', width: '40vw', height: '40vw',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * 40px), calc(var(--mouse-y) * -50px))',
+          transition: 'transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-4"
+        style={{
+          position: 'absolute', bottom: '10%', left: '10%', width: '45vw', height: '45vw',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.3) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * -50px), calc(var(--mouse-y) * 40px))',
+          transition: 'transform 1.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+
       <div className="login-container" style={{
         display: 'flex',
         width: '100%',
@@ -50,9 +113,10 @@ const Login = () => {
         height: '650px',
         borderRadius: '24px',
         overflow: 'hidden',
-        boxShadow: '0 0 40px rgba(16, 185, 129, 0.1)', // Subtle glow
+        boxShadow: '0 0 40px rgba(16, 185, 129, 0.1), 0 20px 40px rgba(0,0,0,0.5)',
         background: `url('/landscape.jpg') center/cover no-repeat`, // Using the landscape image
-        position: 'relative'
+        position: 'relative',
+        zIndex: 10
       }}>
         
         {/* Left Half: Clear to show image */}
@@ -76,7 +140,7 @@ const Login = () => {
         {/* Right Half: Glassmorphism / Blur layer */}
         <div style={{
           flex: 1,
-          background: 'rgba(15, 20, 15, 0.6)', // Dark translucent matching the vibe
+          background: 'rgba(15, 20, 15, 0.65)', // Dark translucent matching the vibe
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           borderLeft: '1px solid rgba(255, 255, 255, 0.05)',
@@ -95,8 +159,8 @@ const Login = () => {
           </div>
 
           <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 1100, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.5px' }}>
-              Welcome back
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 1000, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.4px' }}>
+              Wilujeng Sumping.
             </h2>
             <p style={{ color: '#9ca3af', fontSize: '0.95rem' }}>
               Please enter your details.
@@ -203,6 +267,17 @@ const Login = () => {
       
       {/* Responsive adjustments using style block to avoid polluting global css unnecessarily */}
       <style>{`
+        @keyframes bgCycle {
+          0% { background-color: #060b10; }
+          33% { background-color: #0a2040; } /* Deep Navy Blue */
+          66% { background-color: #08301c; } /* Deep Forest Green */
+          100% { background-color: #060b10; }
+        }
+
+        .login-bg-animate {
+          animation: bgCycle 7s ease-in-out infinite;
+        }
+
         @media (max-width: 768px) {
           .login-container {
             flex-direction: column !important;
