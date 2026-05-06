@@ -2,10 +2,12 @@ import React, { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
@@ -177,49 +179,105 @@ const Login = () => {
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontSize: '0.9rem', color: '#e5e7eb', fontWeight: 500 }}>E-mail</label>
-              <input
-                type="email"
-                placeholder="Enter your e-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#ffffff',
-                  padding: '0.5rem 0',
-                  fontSize: '0.95rem',
-                  outline: 'none',
-                  transition: 'border-color 0.3s ease'
-                }}
-                onFocus={(e) => e.target.style.borderBottom = '1px solid #10b981'}
-                onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)'}
-              />
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Mail style={{ position: 'absolute', left: '1rem', color: '#9ca3af', width: '20px', height: '20px', transition: 'color 0.3s ease' }} />
+                <input
+                  type="email"
+                  placeholder="Enter your e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    color: '#ffffff',
+                    padding: '0.875rem 1.25rem 0.875rem 3rem',
+                    fontSize: '0.95rem',
+                    outline: 'none',
+                    transition: 'all 0.3s ease',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.target.style.borderColor = '#10b981';
+                    e.target.style.boxShadow = '0 0 0 4px rgba(16, 185, 129, 0.15), inset 0 2px 4px rgba(0,0,0,0.1)';
+                    e.target.previousElementSibling.style.color = '#10b981';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
+                    e.target.previousElementSibling.style.color = '#9ca3af';
+                  }}
+                />
+              </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <label style={{ fontSize: '0.9rem', color: '#e5e7eb', fontWeight: 500 }}>Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#ffffff',
-                  padding: '0.5rem 0',
-                  fontSize: '0.95rem',
-                  outline: 'none',
-                  transition: 'border-color 0.3s ease',
-                  letterSpacing: password ? '0.2em' : 'normal'
-                }}
-                onFocus={(e) => e.target.style.borderBottom = '1px solid #10b981'}
-                onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)'}
-              />
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Lock style={{ position: 'absolute', left: '1rem', color: '#9ca3af', width: '20px', height: '20px', transition: 'color 0.3s ease' }} />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    color: '#ffffff',
+                    padding: '0.875rem 3rem 0.875rem 3rem',
+                    fontSize: '0.95rem',
+                    outline: 'none',
+                    transition: 'all 0.3s ease',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)',
+                    letterSpacing: (password && !showPassword) ? '0.2em' : 'normal'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.target.style.borderColor = '#10b981';
+                    e.target.style.boxShadow = '0 0 0 4px rgba(16, 185, 129, 0.15), inset 0 2px 4px rgba(0,0,0,0.1)';
+                    e.target.previousElementSibling.style.color = '#10b981';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
+                    e.target.previousElementSibling.style.color = '#9ca3af';
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    color: '#9ca3af',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'color 0.3s ease',
+                    zIndex: 10
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
+                  onMouseOut={(e) => e.currentTarget.style.color = '#9ca3af'}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', color: '#9ca3af' }}>
