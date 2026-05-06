@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
@@ -10,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const containerRef = useRef(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const Login = () => {
       }, {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       });
-      
+
       login(response.data.user, response.data.token);
       navigate('/dashboard');
     } catch (err) {
@@ -33,51 +34,264 @@ const Login = () => {
     }
   };
 
+  const handleMouseMove = (e) => {
+    if (containerRef.current) {
+      // Calculate mouse position relative to center of screen, from -1 to 1
+      const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
+      const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
+      
+      containerRef.current.style.setProperty('--mouse-x', xRatio);
+      containerRef.current.style.setProperty('--mouse-y', yRatio);
+    }
+  };
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--pk-bg)' }}>
-      <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '400px', padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ width: '56px', height: '56px', background: 'linear-gradient(135deg, var(--pk-primary), var(--pk-secondary))', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.5rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>
-            SM
-          </div>
-          <h2>SiMonEv</h2>
-          <p>Sign in to your account</p>
+    <div 
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="login-bg-animate"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '2rem',
+        fontFamily: "'Inter', sans-serif",
+        position: 'relative',
+        overflow: 'hidden',
+        // Default ratios
+        '--mouse-x': 0,
+        '--mouse-y': 0
+      }}
+    >
+      {/* Scattered Parallax Glowing Orbs */}
+      <div 
+        className="orb orb-1"
+        style={{
+          position: 'absolute', top: '-10%', left: '-10%', width: '50vw', height: '50vw',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.4) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * 60px), calc(var(--mouse-y) * 60px))',
+          transition: 'transform 1s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-2"
+        style={{
+          position: 'absolute', bottom: '-20%', right: '-10%', width: '60vw', height: '60vw',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.35) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * -80px), calc(var(--mouse-y) * -80px))',
+          transition: 'transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-3"
+        style={{
+          position: 'absolute', top: '30%', right: '-5%', width: '40vw', height: '40vw',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * 40px), calc(var(--mouse-y) * -50px))',
+          transition: 'transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+      <div 
+        className="orb orb-4"
+        style={{
+          position: 'absolute', bottom: '10%', left: '10%', width: '45vw', height: '45vw',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.3) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
+          transform: 'translate(calc(var(--mouse-x) * -50px), calc(var(--mouse-y) * 40px))',
+          transition: 'transform 1.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+        }} 
+      />
+
+      <div className="login-container" style={{
+        display: 'flex',
+        width: '100%',
+        maxWidth: '1000px',
+        height: '650px',
+        borderRadius: '24px',
+        overflow: 'hidden',
+        boxShadow: '0 0 40px rgba(16, 185, 129, 0.1), 0 20px 40px rgba(0,0,0,0.5)',
+        background: `url('/landscape.jpg') center/cover no-repeat`, // Using the landscape image
+        position: 'relative',
+        zIndex: 10
+      }}>
+        
+        {/* Left Half: Clear to show image */}
+        <div style={{ 
+          flex: 1, 
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: '2.5rem'
+        }}>
+          {/* Optional: Add a very slight dark gradient to the left side if the image is too bright */}
+          <div style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0))',
+            pointerEvents: 'none'
+          }} />
         </div>
 
-        {error && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--pk-danger)', color: '#fca5a5', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
-            {error}
+        {/* Right Half: Glassmorphism / Blur layer */}
+        <div style={{
+          flex: 1,
+          background: 'rgba(15, 20, 15, 0.65)', // Dark translucent matching the vibe
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderLeft: '1px solid rgba(255, 255, 255, 0.05)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '4rem 4rem',
+          position: 'relative',
+          color: '#ffffff'
+        }}>
+          {/* Top Right Logo */}
+          <div style={{ position: 'absolute', top: '2.5rem', right: '3rem' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.5px' }}>
+              SiMon<span style={{ color: '#10b981' }}>Ev</span>
+            </span>
           </div>
-        )}
 
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input 
-              type="email" 
-              className="form-control" 
-              placeholder="admin@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 1000, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.4px' }}>
+              Wilujeng Sumping.
+            </h2>
+            <p style={{ color: '#9ca3af', fontSize: '0.95rem' }}>
+              Please enter your details.
+            </p>
           </div>
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <input 
-              type="password" 
-              className="form-control" 
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+
+          {error && (
+            <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#e5e7eb', fontWeight: 500 }}>E-mail</label>
+              <input
+                type="email"
+                placeholder="Enter your e-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  padding: '0.5rem 0',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+                onFocus={(e) => e.target.style.borderBottom = '1px solid #10b981'}
+                onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)'}
+              />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#e5e7eb', fontWeight: 500 }}>Password</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  padding: '0.5rem 0',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease',
+                  letterSpacing: password ? '0.2em' : 'normal'
+                }}
+                onFocus={(e) => e.target.style.borderBottom = '1px solid #10b981'}
+                onBlur={(e) => e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)'}
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', color: '#9ca3af' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input type="checkbox" style={{ accentColor: '#10b981', cursor: 'pointer' }} />
+                Remember me
+              </label>
+              
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              style={{
+                background: '#111827',
+                color: '#ffffff',
+                border: '1px solid rgba(255,255,255,0.1)',
+                padding: '1rem',
+                borderRadius: '12px',
+                fontSize: '1rem',
+                fontWeight: 600,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                marginTop: '1.5rem',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+              }}
+              onMouseOver={(e) => {
+                if(!loading) {
+                  e.target.style.background = '#1f2937';
+                  e.target.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if(!loading) {
+                  e.target.style.background = '#111827';
+                  e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                }
+              }}
+            >
+              {loading ? 'Signing in...' : 'Log in'}
+            </button>
+          </form>
+        </div>
       </div>
+      
+      {/* Responsive adjustments using style block to avoid polluting global css unnecessarily */}
+      <style>{`
+        @keyframes bgCycle {
+          0% { background-color: #060b10; }
+          33% { background-color: #0a2040; } /* Deep Navy Blue */
+          66% { background-color: #08301c; } /* Deep Forest Green */
+          100% { background-color: #060b10; }
+        }
+
+        .login-bg-animate {
+          animation: bgCycle 7s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+          .login-container {
+            flex-direction: column !important;
+            height: auto !important;
+            min-height: 600px;
+          }
+          .login-container > div:first-child {
+            display: none !important; /* Hide image on mobile to save space */
+          }
+          .login-container > div:last-child {
+            padding: 3rem 2rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };

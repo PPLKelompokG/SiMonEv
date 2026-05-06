@@ -107,7 +107,7 @@ const Verifikasi = () => {
             <h3 style={{ marginBottom: '1.5rem', color: statusAction === 'disetujui' ? 'var(--pk-success)' : 'var(--pk-danger)' }}>
               Konfirmasi {statusAction === 'disetujui' ? 'Persetujuan' : 'Penolakan'}
             </h3>
-            <div style={{ marginBottom: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px' }}>
+            <div style={{ marginBottom: '1.5rem', background: 'var(--pk-highlight)', padding: '1rem', borderRadius: '8px' }}>
               <p style={{ margin: '0 0 0.5rem 0' }}><strong>Data Pemohon:</strong></p>
               <p style={{ margin: 0 }}>Nama: {verifyModal.nama}</p>
               <p style={{ margin: 0 }}>NIK: {verifyModal.nik}</p>

@@ -12,6 +12,7 @@ import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
 import ReportPage from './pages/ReportPage';
+import Profile from './pages/Profile';
 
 // Pages from Main (Sprint 2/3)
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
@@ -22,6 +23,9 @@ import KIA from './pages/KIA';
 import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
+import DashboardKPI from './pages/DashboardKPI';
+import EvaluasiCapaian from './pages/EvaluasiCapaian';
+import PetaSebaran from './pages/PetaSebaran';
 
 function App() {
   return (
@@ -46,6 +50,8 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route path="profile" element={<Profile />} />
+
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
 
             <Route path="verifikasi" element={
@@ -60,12 +66,39 @@ function App() {
             {/* Routes from Main Branch */}
             <Route path="penyaluran-bantuan" element={<PenyaluranBantuan />} />
             <Route path="pembaruan-status" element={<PembaruanStatus />} />
-            <Route path="approval-penyaluran" element={<ApprovalPenyaluran />} />
+            
+            <Route path="approval-penyaluran" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor']}>
+                <ApprovalPenyaluran />
+              </ProtectedRoute>
+            } />
+
             <Route path="status-gizi" element={<StatusGizi />} />
             <Route path="kia" element={<KIA />} />
             <Route path="distribusi-pangan" element={<DistribusiPangan />} />
             <Route path="kinerja-petugas" element={<KinerjaPetugas />} />
             <Route path="kunjungan-rumah" element={<KunjunganRumah />} />
+
+            {/* Dashboard KPI Kemiskinan */}
+            <Route path="dashboard-kpi" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <DashboardKPI />
+              </ProtectedRoute>
+            } />
+
+            {/* Evaluasi Capaian Program */}
+            <Route path="evaluasi-capaian" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <EvaluasiCapaian />
+              </ProtectedRoute>
+            } />
+
+            {/* Peta Sebaran Penerima */}
+            <Route path="peta-sebaran" element={
+              <ProtectedRoute allowedRoles={['admin', 'supervisor', 'petugas_lapangan']}>
+                <PetaSebaran />
+              </ProtectedRoute>
+            } />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -96,11 +96,11 @@ const ApprovalPenyaluran = () => {
           <div style={{ width: '100%', height: 250 }}>
             <ResponsiveContainer>
               <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--pk-glass-border)" vertical={false} />
                 <XAxis dataKey="name" stroke="var(--pk-text-muted)" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="var(--pk-text-muted)" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
                 <Tooltip 
-                  cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                  cursor={{ fill: 'var(--pk-highlight)' }}
                   contentStyle={{ backgroundColor: 'var(--pk-bg)', borderColor: 'var(--pk-glass-border)', borderRadius: '8px', color: 'var(--pk-text)' }}
                 />
                 <Bar dataKey="jumlah" radius={[4, 4, 0, 0]}>
@@ -177,7 +177,7 @@ const ApprovalPenyaluran = () => {
               Konfirmasi {actionModal.action === 'approve' ? 'Persetujuan' : 'Pengembalian'} Laporan
             </h3>
             
-            <div style={{ marginBottom: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px' }}>
+            <div style={{ marginBottom: '1.5rem', background: 'var(--pk-highlight)', padding: '1rem', borderRadius: '8px' }}>
               <p style={{ margin: '0 0 0.5rem 0' }}><strong>Detail Laporan:</strong></p>
               <p style={{ margin: '0 0 0.2rem 0' }}>Penerima: {actionModal.item.penerima_bantuan?.nama}</p>
               <p style={{ margin: '0 0 0.2rem 0' }}>Jenis: {actionModal.item.jenis_bantuan}</p>
