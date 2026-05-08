@@ -13,6 +13,7 @@ import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
 import ReportPage from './pages/ReportPage';
 import Profile from './pages/Profile';
+import ManajemenDataKeluarga from './pages/ManajemenDataKeluarga';
 
 // Pages from Main (Sprint 2/3)
 import PenyaluranBantuan from './pages/PenyaluranBantuan';
@@ -53,6 +54,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
 
             <Route path="penerima-bantuan" element={<PenerimaBantuan />} />
+            <Route path="manajemen-data-keluarga" element={<ManajemenDataKeluarga />} />
 
             <Route path="verifikasi" element={
               <ProtectedRoute allowedRoles={['admin', 'supervisor']}>

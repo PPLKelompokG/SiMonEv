@@ -173,6 +173,7 @@ const Layout = () => {
             onToggle={() => toggleMenu('penerima')}
           >
             <SidebarLink to="/penerima-bantuan" icon={<UserPlus size={18} />} label="Pendaftaran Bantuan" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/manajemen-data-keluarga" icon={<Users size={18} />} label="Manajemen Data Keluarga" onClick={closeSidebarOnMobile} />
             {(user?.role === 'admin' || user?.role === 'supervisor') && (
               <SidebarLink to="/verifikasi" icon={<CheckCircle size={18} />} label="Verifikasi Data" onClick={closeSidebarOnMobile} />
             )}
