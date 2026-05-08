@@ -56,9 +56,11 @@ const PermintaanKuota = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{ margin: 0 }}>Permintaan Kuota</h2>
-        <p>Ajukan kuota program tambahan</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div>
+          <h2>Permintaan Kuota</h2>
+          <p>Ajukan kuota program tambahan</p>
+        </div>
       </div>
 
       <div className="glass-panel" style={{ marginBottom: '2rem' }}>
@@ -90,8 +92,8 @@ const PermintaanKuota = () => {
                 className="form-control" 
                 value={currentQuota} 
                 disabled 
-                placeholder="Masukkan kuota saat ini"
-                style={{ background: 'rgba(255,255,255,0.02)' }}
+                placeholder="-"
+                style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
               />
             </div>
           </div>
@@ -117,7 +119,8 @@ const PermintaanKuota = () => {
                 className="form-control" 
                 value={totalAfter} 
                 disabled 
-                style={{ background: 'rgba(255,255,255,0.02)' }}
+                placeholder="-"
+                style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
               />
             </div>
           </div>
