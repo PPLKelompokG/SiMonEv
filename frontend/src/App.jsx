@@ -27,6 +27,7 @@ import KunjunganRumah from './pages/KunjunganRumah';
 import DashboardKPI from './pages/DashboardKPI';
 import EvaluasiCapaian from './pages/EvaluasiCapaian';
 import PetaSebaran from './pages/PetaSebaran';
+import RiwayatBantuan from './pages/RiwayatBantuan';
 
 function App() {
   return (
@@ -101,6 +102,9 @@ function App() {
                 <PetaSebaran />
               </ProtectedRoute>
             } />
+
+            {/* PBI-19 Riwayat & Histori Bantuan per Penerima */}
+            <Route path="riwayat-bantuan" element={<RiwayatBantuan />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -5,7 +5,7 @@ import { getUnreadCount } from '../api/notifikasiService';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu, User, Bell
+  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu, User, Bell, History
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label, onClick }) => {
@@ -195,6 +195,7 @@ const Layout = () => {
               <SidebarLink to="/verifikasi" icon={<CheckCircle size={18} />} label="Verifikasi Data" onClick={closeSidebarOnMobile} />
             )}
             <SidebarLink to="/pembaruan-status" icon={<UserCheck size={18} />} label="Graduasi (Status)" onClick={closeSidebarOnMobile} />
+            <SidebarLink to="/riwayat-bantuan" icon={<History size={18} />} label="Riwayat Bantuan" onClick={closeSidebarOnMobile} />
           </AccordionGroup>
 
           <AccordionGroup 
