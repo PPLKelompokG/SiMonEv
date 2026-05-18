@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PenyaluranBantuanController;
 use App\Http\Controllers\Api\PembaruanStatusController;
 use App\Http\Controllers\Api\KiaController;
 use App\Http\Controllers\Api\DistribusiPanganController;
+use App\Http\Controllers\Api\NotifikasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -137,4 +138,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Peta Sebaran Penerima Bantuan
     Route::get('/peta-sebaran', [\App\Http\Controllers\Api\PetaSebaranController::class, 'sebaranWilayah']);
+
+    // PBI-18 Notifikasi & Pengingat Jadwal Distribusi Bantuan
+    Route::prefix('notifikasi')->group(function () {
+        Route::get('/',               [NotifikasiController::class, 'index']);
+        Route::get('/unread-count',   [NotifikasiController::class, 'unreadCount']);
+        Route::post('/read-all',      [NotifikasiController::class, 'markAllAsRead']);
+        Route::post('/{id}/read',     [NotifikasiController::class, 'markAsRead']);
+        Route::delete('/{id}',        [NotifikasiController::class, 'destroy']);
+    });
 });
