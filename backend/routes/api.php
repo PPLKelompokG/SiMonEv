@@ -147,4 +147,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}/read',     [NotifikasiController::class, 'markAsRead']);
         Route::delete('/{id}',        [NotifikasiController::class, 'destroy']);
     });
+
+    // PBI-19 Riwayat & Histori Bantuan per Penerima
+    Route::prefix('riwayat-bantuan')->group(function () {
+        // Ringkasan cepat (statistik + item terbaru) — cocok untuk header sebelum kunjungan
+        Route::get('/penerima/{id}/ringkasan', [\App\Http\Controllers\Api\RiwayatBantuanController::class, 'ringkasan']);
+        // Timeline kronologis lengkap dengan filter & pagination
+        Route::get('/penerima/{id}',           [\App\Http\Controllers\Api\RiwayatBantuanController::class, 'histori']);
+    });
 });
