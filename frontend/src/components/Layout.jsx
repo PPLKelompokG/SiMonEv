@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { getUnreadCount } from '../api/notifikasiService';
 import { 
   Home, Users, UserPlus, CheckCircle, LogOut, Activity, 
   Briefcase, FileText, Heart, ClipboardCheck, MapPin, BarChart3, Package,
-  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu, User
+  Sun, Moon, Target, UserCheck, DollarSign, ChevronRight, ChevronDown, Menu, User, Bell
 } from 'lucide-react';
 
 const SidebarLink = ({ to, icon, label, onClick }) => {
@@ -61,6 +62,7 @@ const Layout = () => {
   const [expandedMenus, setExpandedMenus] = useState(['dashboard', 'penerima']);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth <= 768);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
   const profileMenuRef = useRef(null);
 
   useEffect(() => {
@@ -90,6 +92,21 @@ const Layout = () => {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Fetch unread notification count on mount + every 60 seconds
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await getUnreadCount();
+        setUnreadCount(res.data?.unread_count ?? 0);
+      } catch {
+        // silently ignore — user may not be authenticated yet
+      }
+    };
+    fetchCount();
+    const interval = setInterval(fetchCount, 60_000);
+    return () => clearInterval(interval);
   }, []);
 
   const toggleTheme = () => {
@@ -242,6 +259,31 @@ const Layout = () => {
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+
+            {/* Notification Bell */}
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => navigate('/notifikasi')}
+                style={{ background: 'rgba(128, 128, 128, 0.1)', border: '1px solid var(--pk-glass-border)', color: 'var(--pk-text)', cursor: 'pointer', padding: '0.5rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'var(--pk-transition)' }}
+                title="Notifikasi"
+              >
+                <Bell size={18} />
+              </button>
+              {unreadCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-4px', right: '-4px',
+                  background: 'var(--pk-danger)', color: '#fff',
+                  borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 700,
+                  minWidth: '18px', height: '18px', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  padding: '0 4px', lineHeight: 1, border: '2px solid var(--pk-bg-1)',
+                  animation: 'notifPulse 2s infinite'
+                }}>
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
+            </div>
+
             <span className="badge badge-success" style={{ textTransform: 'capitalize', display: window.innerWidth <= 480 ? 'none' : 'inline-block' }}>
               {user?.role?.replace('_', ' ')}
             </span>
