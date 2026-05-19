@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
-import { Plus, Eye, X, MapPin } from 'lucide-react';
+import { Plus, Eye, X, MapPin, Search, Filter, Download } from 'lucide-react';
 
 const WILAYAH_LIST = [
   'Batujajar', 'Cihampelas', 'Cikalongwetan', 'Cililin', 
@@ -23,10 +23,28 @@ const PenerimaBantuan = () => {
   const [fotoKtp, setFotoKtp] = useState(null);
   const [formError, setFormError] = useState('');
 
+  const [filters, setFilters] = useState({ search: '', wilayah: '', status: '', program_id: '' });
+  const [programs, setPrograms] = useState([]);
+
+  const fetchPrograms = async () => {
+    try {
+      const res = await api.get('/program-bantuan');
+      setPrograms(res.data.data || []);
+    } catch (e) {
+      console.error('Failed to fetch programs', e);
+    }
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/penerima-bantuan');
+      const params = new URLSearchParams();
+      if (filters.search) params.append('search', filters.search);
+      if (filters.wilayah) params.append('wilayah', filters.wilayah);
+      if (filters.status) params.append('status', filters.status);
+      if (filters.program_id) params.append('program_id', filters.program_id);
+
+      const res = await api.get(`/penerima-bantuan?${params.toString()}`);
       setData(res.data.data);
     } catch (e) {
       console.error(e);
@@ -36,8 +54,31 @@ const PenerimaBantuan = () => {
   };
 
   useEffect(() => {
+    fetchPrograms();
     fetchData();
-  }, []);
+  }, []); // Initial load
+
+  const handleExport = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (filters.search) params.append('search', filters.search);
+      if (filters.wilayah) params.append('wilayah', filters.wilayah);
+      if (filters.status) params.append('status', filters.status);
+      if (filters.program_id) params.append('program_id', filters.program_id);
+
+      const res = await api.get(`/penerima-bantuan/export?${params.toString()}`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `data_penerima_bantuan_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (e) {
+      console.error('Export failed', e);
+      alert('Gagal mengekspor data.');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +106,54 @@ const PenerimaBantuan = () => {
         <button className="btn btn-primary" onClick={() => { setFormData({ nik: '', nama: '', alamat: '', wilayah: '', kondisi_ekonomi: '', jumlah_tanggungan: 0 }); setShowModal(true); }}>
           <Plus size={18} /> Pendaftaran Baru
         </button>
+      </div>
+
+      {/* Filter Section */}
+      <div className="glass-panel" style={{ marginBottom: '2rem', padding: '1.5rem' }}>
+        <h4 style={{ margin: '0 0 1rem 0', color: 'var(--pk-text)' }}>Pencarian & Filter Data</h4>
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', alignItems: 'end' }}>
+          <div>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>Cari Nama/NIK</label>
+            <div className="input-with-icon" style={{ position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '1rem', color: 'var(--pk-muted)' }}>
+                <Search size={16} />
+              </div>
+              <input type="text" className="form-control" placeholder="Masukkan kata kunci..." value={filters.search} onChange={e => setFilters({...filters, search: e.target.value})} style={{ paddingLeft: '2.5rem' }} />
+            </div>
+          </div>
+          <div>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>Wilayah</label>
+            <select className="form-control" value={filters.wilayah} onChange={e => setFilters({...filters, wilayah: e.target.value})}>
+              <option value="">Semua Wilayah</option>
+              {WILAYAH_LIST.map(w => <option key={w} value={w}>{w}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>Status</label>
+            <select className="form-control" value={filters.status} onChange={e => setFilters({...filters, status: e.target.value})}>
+              <option value="">Semua Status</option>
+              <option value="diajukan">Diajukan</option>
+              <option value="disetujui">Disetujui</option>
+              <option value="ditolak">Ditolak</option>
+              <option value="lulus">Lulus (Graduasi)</option>
+            </select>
+          </div>
+          <div>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>Program Bantuan</label>
+            <select className="form-control" value={filters.program_id} onChange={e => setFilters({...filters, program_id: e.target.value})}>
+              <option value="">Semua Program</option>
+              {programs.map(p => <option key={p.id} value={p.id}>{p.nama_program}</option>)}
+            </select>
+          </div>
+          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+            <button className="btn btn-primary" onClick={fetchData} style={{ flex: 1, padding: '0.75rem' }}>
+              <Filter size={16} /> Terapkan
+            </button>
+            <button className="btn btn-outline" onClick={handleExport} style={{ flex: 1, padding: '0.75rem' }}>
+              <Download size={16} /> Ekspor
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="glass-panel">
