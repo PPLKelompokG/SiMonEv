@@ -19,6 +19,10 @@ const DistribusiPangan = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Dropdown Pencarian Penerima States
+  const [penerimaSearch, setPenerimaSearch] = useState('');
+  const [showPenerimaPicker, setShowPenerimaPicker] = useState(false);
+
   // Modal states
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -134,6 +138,11 @@ const DistribusiPangan = () => {
         keterangan: item.keterangan || ''
       }))
     });
+    
+    // Set search text if we edit so it doesn't show up empty if they clear it
+    setPenerimaSearch('');
+    setShowPenerimaPicker(false);
+    
     setIsEditMode(true);
     setIsFormModalOpen(true);
     setIsDetailModalOpen(false);
@@ -193,6 +202,13 @@ const DistribusiPangan = () => {
     item.penerima_bantuan?.nik?.includes(searchTerm) ||
     item.periode_bulan?.includes(searchTerm)
   );
+
+  const filteredPenerimaList = penerimaList.filter(p => 
+    p.nama?.toLowerCase().includes(penerimaSearch.toLowerCase()) || 
+    p.nik?.includes(penerimaSearch)
+  );
+  
+  const selectedPenerimaObj = penerimaList.find(p => p.id === formData.penerima_bantuan_id);
 
   return (
     <div className="page-container animate-fade-in">
@@ -418,19 +434,79 @@ const DistribusiPangan = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div style={{ gridColumn: '1 / -1' }}>
                       <label className="form-label" style={{ fontWeight: 600 }}>Penerima Bantuan <span style={{ color: 'var(--pk-danger)' }}>*</span></label>
-                      <select
-                        className="form-control"
-                        name="penerima_bantuan_id"
-                        value={formData.penerima_bantuan_id}
-                        onChange={handleInputChange}
-                        required
-                        style={{ background: 'var(--pk-bg-2)' }}
-                      >
-                        <option value="">Pilih Penerima (Disetujui)</option>
-                        {penerimaList.map(p => (
-                          <option key={p.id} value={p.id}>{p.nik} - {p.nama}</option>
-                        ))}
-                      </select>
+                      
+                      <div className="rh-picker-section" style={{ padding: 0 }}>
+                        {selectedPenerimaObj ? (
+                          <div className="rh-selected-penerima" style={{ background: 'var(--pk-bg-2)' }}>
+                            <div className="rh-selected-avatar">
+                              {selectedPenerimaObj.nama?.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="rh-selected-info">
+                              <span className="rh-selected-name">{selectedPenerimaObj.nama}</span>
+                              <span className="rh-selected-nik">NIK: {selectedPenerimaObj.nik}</span>
+                              {selectedPenerimaObj.alamat && (
+                                <span className="rh-selected-detail">
+                                  <MapPin size={12} /> {selectedPenerimaObj.alamat}
+                                </span>
+                              )}
+                            </div>
+                            <button 
+                              type="button"
+                              className="rh-clear-btn" 
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, penerima_bantuan_id: '' }));
+                                setPenerimaSearch('');
+                                setShowPenerimaPicker(true);
+                              }} 
+                              title="Ganti penerima"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="rh-search-wrap">
+                            <div className="rh-search-input-wrap">
+                              <Search size={16} className="rh-search-icon" />
+                              <input
+                                type="text"
+                                className="form-control rh-search-input"
+                                placeholder="Ketik nama atau NIK penerima..."
+                                value={penerimaSearch}
+                                onChange={e => { setPenerimaSearch(e.target.value); setShowPenerimaPicker(true); }}
+                                onFocus={() => setShowPenerimaPicker(true)}
+                                style={{ background: 'var(--pk-bg-2)' }}
+                              />
+                            </div>
+
+                            {showPenerimaPicker && (
+                              <div className="rh-dropdown">
+                                {filteredPenerimaList.length === 0 ? (
+                                  <div className="rh-dropdown-empty">
+                                    Tidak ada penerima ditemukan
+                                  </div>
+                                ) : (
+                                  filteredPenerimaList.map(p => (
+                                    <div 
+                                      key={p.id} 
+                                      className="rh-dropdown-item" 
+                                      onClick={() => {
+                                        setFormData(prev => ({ ...prev, penerima_bantuan_id: p.id }));
+                                        setShowPenerimaPicker(false);
+                                      }}
+                                    >
+                                      <div className="rh-dropdown-avatar">{p.nama?.charAt(0).toUpperCase()}</div>
+                                      <div>
+                                        <div className="rh-dropdown-name">{p.nama}</div>
+                                        <div className="rh-dropdown-nik">NIK: {p.nik} {p.wilayah ? `· ${p.wilayah}` : ''}</div>
+                                      </div>
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div>
