@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin, Users, AlertTriangle, TrendingUp, Search, Layers } from 'lucide-react';
 import api from '../api';
@@ -77,17 +77,24 @@ const PetaSebaran = () => {
   const [selected, setSelected] = useState(null);
   const [mapMode, setMapMode] = useState('dark');
 
+  const [geoJsonData, setGeoJsonData] = useState(null);
+
   const MAP_URLS = {
     dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+    satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    osm: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await api.get('/peta-sebaran');
+        const [res, geoRes] = await Promise.all([
+          api.get('/peta-sebaran'),
+          fetch('/batas_wilayah.geojson').then(r => r.ok ? r.json() : null).catch(() => null)
+        ]);
         setData(res.data.data);
+        if (geoRes) setGeoJsonData(geoRes);
       } catch (e) { console.error(e); } finally { setLoading(false); }
     };
     fetchData();
@@ -139,8 +146,14 @@ const PetaSebaran = () => {
             {/* Map Mode Toggle */}
             <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 1000, display: 'flex', background: 'var(--pk-glass-bg)', backdropFilter: 'blur(8px)', borderRadius: '8px', border: '1px solid var(--pk-glass-border)', overflow: 'hidden' }}>
               <button 
+                onClick={() => setMapMode('osm')} 
+                style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', fontWeight: 600, background: mapMode === 'osm' ? 'var(--pk-primary)' : 'transparent', color: mapMode === 'osm' ? '#fff' : 'var(--pk-text-muted)', border: 'none', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <MapPin size={14} /> Standar
+              </button>
+              <button 
                 onClick={() => setMapMode('dark')} 
-                style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', fontWeight: 600, background: mapMode === 'dark' ? 'var(--pk-primary)' : 'transparent', color: mapMode === 'dark' ? '#fff' : 'var(--pk-text-muted)', border: 'none', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', fontWeight: 600, background: mapMode === 'dark' ? 'var(--pk-primary)' : 'transparent', color: mapMode === 'dark' ? '#fff' : 'var(--pk-text-muted)', border: 'none', borderLeft: '1px solid var(--pk-glass-border)', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
               >
                 <Layers size={14} /> Dark
               </button>
@@ -155,28 +168,91 @@ const PetaSebaran = () => {
             <MapContainer center={[-6.840, 107.513]} zoom={11} style={{ height: '100%', minHeight: 500, borderRadius: 'var(--pk-radius)' }} attributionControl={false}>
               <TileLayer url={MAP_URLS[mapMode]} />
               <FitBounds points={points} />
-              {points.map((w, i) => {
-                const radius = Math.max(12, Math.min(40, (w.total_penerima / maxPenerima) * 40));
-                const color = getIntensityColor(w.total_penerima, maxPenerima);
-                return (
-                  <CircleMarker key={i} center={w.coords} radius={radius} pathOptions={{ fillColor: color, fillOpacity: 0.6, color: color, weight: 2, opacity: 0.8 }}
-                    eventHandlers={{ click: () => setSelected(w) }}>
-                    <Popup>
-                      <div style={{ minWidth: 180, color: '#1e293b', fontFamily: 'Inter, sans-serif' }}>
-                        <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{w.wilayah}</div>
-                        <div style={{ fontSize: '0.8rem', lineHeight: 1.6 }}>
-                          <div>Total Penerima: <b>{w.total_penerima}</b></div>
-                          <div>Disetujui: <b style={{ color: '#16a34a' }}>{w.disetujui}</b></div>
-                          <div>Sangat Miskin: <b style={{ color: '#ef4444' }}>{w.sangat_miskin}</b></div>
-                          <div>Miskin: <b style={{ color: '#f59e0b' }}>{w.miskin}</b></div>
-                          <div>Rentan Miskin: <b style={{ color: '#0ea5e9' }}>{w.rentan_miskin}</b></div>
-                          <div>Rata-rata Tanggungan: <b>{Number(w.rata_tanggungan || 0).toFixed(1)}</b></div>
+              
+              {/* Render GeoJSON Polygons (Choropleth) if available, otherwise fallback to CircleMarkers */}
+              {geoJsonData && geoJsonData.features ? (
+                geoJsonData.features.map((feature, i) => {
+                  const wilayahName = feature.properties.district || feature.properties.KECAMATAN;
+                  if (!wilayahName) return null;
+                  
+                  const w = points.find(x => 
+                    x.wilayah?.toLowerCase().includes(wilayahName.toLowerCase()) || 
+                    wilayahName.toLowerCase().includes(x.wilayah?.toLowerCase())
+                  );
+                  
+                  if (!w) return null; // Only show if we have data for this region
+
+                  const color = getIntensityColor(w.total_penerima, maxPenerima);
+                  const isSelected = selected?.wilayah === w.wilayah;
+
+                  return (
+                    <GeoJSON 
+                      key={`${i}-${isSelected}`} // Force re-render on select to bring to front if needed
+                      data={feature} 
+                      style={{
+                        fillColor: color,
+                        weight: isSelected ? 2 : 0.8,
+                        opacity: 1,
+                        color: isSelected ? '#1e293b' : 'rgba(255,255,255,0.4)',
+                        fillOpacity: isSelected ? 0.9 : 0.7
+                      }}
+                      eventHandlers={{
+                        click: () => setSelected(w),
+                        mouseover: (e) => {
+                          const layer = e.target;
+                          layer.setStyle({ fillOpacity: 0.85, weight: 2, color: '#334155' });
+                          layer.bringToFront();
+                        },
+                        mouseout: (e) => {
+                          const layer = e.target;
+                          if (selected?.wilayah !== w.wilayah) {
+                            layer.setStyle({ fillOpacity: 0.7, weight: 0.8, color: 'rgba(255,255,255,0.4)' });
+                          } else {
+                            layer.setStyle({ fillOpacity: 0.9, weight: 2, color: '#1e293b' });
+                          }
+                        }
+                      }}
+                    >
+                      <Popup>
+                        <div style={{ minWidth: 180, color: '#1e293b', fontFamily: 'Inter, sans-serif' }}>
+                          <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{w.wilayah}</div>
+                          <div style={{ fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <div>Total Penerima: <b>{w.total_penerima}</b></div>
+                            <div>Disetujui: <b style={{ color: '#16a34a' }}>{w.disetujui}</b></div>
+                            <div>Sangat Miskin: <b style={{ color: '#ef4444' }}>{w.sangat_miskin}</b></div>
+                            <div>Miskin: <b style={{ color: '#f59e0b' }}>{w.miskin}</b></div>
+                            <div>Rentan Miskin: <b style={{ color: '#0ea5e9' }}>{w.rentan_miskin}</b></div>
+                            <div>Rata-rata Tanggungan: <b>{Number(w.rata_tanggungan || 0).toFixed(1)}</b></div>
+                          </div>
                         </div>
-                      </div>
-                    </Popup>
-                  </CircleMarker>
-                );
-              })}
+                      </Popup>
+                    </GeoJSON>
+                  );
+                })
+              ) : (
+                points.map((w, i) => {
+                  const radius = Math.max(12, Math.min(40, (w.total_penerima / maxPenerima) * 40));
+                  const color = getIntensityColor(w.total_penerima, maxPenerima);
+                  return (
+                    <CircleMarker key={i} center={w.coords} radius={radius} pathOptions={{ fillColor: color, fillOpacity: 0.6, color: color, weight: 2, opacity: 0.8 }}
+                      eventHandlers={{ click: () => setSelected(w) }}>
+                      <Popup>
+                        <div style={{ minWidth: 180, color: '#1e293b', fontFamily: 'Inter, sans-serif' }}>
+                          <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{w.wilayah}</div>
+                          <div style={{ fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <div>Total Penerima: <b>{w.total_penerima}</b></div>
+                            <div>Disetujui: <b style={{ color: '#16a34a' }}>{w.disetujui}</b></div>
+                            <div>Sangat Miskin: <b style={{ color: '#ef4444' }}>{w.sangat_miskin}</b></div>
+                            <div>Miskin: <b style={{ color: '#f59e0b' }}>{w.miskin}</b></div>
+                            <div>Rentan Miskin: <b style={{ color: '#0ea5e9' }}>{w.rentan_miskin}</b></div>
+                            <div>Rata-rata Tanggungan: <b>{Number(w.rata_tanggungan || 0).toFixed(1)}</b></div>
+                          </div>
+                        </div>
+                      </Popup>
+                    </CircleMarker>
+                  );
+                })
+              )}
             </MapContainer>
           </div>
 

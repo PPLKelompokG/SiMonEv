@@ -124,7 +124,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
         )}
       </div>
 
-      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, color: 'var(--pk-text)' }}>
+      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.5px', lineHeight: 1.1, color: 'var(--pk-text)' }}>
         {value}
       </h2>
       <p style={{ margin: '0.35rem 0 0', fontSize: '0.85rem', color: 'var(--pk-text-muted)', fontWeight: 500 }}>
@@ -589,7 +589,7 @@ const DashboardKPI = () => {
             Efisiensi Penyaluran
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
             color: 'var(--pk-text)',
           }}>
             {stats?.persentase_penyaluran || 0}%
@@ -600,7 +600,7 @@ const DashboardKPI = () => {
             Tingkat Keberhasilan
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
             color: 'var(--pk-text)',
           }}>
             {stats?.tingkat_keberhasilan || 0}%
@@ -611,7 +611,7 @@ const DashboardKPI = () => {
             Total Dana Tersalurkan
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
             color: 'var(--pk-text)',
           }}>
             {formatRupiah(stats?.total_dana_tersalurkan)}
@@ -622,7 +622,7 @@ const DashboardKPI = () => {
             Total Penerima Aktif
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
             color: 'var(--pk-text)',
           }}>
             {formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)}
@@ -633,7 +633,7 @@ const DashboardKPI = () => {
             Graduasi Bulan Ini
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 800,
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
             color: COLORS.success,
           }}>
             {formatNumber(stats?.graduasi_bulan_ini || 0)}
