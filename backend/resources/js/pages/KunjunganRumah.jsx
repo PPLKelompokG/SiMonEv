@@ -143,14 +143,17 @@ const KunjunganRumah = () => {
               <div className="form-group">
                 <label className="form-label">NIK Penerima Manfaat</label>
                 <input 
-                  type="number" 
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   className="form-control" 
                   placeholder="Masukkan NIK" 
                   name="nik_penerima"
                   value={formData.nik_penerima}
-                  onChange={handleInputChange}
+                  onChange={e => setFormData(prev => ({ ...prev, nik_penerima: e.target.value.replace(/\D/g, '') }))}
+                  maxLength={16}
                 />
-                {formData.nik_penerima.length > 16 && (
+                {formData.nik_penerima.length === 16 && (
                   <small style={{ color: 'var(--pk-danger)', display: 'block', marginTop: '0.25rem' }}>NIK hanya 16 digit saja.</small>
                 )}
               </div>
