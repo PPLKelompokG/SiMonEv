@@ -680,7 +680,7 @@ tbody tr:hover {
 .rh-btn-sm { padding: 0.45rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; }
 
 /* Picker */
-.rh-picker-section { display: flex; flex-direction: column; gap: 0.75rem; }
+.rh-picker-section { display: flex; flex-direction: column; gap: 0.75rem; position: relative; z-index: 50; }
 .rh-picker-label {
   display: flex; align-items: center; gap: 0.5rem;
   font-size: 0.85rem; font-weight: 600; color: var(--pk-text-muted);
