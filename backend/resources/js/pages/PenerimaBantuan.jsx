@@ -202,8 +202,17 @@ const PenerimaBantuan = () => {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label">NIK (16 Digit)</label>
-                <input type="number" className="form-control" value={formData.nik} onChange={e => setFormData({...formData, nik: e.target.value})} required />
-                {formData.nik.length > 16 && (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  className="form-control"
+                  value={formData.nik}
+                  onChange={e => setFormData({...formData, nik: e.target.value.replace(/\D/g, '')})}
+                  required
+                  maxLength={16}
+                />
+                {formData.nik.length === 16 && (
                   <small style={{ color: 'var(--pk-danger)', display: 'block', marginTop: '0.25rem' }}>NIK hanya 16 digit saja.</small>
                 )}
               </div>
