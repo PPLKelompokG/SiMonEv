@@ -61,7 +61,7 @@ const PermintaanKuota = () => {
         <p>Ajukan kuota program tambahan</p>
       </div>
 
-      <div className="glass-panel" style={{ marginBottom: '2rem' }}>
+      <div className="card-premium" style={{ marginBottom: '2rem' }}>
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
           <MessageSquare size={20} /> Ajukan Permintaan Kuota
         </h3>
@@ -145,7 +145,7 @@ const PermintaanKuota = () => {
         </form>
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
           <Clock size={20} /> Riwayat Permintaan
         </h3>

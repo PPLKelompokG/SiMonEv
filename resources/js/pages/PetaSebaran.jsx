@@ -49,7 +49,7 @@ function getIntensityColor(total, max) {
 }
 
 const StatCard = ({ icon, label, value, color }) => (
-  <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem' }}>
+  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem' }}>
     <div style={{ width: 42, height: 42, borderRadius: 12, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>{icon}</div>
     <div>
       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--pk-text)', lineHeight: 1.1 }}>{value ?? '-'}</div>
@@ -135,13 +135,13 @@ const PetaSebaran = () => {
       )}
 
       {loading ? (
-        <div className="glass-panel" style={{ textAlign: 'center', padding: '4rem', color: 'var(--pk-text-muted)' }}>
+        <div className="card-premium" style={{ textAlign: 'center', padding: '4rem', color: 'var(--pk-text-muted)' }}>
           <MapPin size={36} style={{ opacity: 0.4, marginBottom: 8 }} /><p>Memuat peta...</p>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '1.5rem' }}>
           {/* Map */}
-          <div className="glass-panel" style={{ padding: 0, overflow: 'hidden', minHeight: 500, position: 'relative' }}>
+          <div className="card-premium" style={{ padding: 0, overflow: 'hidden', minHeight: 500, position: 'relative' }}>
             
             {/* Map Mode Toggle */}
             <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 1000, display: 'flex', background: 'var(--pk-glass-bg)', backdropFilter: 'blur(8px)', borderRadius: '8px', border: '1px solid var(--pk-glass-border)', overflow: 'hidden' }}>
@@ -265,7 +265,7 @@ const PetaSebaran = () => {
             </div>
 
             {/* Legend */}
-            <div className="glass-panel" style={{ padding: '1rem' }}>
+            <div className="card-premium" style={{ padding: '1rem' }}>
               <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.5rem' }}>Intensitas Kemiskinan</div>
               {[
                 { color: '#ef4444', label: 'Sangat Tinggi (>70%)' },
@@ -281,7 +281,7 @@ const PetaSebaran = () => {
             </div>
 
             {/* Ranking List */}
-            <div className="glass-panel" style={{ padding: '1rem', flex: 1, overflowY: 'auto', maxHeight: 350 }}>
+            <div className="card-premium" style={{ padding: '1rem', flex: 1, overflowY: 'auto', maxHeight: 350 }}>
               <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.75rem' }}>Ranking Wilayah</div>
               {points.length === 0 && <p style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)' }}>Tidak ada data.</p>}
               {points.map((w, i) => {
@@ -307,7 +307,7 @@ const PetaSebaran = () => {
 
             {/* Selected Detail */}
             {selected && (
-              <div className="glass-panel" style={{ padding: '1rem' }}>
+              <div className="card-premium" style={{ padding: '1rem' }}>
                 <div style={{ fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <MapPin size={16} color="var(--pk-primary)" /> {selected.wilayah}
                 </div>

@@ -1,47 +1,47 @@
 @import url('https://fonts.googleapis.css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Dynamic Elegant Dark Palette */
-  --pk-bg-1: #020617; /* very dark slate/blue */
-  --pk-bg-2: #0f172a; /* slate-900 */
-  --pk-bg-3: #1e293b; /* slate-800 */
-  --pk-bg-4: #334155; /* slate-700 */
+  /* Dark Mode (Apple Inspired) */
+  --pk-bg-1: #000000;
+  --pk-bg-2: #161617;
+  --pk-bg-3: #1c1c1e;
+  --pk-bg-4: #2c2c2e;
 
-  --pk-primary: #2563eb; /* blue-600 */
-  --pk-primary-hover: #1d4ed8; /* blue-700 */
-  --pk-secondary: #10b981; /* emerald-500 (hijau) */
-  --pk-success: #16a34a;
-  --pk-danger: #ef4444;
-  --pk-warning: #f59e0b;
+  --pk-primary: #0A84FF;
+  --pk-primary-hover: #0070e0;
+  --pk-secondary: #30d158;
+  --pk-success: #32d74b;
+  --pk-danger: #ff453a;
+  --pk-warning: #ffd60a;
 
-  --pk-text: #f8fafc;
-  --pk-text-muted: #94a3b8;
+  --pk-text: #ffffff;
+  --pk-text-muted: #86868b;
 
-  --pk-glass-bg: rgba(30, 41, 59, 0.6);
+  --pk-glass-bg: rgba(28, 28, 30, 0.7);
   --pk-glass-border: rgba(255, 255, 255, 0.1);
-  --pk-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  --pk-highlight: rgba(255, 255, 255, 0.05);
+  --pk-glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --pk-highlight: rgba(255, 255, 255, 0.08);
 
-  --pk-radius: 12px;
-  --pk-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --pk-radius: 24px;
+  --pk-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme='light'] {
-  --pk-bg-1: #ffffff;
-  --pk-bg-2: #f8fafc;
-  --pk-bg-3: #f1f5f9;
-  --pk-bg-4: #e2e8f0;
+  --pk-bg-1: #F5F5F7;
+  --pk-bg-2: #FFFFFF;
+  --pk-bg-3: #f2f2f7;
+  --pk-bg-4: #e5e5ea;
 
-  --pk-primary: #2563eb;
-  --pk-primary-hover: #1d4ed8;
-  --pk-secondary: #10b981;
+  --pk-primary: #007AFF;
+  --pk-primary-hover: #0060df;
+  --pk-secondary: #34c759;
 
-  --pk-text: #0f172a;
-  --pk-text-muted: #475569;
+  --pk-text: #1D1D1F;
+  --pk-text-muted: #86868B;
 
-  --pk-glass-bg: rgba(255, 255, 255, 0.85);
-  --pk-glass-border: rgba(0, 0, 0, 0.12);
-  --pk-glass-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --pk-glass-bg: rgba(255, 255, 255, 0.8);
+  --pk-glass-border: rgba(0, 0, 0, 0.1);
+  --pk-glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   --pk-highlight: rgba(0, 0, 0, 0.04);
 }
 
@@ -53,6 +53,7 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.011em;
   background: linear-gradient(135deg, var(--pk-bg-1), var(--pk-bg-2), var(--pk-bg-3), var(--pk-bg-4));
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
@@ -85,6 +86,7 @@ h5,
 h6 {
   font-weight: 600;
   line-height: 1.2;
+  letter-spacing: -0.022em;
 }
 
 h1 {
@@ -102,10 +104,10 @@ p {
 }
 
 /* Glass Card */
-.glass-panel {
+.card-premium {
   background: var(--pk-glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--pk-glass-border);
   border-radius: var(--pk-radius);
   box-shadow: var(--pk-glass-shadow);
@@ -113,10 +115,21 @@ p {
   transition: var(--pk-transition);
 }
 
-.glass-panel:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-glass {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border-right: 1px solid var(--pk-glass-border);
+}
+
+[data-theme='light'] .sidebar-glass {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* Animations */
@@ -143,7 +156,7 @@ p {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1.5rem;
-  border-radius: var(--pk-radius);
+  border-radius: calc(var(--pk-radius) - 8px);
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
@@ -151,6 +164,10 @@ p {
   transition: var(--pk-transition);
   font-family: inherit;
   letter-spacing: 0.02em;
+}
+
+.btn:active {
+  transform: scale(0.95);
 }
 
 .btn-primary {
@@ -406,7 +423,6 @@ tbody tr:hover {
   transition: all 0.3s ease;
   font-weight: 500;
   color: var(--pk-text-muted);
-  border-left: 4px solid transparent;
 }
 
 .sidebar-link:hover {
@@ -415,10 +431,8 @@ tbody tr:hover {
 }
 
 .sidebar-link.active {
-  background-color: rgba(129, 140, 248, 0.15);
   color: var(--pk-text);
   font-weight: 600;
-  border-left: 4px solid var(--pk-primary);
 }
 
 .sidebar-link.active svg {

@@ -36,7 +36,7 @@ function formatTanggal(dateStr) {
 
 // ── Stat Card ────────────────────────────────────────────────────────────────
 const StatCard = ({ icon, label, value, color, sub }) => (
-  <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
+  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
     <div style={{ width: 48, height: 48, borderRadius: 14, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
       {icon}
     </div>
@@ -205,7 +205,7 @@ const StatusGizi = () => {
       )}
 
       {/* Table Panel */}
-      <div className="glass-panel">
+      <div className="card-premium">
         {/* Search & Filter Bar */}
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 220, position: 'relative' }}>
@@ -511,7 +511,7 @@ const StatusGizi = () => {
       {/* ── Modal Detail ───────────────────────────────────────────────────── */}
       {showDetail && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: 460, background: 'var(--pk-bg-secondary)' }}>
+          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: 460, background: 'var(--pk-bg-secondary)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 style={{ margin: 0 }}>Detail Catatan Gizi</h3>
               <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--pk-text-muted)' }} onClick={() => setShowDetail(null)}>

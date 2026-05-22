@@ -261,7 +261,7 @@ const Notifikasi = () => {
       </div>
 
       {/* Content */}
-      <div className="notif-list-wrap glass-panel" style={{ marginTop: '1.5rem' }}>
+      <div className="notif-list-wrap card-premium" style={{ marginTop: '1.5rem' }}>
         {loading && items.length === 0 ? (
           <div className="notif-empty">
             <div className="notif-loading-spinner" />
@@ -328,7 +328,7 @@ const Notifikasi = () => {
       </div>
 
       {/* Info panel */}
-      <div className="notif-info-panel glass-panel" style={{ marginTop: '1.5rem' }}>
+      <div className="notif-info-panel card-premium" style={{ marginTop: '1.5rem' }}>
         <h4 style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Bell size={16} style={{ color: 'var(--pk-primary)' }} />
           Jadwal Pengiriman Pengingat Otomatis
