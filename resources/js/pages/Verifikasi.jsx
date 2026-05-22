@@ -102,15 +102,15 @@ const Verifikasi = () => {
       </div>
 
       {verifyModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
-          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)' }}>
-            <h3 style={{ marginBottom: '1.5rem', color: statusAction === 'disetujui' ? 'var(--pk-success)' : 'var(--pk-danger)' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
+          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: statusAction === 'disetujui' ? 'var(--pk-success)' : 'var(--pk-danger)', fontWeight: 700 }}>
               Konfirmasi {statusAction === 'disetujui' ? 'Persetujuan' : 'Penolakan'}
             </h3>
             <div style={{ marginBottom: '1.5rem', background: 'var(--pk-highlight)', padding: '1rem', borderRadius: '8px' }}>
-              <p style={{ margin: '0 0 0.5rem 0' }}><strong>Data Pemohon:</strong></p>
-              <p style={{ margin: 0 }}>Nama: {verifyModal.nama}</p>
-              <p style={{ margin: 0 }}>NIK: {verifyModal.nik}</p>
+              <p style={{ margin: '0 0 0.5rem 0', color: 'var(--pk-text)', fontWeight: 600 }}>Data Pemohon:</p>
+              <p style={{ margin: '0 0 0.25rem 0', color: 'var(--pk-text-muted)' }}>Nama: <span style={{ color: 'var(--pk-text)' }}>{verifyModal.nama}</span></p>
+              <p style={{ margin: 0, color: 'var(--pk-text-muted)' }}>NIK: <span style={{ color: 'var(--pk-text)' }}>{verifyModal.nik}</span></p>
             </div>
             
             <form onSubmit={handleVerifySubmit}>
