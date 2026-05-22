@@ -16,7 +16,7 @@ const formatNumber = (n) => {
 };
 
 const StatCard = ({ icon, label, value, color, sub }) => (
-  <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
+  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
     <div style={{ width: 48, height: 48, borderRadius: 14, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
       {icon}
     </div>
@@ -144,7 +144,7 @@ const EvaluasiCapaian = () => {
       )}
 
       {/* Table */}
-      <div className="glass-panel">
+      <div className="card-premium">
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 220, position: 'relative' }}>
             <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
@@ -228,7 +228,7 @@ const EvaluasiCapaian = () => {
               const avgSkor = Number(p.rata_rata_skor || 0).toFixed(1);
               const color = avgSkor >= 80 ? '#16a34a' : '#ef4444';
               return (
-                <div key={p.program_bantuan_id} className="glass-panel" style={{ padding: '1.25rem' }}>
+                <div key={p.program_bantuan_id} className="card-premium" style={{ padding: '1.25rem' }}>
                   <div style={{ fontWeight: 700, marginBottom: '0.5rem' }}>{p.program_bantuan?.nama_program || 'Program'}</div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--pk-text-muted)', marginBottom: '0.75rem' }}>{p.program_bantuan?.kategori_sdg}</div>
                   <SkorBar skor={Number(avgSkor)} />

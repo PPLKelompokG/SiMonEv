@@ -86,7 +86,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
   const isPositive = trend >= 0;
   return (
     <div
-      className="glass-panel"
+      className="card-premium"
       style={{
         position: 'relative',
         overflow: 'hidden',
@@ -143,7 +143,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
    CHART CARD wrapper
    ═══════════════════════════════════════════════════ */
 const ChartCard = ({ title, icon, children, style = {} }) => (
-  <div className="glass-panel" style={{ ...style, animation: 'fadeIn 0.6s ease-out 0.3s both' }}>
+  <div className="card-premium" style={{ ...style, animation: 'fadeIn 0.6s ease-out 0.3s both' }}>
     <div style={{
       display: 'flex', alignItems: 'center', gap: '0.75rem',
       marginBottom: '1.5rem', paddingBottom: '1rem',
@@ -576,7 +576,7 @@ const DashboardKPI = () => {
       </div>
 
       {/* ─── SUMMARY FOOTER ─── */}
-      <div className="glass-panel" style={{
+      <div className="card-premium" style={{
         background: 'var(--pk-highlight)',
         border: '1px solid var(--pk-highlight)',
         display: 'grid',

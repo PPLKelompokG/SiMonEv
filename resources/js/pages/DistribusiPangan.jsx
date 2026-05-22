@@ -249,19 +249,19 @@ const DistribusiPangan = () => {
       {/* Statistics Cards */}
       {statistik && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div className="glass-panel" style={{ padding: '1.25rem', borderLeft: '4px solid var(--pk-primary)' }}>
+          <div className="card-premium" style={{ padding: '1.25rem', borderLeft: '4px solid var(--pk-primary)' }}>
             <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Total Distribusi</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.total_distribusi}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Catatan penyaluran</div>
           </div>
 
-          <div className="glass-panel" style={{ padding: '1.25rem', borderLeft: '4px solid #10b981' }}>
+          <div className="card-premium" style={{ padding: '1.25rem', borderLeft: '4px solid #10b981' }}>
             <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Penerima Aktif</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.total_penerima_aktif}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Keluarga penerima manfaat</div>
           </div>
 
-          <div className="glass-panel" style={{ padding: '1.25rem', borderLeft: '4px solid #f59e0b' }}>
+          <div className="card-premium" style={{ padding: '1.25rem', borderLeft: '4px solid #f59e0b' }}>
             <div style={{ color: 'var(--pk-text-muted)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Distribusi Bulan Ini</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pk-text)' }}>{statistik.distribusi_bulan_ini}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--pk-text-muted)', marginTop: '0.25rem' }}>Periode: {new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</div>
@@ -270,7 +270,7 @@ const DistribusiPangan = () => {
       )}
 
       {/* Main Content Area */}
-      <div className="glass-panel">
+      <div className="card-premium">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <BarChart3 size={20} color="var(--pk-primary)" />

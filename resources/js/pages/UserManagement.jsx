@@ -73,7 +73,7 @@ const UserManagement = () => {
         </button>
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -122,7 +122,7 @@ const UserManagement = () => {
 
       {showModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(6px)' }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)' }}>
+          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem', boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)' }}>
             <h3 style={{ marginBottom: '1.5rem', color: 'var(--pk-text)', fontWeight: 700 }}>{formData.id ? 'Edit Akun' : 'Tambah Akun'}</h3>
             {formError && <p style={{ color: 'var(--pk-danger)', marginBottom: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '8px' }}>{formError}</p>}
             <form onSubmit={handleSubmit}>

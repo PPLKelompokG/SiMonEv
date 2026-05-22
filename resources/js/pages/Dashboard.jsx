@@ -5,7 +5,7 @@ import { Users, FileText, CheckCircle, Clock, ArrowRight, RefreshCw } from 'luci
 import { Link } from 'react-router-dom';
 
 const StatCard = ({ title, value, icon, color }) => (
-  <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
+  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
     <div style={{ background: `var(--pk-highlight)`, padding: '1rem', borderRadius: '12px', color: color }}>
       {icon}
     </div>
@@ -93,7 +93,7 @@ Program Pengentasan Kemiskinan</p>
         <StatCard title="Verifikasi Selesai" value={stats.verified} icon={<CheckCircle size={28} />} color="var(--pk-success)" />
       </div>
 
-      <div className="glass-panel" style={{ minHeight: '300px' }}>
+      <div className="card-premium" style={{ minHeight: '300px' }}>
         <h3 style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Clock size={20} /> Recent Activities
         </h3>

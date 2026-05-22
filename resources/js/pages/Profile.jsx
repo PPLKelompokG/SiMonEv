@@ -17,7 +17,7 @@ const Profile = () => {
 
   return (
     <div className="grid grid-cols-2" style={{ gap: '2rem' }}>
-      <div className="glass-panel">
+      <div className="card-premium">
         <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <User className="text-primary" size={24} /> Edit Profil
         </h2>
@@ -94,7 +94,7 @@ const Profile = () => {
         </form>
       </div>
 
-      <div className="glass-panel" style={{ alignSelf: 'start' }}>
+      <div className="card-premium" style={{ alignSelf: 'start' }}>
         <h3 style={{ marginBottom: '1rem' }}>Informasi Akun</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px' }}>

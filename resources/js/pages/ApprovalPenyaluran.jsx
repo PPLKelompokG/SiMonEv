@@ -85,7 +85,7 @@ const ApprovalPenyaluran = () => {
         <p>Validasi laporan penyaluran bantuan yang dicatat oleh petugas lapangan</p>
       </div>
 
-      <div className="glass-panel" style={{ marginBottom: '2rem' }}>
+      <div className="card-premium" style={{ marginBottom: '2rem' }}>
         <h3 style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <BarChart2 size={20} color="var(--pk-primary)" />
           Statistik Approval
@@ -114,7 +114,7 @@ const ApprovalPenyaluran = () => {
         )}
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <h3 style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <PackageSearch size={20} color="var(--pk-primary)" />
           Daftar Laporan Penyaluran
@@ -172,7 +172,7 @@ const ApprovalPenyaluran = () => {
 
       {actionModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)' }}>
+          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--pk-bg-secondary)' }}>
             <h3 style={{ marginBottom: '1.5rem', color: actionModal.action === 'approve' ? 'var(--pk-success)' : 'var(--pk-danger)' }}>
               Konfirmasi {actionModal.action === 'approve' ? 'Persetujuan' : 'Pengembalian'} Laporan
             </h3>

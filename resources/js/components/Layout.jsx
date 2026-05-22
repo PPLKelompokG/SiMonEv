@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
 import { getUnreadCount } from '../api/notifikasiService';
 import { 
@@ -12,12 +13,29 @@ const SidebarLink = ({ to, icon, label, onClick }) => {
   return (
     <NavLink
       to={to}
-      className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+      className={({ isActive }) => `sidebar-link relative ${isActive ? 'active' : ''}`}
       title={label}
       onClick={onClick}
     >
-      {icon}
-      <span className="sidebar-text">{label}</span>
+      {({ isActive }) => (
+        <>
+          {isActive && (
+            <motion.div
+              layoutId="active-indicator"
+              className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/20 rounded-xl"
+              style={{ borderLeft: '4px solid var(--pk-primary)' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          )}
+          <span className="relative z-10" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%' }}>
+            {icon}
+            <span className="sidebar-text">{label}</span>
+          </span>
+        </>
+      )}
     </NavLink>
   );
 };
@@ -143,7 +161,7 @@ const Layout = () => {
       ></div>
 
       {/* Sidebar */}
-      <aside className={`app-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+      <aside className={`app-sidebar sidebar-glass ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
             <h2 className="logo-wrapper" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
@@ -250,7 +268,7 @@ const Layout = () => {
             >
               <Menu size={24} />
             </button>
-            <h3 style={{ margin: 0, fontWeight: 500 }}>Sistem Monitoring & Evaluasi</h3>
+            <h3 style={{ margin: 0, fontWeight: 400 }}>Sistem Monitoring & Evaluasi</h3>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 

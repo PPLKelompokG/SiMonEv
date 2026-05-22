@@ -219,7 +219,7 @@ const PembaruanStatusInner = () => {
         </div>
       )}
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <UserCheck size={20} color="var(--pk-primary)" />

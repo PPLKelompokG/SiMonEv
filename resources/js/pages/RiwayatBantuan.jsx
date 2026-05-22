@@ -59,7 +59,7 @@ const getStatusColor = (s) => STATUS_COLOR[s?.toLowerCase()] ?? '#94a3b8';
 // ─── Stat Card ────────────────────────────────────────────────────────────────
 
 const StatCard = ({ label, value, icon, color }) => (
-  <div className="rh-stat-card glass-panel" style={{ '--accent': color }}>
+  <div className="rh-stat-card card-premium" style={{ '--accent': color }}>
     <div className="rh-stat-icon" style={{ background: `${color}22`, color }}>{icon}</div>
     <div>
       <div className="rh-stat-value">{value ?? 0}</div>
@@ -281,7 +281,7 @@ const RiwayatBantuan = () => {
       </div>
 
       {/* Penerima Picker */}
-      <div className="rh-picker-section glass-panel">
+      <div className="rh-picker-section card-premium">
         <label className="rh-picker-label">
           <UserCheck size={16} style={{ color: 'var(--pk-primary)' }} />
           Cari & Pilih Penerima Bantuan
@@ -345,7 +345,7 @@ const RiwayatBantuan = () => {
       {/* Profile + Stats (shown after selecting penerima) */}
       {penerima && (
         <>
-          <div className="rh-profile-card glass-panel">
+          <div className="rh-profile-card card-premium">
             <div className="rh-profile-avatar">{penerima.nama?.charAt(0).toUpperCase()}</div>
             <div className="rh-profile-info">
               <h2 className="rh-profile-name">{penerima.nama}</h2>
@@ -387,7 +387,7 @@ const RiwayatBantuan = () => {
           )}
 
           {ringkasan && (
-            <div className="rh-period-bar glass-panel">
+            <div className="rh-period-bar card-premium">
               <div className="rh-period-item">
                 <Clock size={14} style={{ color: 'var(--pk-text-muted)' }} />
                 <span>Bantuan Pertama:</span>
@@ -412,7 +412,7 @@ const RiwayatBantuan = () => {
 
       {/* Filters (shown after selecting penerima) */}
       {selectedPenerima && (
-        <div className="rh-filter-bar glass-panel">
+        <div className="rh-filter-bar card-premium">
           <div className="rh-filter-label">
             <Filter size={15} /> Filter
           </div>
@@ -453,7 +453,7 @@ const RiwayatBantuan = () => {
 
       {/* Timeline */}
       {selectedPenerima && (
-        <div className="rh-timeline-section glass-panel">
+        <div className="rh-timeline-section card-premium">
           <h3 className="rh-timeline-title">
             <History size={18} style={{ color: 'var(--pk-primary)' }} />
             Timeline Kronologis
@@ -519,7 +519,7 @@ const RiwayatBantuan = () => {
 
       {/* Empty state – no penerima selected */}
       {!selectedPenerima && (
-        <div className="rh-empty-state glass-panel">
+        <div className="rh-empty-state card-premium">
           <div className="rh-empty-icon">
             <History size={48} style={{ opacity: 0.3 }} />
           </div>

@@ -62,7 +62,7 @@ const ManajemenDataKeluarga = () => {
         </button>
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
           <Users size={20} /> Anggota Keluarga
         </h3>
@@ -125,7 +125,7 @@ const ManajemenDataKeluarga = () => {
           background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
           display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
         }}>
-          <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem' }}>
+          <div className="card-premium animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 style={{ margin: 0 }}>{editingId ? 'Edit Anggota' : 'Tambah Anggota'}</h3>
               <button onClick={handleCloseModal} style={{ background: 'transparent', border: 'none', color: 'var(--pk-text-muted)', cursor: 'pointer' }}>

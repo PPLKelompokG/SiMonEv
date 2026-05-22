@@ -102,7 +102,7 @@ const KunjunganRumah = () => {
       {error && <div className="alert alert-danger" style={{ marginBottom: '1rem' }}>{error}</div>}
       {success && <div className="alert alert-success" style={{ marginBottom: '1rem' }}>{success}</div>}
 
-      <div className="glass-panel" style={{ marginBottom: '2rem' }}>
+      <div className="card-premium" style={{ marginBottom: '2rem' }}>
         <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <FileText className="text-primary" size={20} />
           <h2 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>Formulir Kunjungan Rumah</h2>
@@ -233,7 +233,7 @@ const KunjunganRumah = () => {
         </div>
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>Riwayat Kunjungan</h2>
         </div>

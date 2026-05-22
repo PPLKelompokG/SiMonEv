@@ -11,7 +11,7 @@ function formatTanggal(dateStr) {
 }
 
 const StatCard = ({ icon, label, value, color, sub }) => (
-  <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
+  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem 1.5rem' }}>
     <div style={{ width: 48, height: 48, borderRadius: 14, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
       {icon}
     </div>
@@ -205,7 +205,7 @@ const Kia = () => {
       )}
 
       {/* Table Container */}
-      <div className="glass-panel">
+      <div className="card-premium">
         <div style={{ marginBottom: '1.25rem' }}>
           <div style={{ flex: 1, maxWidth: 300, position: 'relative' }}>
             <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
@@ -301,7 +301,7 @@ const Kia = () => {
       {/* Modal Ibu Hamil */}
       {showModalIbu && createPortal(
         <div className="modal-overlay animate-fade-in" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 999 }}>
-          <div className="glass-panel" style={{ width: '100%', maxWidth: 650, background: 'var(--pk-bg-2)', maxHeight: '90vh', overflowY: 'auto', padding: '0', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
+          <div className="card-premium" style={{ width: '100%', maxWidth: 650, background: 'var(--pk-bg-2)', maxHeight: '90vh', overflowY: 'auto', padding: '0', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
             <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(to right, rgba(236, 72, 153, 0.1), transparent)' }}>
               <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ec4899' }}>
                 <HeartPulse size={22} />
@@ -405,7 +405,7 @@ const Kia = () => {
       {/* Modal Balita */}
       {showModalBalita && createPortal(
         <div className="modal-overlay animate-fade-in" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 999 }}>
-          <div className="glass-panel" style={{ width: '100%', maxWidth: 750, background: 'var(--pk-bg-2)', maxHeight: '90vh', overflowY: 'auto', padding: '0', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+          <div className="card-premium" style={{ width: '100%', maxWidth: 750, background: 'var(--pk-bg-2)', maxHeight: '90vh', overflowY: 'auto', padding: '0', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
             <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(to right, rgba(59, 130, 246, 0.1), transparent)' }}>
               <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#3b82f6' }}>
                 <Baby size={22} />

@@ -4,7 +4,7 @@ import { Users, Package, FileCheck, Star, Activity, BarChart2 } from 'lucide-rea
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, Cell } from 'recharts';
 
 const StatCard = ({ title, value, icon, borderColor, iconColor }) => (
-  <div className="glass-panel" style={{ 
+  <div className="card-premium" style={{ 
     borderTop: `4px solid ${borderColor}`,
     display: 'flex',
     alignItems: 'center',
@@ -114,7 +114,7 @@ const KinerjaPetugas = () => {
         />
       </div>
 
-      <div className="glass-panel" style={{ marginBottom: '2rem' }}>
+      <div className="card-premium" style={{ marginBottom: '2rem' }}>
         <h3 style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <BarChart2 size={20} color="var(--pk-primary)" />
           Analisis Perbandingan Kinerja
@@ -139,7 +139,7 @@ const KinerjaPetugas = () => {
         </div>
       </div>
 
-      <div className="glass-panel">
+      <div className="card-premium">
         <h3 style={{ borderBottom: '1px solid var(--pk-glass-border)', paddingBottom: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Star size={20} color="var(--pk-primary)" />
           Peringkat Produktivitas
