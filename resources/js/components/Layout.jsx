@@ -165,7 +165,7 @@ const Layout = () => {
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--pk-glass-border)' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'block', transition: 'transform 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
             <h2 className="logo-wrapper" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
-              <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '45px', height: '45px', objectFit: 'contain', background: 'white', borderRadius: '10px', padding: '4px' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+              <img src="/logo.png" alt="SiMonEv Logo" style={{ width: '45px', height: '45px', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
               <div style={{ display: 'none', width: '40px', height: '40px', background: 'var(--pk-primary)', borderRadius: '12px', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
                 <Activity size={24} strokeWidth={2.5} />
               </div>
@@ -315,7 +315,7 @@ const Layout = () => {
                 onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                 onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
-                <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: theme === 'light' ? 'invert(1)' : 'none', transition: 'var(--pk-transition)' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
                 <span style={{ display: 'none', fontWeight: 'bold', color: 'var(--pk-primary)' }}>{user?.name?.charAt(0).toUpperCase()}</span>
               </div>
 
