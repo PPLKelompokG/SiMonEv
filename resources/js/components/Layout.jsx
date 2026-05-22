@@ -268,7 +268,7 @@ const Layout = () => {
             >
               <Menu size={24} />
             </button>
-            <h3 style={{ margin: 0, fontWeight: 500 }}>Sistem Monitoring & Evaluasi</h3>
+            <h3 style={{ margin: 0, fontWeight: 400 }}>Sistem Monitoring & Evaluasi</h3>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
