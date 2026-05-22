@@ -315,7 +315,7 @@ const Layout = () => {
                 onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                 onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
-                <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                <img src="/user.png" alt={user?.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: theme === 'light' ? 'invert(1)' : 'none', transition: 'var(--pk-transition)' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
                 <span style={{ display: 'none', fontWeight: 'bold', color: 'var(--pk-primary)' }}>{user?.name?.charAt(0).toUpperCase()}</span>
               </div>
 
