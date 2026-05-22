@@ -152,14 +152,14 @@ cd SiMonevMainFramework
 
 ---
 
-### Langkah 2: Setup Backend (Laravel)
+### Langkah 2: Setup Proyek (Laravel + React)
 
 ```bash
-# Masuk ke folder backend
-cd backend
-
 # Install dependencies PHP
 composer install
+
+# Install dependencies JavaScript
+npm install
 
 # Salin file konfigurasi environment
 cp .env.example .env
@@ -170,7 +170,7 @@ php artisan key:generate
 
 #### Konfigurasi Database
 
-Buka file `backend/.env` dan sesuaikan konfigurasi database MySQL Anda:
+Buka file `.env` dan sesuaikan konfigurasi database MySQL Anda:
 
 ```env
 DB_CONNECTION=mysql
@@ -202,7 +202,7 @@ php -r "\$pdo = new PDO('mysql:host=127.0.0.1', 'root', ''); \$pdo->exec('CREATE
 php artisan migrate --seed
 
 # Jika error, coba untuk melakukan migrate fresh
-php artisan migrate:fresh
+php artisan migrate:fresh --seed
 ```
 
 Ini akan membuat semua tabel dan mengisi data sample:
@@ -211,36 +211,27 @@ Ini akan membuat semua tabel dan mengisi data sample:
 - 5 program bansos contoh
 - 5 penerima contoh dengan indikator & skor
 
-#### Jalankan Backend Server
+#### Jalankan Server (Backend & Frontend)
 
+Buka **dua terminal terpisah** di dalam folder proyek:
+
+**Terminal 1 (Backend Laravel):**
 ```bash
 php artisan serve
-# Server berjalan di http://localhost:8000
+# Server backend berjalan di http://localhost:8000
 ```
 
----
-
-### Langkah 3: Setup Frontend (React)
-
-Buka **terminal baru** (jangan tutup terminal backend):
-
+**Terminal 2 (Frontend React/Vite):**
 ```bash
-# Masuk ke folder frontend
-cd frontend
-
-# Install dependencies JavaScript
-npm install
-
-# Jalankan development server
 npm run dev
-# Server berjalan di http://localhost:5173
+# Vite server berjalan di background
 ```
 
 ---
 
-### Langkah 4: Buka Aplikasi
+### Langkah 3: Buka Aplikasi
 
-Buka browser dan akses: **http://localhost:5173**
+Buka browser dan akses: **http://localhost:8000** (URL Laravel Anda)
 
 #### Akun Demo untuk Login
 
@@ -256,36 +247,34 @@ Buka browser dan akses: **http://localhost:5173**
 
 ## 📁 Struktur Folder Proyek
 
-```
-SiMonevMainFramework/
+```text
+SiMonEv/
 │
-├── backend/                        # ⚙️ Laravel 11 (REST API)
-│   ├── app/
-│   │   ├── Http/
-│   │   │   ├── Controllers/Api/    # 7 Controller API
-│   │   │   └── Middleware/         # RoleMiddleware (RBAC)
-│   │   ├── Models/                 # 7 Eloquent Model
-│   │   └── Services/              # MatchmakingService
-│   ├── database/
-│   │   ├── migrations/             # 12 Migration files
-│   │   └── seeders/                # Data awal KBB
-│   ├── routes/
-│   │   └── api.php                 # Definisi endpoint API
-│   └── .env                        # Konfigurasi environment
-│
-├── frontend/                       # ⚛️ React 19 + Vite
-│   ├── src/
-│   │   ├── components/             # Sidebar, Layout, MapKBB
-│   │   ├── contexts/               # AuthContext (state management)
-│   │   ├── lib/                    # Axios API client
-│   │   ├── pages/                  # 7 Halaman utama
-│   │   ├── App.jsx                 # Routing utama
-│   │   ├── index.css               # Design system (dark mode)
-│   │   └── main.jsx                # Entry point
-│   ├── index.html
-│   └── package.json
-│
-└── README.md                       # 📖 Dokumentasi ini
+├── app/                        # ⚙️ Backend: Controller, Model, Middleware (Laravel)
+│   ├── Http/
+│   │   ├── Controllers/Api/    # Controller API
+│   │   └── Middleware/         # RoleMiddleware (RBAC)
+│   ├── Models/                 # Eloquent Model
+│   └── Services/               # MatchmakingService
+├── database/                   # ⚙️ Backend: Migration & Seeder
+│   ├── migrations/
+│   └── seeders/
+├── public/                     # 🖼️ Frontend: Assets publik (gambar, logo)
+├── resources/
+│   ├── js/                     # ⚛️ Frontend: React 19 components & pages
+│   │   ├── components/         # Komponen UI
+│   │   ├── contexts/           # AuthContext (state management)
+│   │   ├── pages/              # Halaman aplikasi
+│   │   ├── App.jsx             # Routing utama React
+│   │   ├── index.css           # Design system (dark mode)
+│   │   └── main.jsx            # Entry point React
+│   └── views/                  # ⚙️ Backend: welcome.blade.php (Entry point UI)
+├── routes/                     # ⚙️ Backend: web.php & api.php
+├── .env                        # Konfigurasi environment
+├── package.json                # 📦 Frontend: Dependencies React/Node
+├── composer.json               # 📦 Backend: Dependencies Laravel/PHP
+├── vite.config.js              # ⚛️ Konfigurasi Vite
+└── tailwind.config.js          # 🎨 Konfigurasi TailwindCSS
 ```
 
 ---
@@ -347,20 +336,16 @@ Semua endpoint menggunakan prefix `/api` dan memerlukan token Sanctum (kecuali l
 ## 🔧 Perintah-Perintah Berguna
 
 ```bash
-# === BACKEND ===
-cd backend
-
+# === LARAVEL (BACKEND) ===
 php artisan serve                    # Jalankan server backend
 php artisan migrate                  # Jalankan migrasi baru
 php artisan migrate:fresh --seed     # Reset database + seed ulang
 php artisan route:list               # Lihat semua route API
 php artisan tinker                   # Laravel REPL (untuk debugging)
 
-# === FRONTEND ===
-cd frontend
-
-npm run dev                          # Jalankan development server
-npm run build                        # Build untuk production
+# === VITE/REACT (FRONTEND) ===
+npm run dev                          # Jalankan development server Vite
+npm run build                        # Build assets untuk production
 npm run preview                      # Preview hasil build
 ```
 
