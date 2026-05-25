@@ -20,7 +20,7 @@ import PenyaluranBantuan from './pages/PenyaluranBantuan';
 import PembaruanStatus from './pages/PembaruanStatus';
 import ApprovalPenyaluran from './pages/ApprovalPenyaluran';
 import StatusGizi from './pages/StatusGizi';
-import KIA from './pages/KIA';
+import KIA from './pages/Kia';
 import DistribusiPangan from './pages/DistribusiPangan';
 import KinerjaPetugas from './pages/KinerjaPetugas';
 import KunjunganRumah from './pages/KunjunganRumah';
