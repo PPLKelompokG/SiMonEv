@@ -29,15 +29,17 @@ import EvaluasiCapaian from './pages/EvaluasiCapaian';
 import PetaSebaran from './pages/PetaSebaran';
 import RiwayatBantuan from './pages/RiwayatBantuan';
 
+import LandingPage from './pages/LandingPage';
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
 
-          <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="dashboard" element={<Dashboard />} />
 
             <Route path="users" element={

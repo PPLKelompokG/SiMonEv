@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+// Public Endpoints
+Route::get('/public/landing-stats', [\App\Http\Controllers\Api\PublicController::class, 'landingStats']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
