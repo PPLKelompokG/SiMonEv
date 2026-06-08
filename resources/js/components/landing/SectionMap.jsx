@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Popup, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { motion } from 'framer-motion';
 import { MapPin, Users, TrendingUp } from 'lucide-react';
@@ -18,8 +18,34 @@ const regionCoordinates = {
   "Bandung": [-6.917, 107.619], // Default fallback
 };
 
+function getIntensityColor(total, max) {
+  const ratio = Math.min(total / Math.max(max, 1), 1);
+  if (ratio > 0.7) return '#ef4444';
+  if (ratio > 0.4) return '#f59e0b';
+  if (ratio > 0.2) return '#3b82f6';
+  return '#10b981';
+}
+
+function getIntensitasLabel(total, max) {
+  const ratio = Math.min(total / Math.max(max, 1), 1);
+  if (ratio > 0.7) return 'Sangat Tinggi';
+  if (ratio > 0.4) return 'Tinggi';
+  if (ratio > 0.2) return 'Sedang';
+  return 'Rendah';
+}
+
 const SectionMap = ({ mapData = [], totalTitik = 0, wilayahTerjangkau = 0 }) => {
   const [activeMarker, setActiveMarker] = useState(null);
+  const [geoJsonData, setGeoJsonData] = useState(null);
+
+  useEffect(() => {
+    fetch('/batas_wilayah.geojson')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => setGeoJsonData(data))
+      .catch(e => console.error('Failed to load geojson', e));
+  }, []);
+
+  const maxPenerima = Math.max(...mapData.map(w => w.total_penerima), 1);
 
   // Process data for the map
   const processedData = mapData.map((item) => {
@@ -35,20 +61,9 @@ const SectionMap = ({ mapData = [], totalTitik = 0, wilayahTerjangkau = 0 }) => 
       }
     }
     
-    // Determine intensity and color based on total
-    let intensitas = "Rendah";
-    let color = "#10b981"; // Emerald/Low
-    
-    if (item.total_penerima > 1000) {
-      intensitas = "Sangat Tinggi";
-      color = "#ef4444"; // Red
-    } else if (item.total_penerima > 500) {
-      intensitas = "Tinggi";
-      color = "#f59e0b"; // Orange
-    } else if (item.total_penerima > 100) {
-      intensitas = "Sedang";
-      color = "#3b82f6"; // Blue
-    }
+    // Determine intensity and color based on relative max
+    const intensitas = getIntensitasLabel(item.total_penerima, maxPenerima);
+    const color = getIntensityColor(item.total_penerima, maxPenerima);
 
     // Small random offset so markers with the same exact matched fallback coordinate don't perfectly overlap
     const offsetCoords = [
@@ -117,41 +132,94 @@ const SectionMap = ({ mapData = [], totalTitik = 0, wilayahTerjangkau = 0 }) => 
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             />
             
-            {processedData.map((data, index) => {
-              const radius = Math.max(12, Math.min(30, (data.total_penerima / 2500) * 40));
-              
-              return (
-                <CircleMarker 
-                  key={index} 
-                  center={data.coords} 
-                  radius={radius} 
-                  pathOptions={{ 
-                    fillColor: data.color, 
-                    fillOpacity: 0.7, 
-                    color: data.color, 
-                    weight: 2, 
-                    opacity: 0.9 
-                  }}
-                  eventHandlers={{
-                    click: () => setActiveMarker(data)
-                  }}
-                >
-                  <Popup className="simonev-custom-popup">
-                    <div className="p-1 min-w-[150px]">
-                      <div className="font-bold text-slate-900 text-sm mb-1">{data.wilayah}</div>
-                      <div className="flex justify-between items-center text-xs mb-1">
-                        <span className="text-slate-500">Penerima</span>
-                        <span className="font-bold text-slate-900">{data.total_penerima.toLocaleString('id-ID')}</span>
+            {geoJsonData && geoJsonData.features ? (
+              geoJsonData.features.map((feature, index) => {
+                const wilayahName = feature.properties.district || feature.properties.KECAMATAN;
+                if (!wilayahName) return null;
+                
+                const data = processedData.find(x => 
+                  x.wilayah?.toLowerCase().includes(wilayahName.toLowerCase()) || 
+                  wilayahName.toLowerCase().includes(x.wilayah?.toLowerCase())
+                );
+                
+                if (!data) return null;
+
+                return (
+                  <GeoJSON 
+                    key={index} 
+                    data={feature} 
+                    style={{
+                      fillColor: data.color,
+                      weight: 1,
+                      opacity: 1,
+                      color: 'rgba(255,255,255,0.4)',
+                      fillOpacity: 0.7
+                    }}
+                    eventHandlers={{
+                      mouseover: (e) => {
+                        const layer = e.target;
+                        layer.setStyle({ fillOpacity: 0.9, weight: 2, color: '#334155' });
+                        layer.bringToFront();
+                      },
+                      mouseout: (e) => {
+                        const layer = e.target;
+                        layer.setStyle({ fillOpacity: 0.7, weight: 1, color: 'rgba(255,255,255,0.4)' });
+                      }
+                    }}
+                  >
+                    <Popup className="simonev-custom-popup">
+                      <div className="p-1 min-w-[150px]">
+                        <div className="font-bold text-slate-900 text-sm mb-1">{data.wilayah}</div>
+                        <div className="flex justify-between items-center text-xs mb-1">
+                          <span className="text-slate-500">Penerima</span>
+                          <span className="font-bold text-slate-900">{data.total_penerima.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-slate-500">Status</span>
+                          <span className="font-semibold" style={{ color: data.color }}>{data.intensitas}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500">Status</span>
-                        <span className="font-semibold" style={{ color: data.color }}>{data.intensitas}</span>
+                    </Popup>
+                  </GeoJSON>
+                );
+              })
+            ) : (
+              processedData.map((data, index) => {
+                const radius = Math.max(12, Math.min(30, (data.total_penerima / maxPenerima) * 40));
+                
+                return (
+                  <CircleMarker 
+                    key={index} 
+                    center={data.coords} 
+                    radius={radius} 
+                    pathOptions={{ 
+                      fillColor: data.color, 
+                      fillOpacity: 0.7, 
+                      color: data.color, 
+                      weight: 2, 
+                      opacity: 0.9 
+                    }}
+                    eventHandlers={{
+                      click: () => setActiveMarker(data)
+                    }}
+                  >
+                    <Popup className="simonev-custom-popup">
+                      <div className="p-1 min-w-[150px]">
+                        <div className="font-bold text-slate-900 text-sm mb-1">{data.wilayah}</div>
+                        <div className="flex justify-between items-center text-xs mb-1">
+                          <span className="text-slate-500">Penerima</span>
+                          <span className="font-bold text-slate-900">{data.total_penerima.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-slate-500">Status</span>
+                          <span className="font-semibold" style={{ color: data.color }}>{data.intensitas}</span>
+                        </div>
                       </div>
-                    </div>
-                  </Popup>
-                </CircleMarker>
-              );
-            })}
+                    </Popup>
+                  </CircleMarker>
+                );
+              })
+            )}
           </MapContainer>
         </div>
       </div>
