@@ -323,33 +323,7 @@ const Login = () => {
         </div>
       </div>
       
-      {/* Responsive adjustments using style block to avoid polluting global css unnecessarily */}
-      <style>{`
-        @keyframes bgCycle {
-          0% { background-color: #060b10; }
-          33% { background-color: #0a2040; } /* Deep Navy Blue */
-          66% { background-color: #08301c; } /* Deep Forest Green */
-          100% { background-color: #060b10; }
-        }
-
-        .login-bg-animate {
-          animation: bgCycle 7s ease-in-out infinite;
-        }
-
-        @media (max-width: 768px) {
-          .login-container {
-            flex-direction: column !important;
-            height: auto !important;
-            min-height: 600px;
-          }
-          .login-container > div:first-child {
-            display: none !important; /* Hide image on mobile to save space */
-          }
-          .login-container > div:last-child {
-            padding: 3rem 2rem !important;
-          }
-        }
-      `}</style>
+      {/* Responsive adjustments are now in index.css */}
     </div>
   );
 };

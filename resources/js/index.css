@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 :root {
   /* Dark Mode (Apple Inspired) */
@@ -45,10 +48,8 @@
   --pk-highlight: rgba(0, 0, 0, 0.04);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -1454,5 +1455,44 @@ tbody tr:hover {
 
   .rh-event-card {
     padding: 0.9rem 0.9rem 0.9rem 1.5rem;
+  }
+}
+
+/* =====================================================
+   LOGIN & LANDING PAGE ANIMATION
+   ===================================================== */
+@keyframes bgCycle {
+  0% { background-color: #060b10; }
+  33% { background-color: #0a2040; } /* Deep Navy Blue */
+  66% { background-color: #08301c; } /* Deep Forest Green */
+  100% { background-color: #060b10; }
+}
+
+@keyframes lightBgCycle {
+  0% { background-color: #f8fafc; }
+  33% { background-color: #e0f2fe; } /* Light Sky Blue */
+  66% { background-color: #dcfce7; } /* Light Green */
+  100% { background-color: #f8fafc; }
+}
+
+.login-bg-animate {
+  animation: bgCycle 7s ease-in-out infinite;
+}
+
+[data-theme='light'] .login-bg-animate {
+  animation: lightBgCycle 7s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 600px;
+  }
+  .login-container > div:first-child {
+    display: none !important; /* Hide image on mobile to save space */
+  }
+  .login-container > div:last-child {
+    padding: 3rem 2rem !important;
   }
 }
