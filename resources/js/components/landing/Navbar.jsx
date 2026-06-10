@@ -31,7 +31,7 @@ const Navbar = () => {
       <nav 
         className={`mx-auto transition-all duration-500 ease-in-out flex items-center justify-between
           ${isScrolled 
-            ? 'max-w-4xl bg-black/40 light:bg-white/80 backdrop-blur-md shadow-2xl rounded-full py-2 px-6 border border-white/10 light:border-black/10' 
+            ? 'max-w-6xl w-full mx-4 md:mx-auto bg-black/40 light:bg-white/80 backdrop-blur-md shadow-2xl rounded-full py-3 px-8 border border-white/10 light:border-black/10' 
             : 'max-w-7xl bg-transparent py-4 px-6 md:px-12'
           }`}
       >
@@ -46,8 +46,8 @@ const Navbar = () => {
           <div className="hidden w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 items-center justify-center text-white font-bold shadow-lg group-hover:scale-105 transition-transform">
             S
           </div>
-          <span className={`font-bold text-xl tracking-tight ${isScrolled ? 'text-white light:text-slate-900' : 'text-white drop-shadow-md light:text-slate-900 light:drop-shadow-none'}`}>
-            SIMONEV
+          <span className={`text-[1.5rem] font-black tracking-tight ${isScrolled ? 'text-white light:text-slate-900' : 'text-white drop-shadow-md light:text-slate-900 light:drop-shadow-none'}`}>
+            SiMon<span className="text-emerald-500">Ev</span>
           </span>
         </Link>
 
