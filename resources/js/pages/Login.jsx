@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-
+import { motion } from 'framer-motion';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -108,7 +108,12 @@ const Login = () => {
         }} 
       />
 
-      <div className="login-container" style={{
+      <motion.div 
+        className="login-container" 
+        initial={{ opacity: 0, scale: 0.96, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
         display: 'flex',
         width: '100%',
         maxWidth: '1000px',
@@ -374,7 +379,7 @@ const Login = () => {
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
       
       {/* Responsive adjustments are now in index.css */}
     </div>
