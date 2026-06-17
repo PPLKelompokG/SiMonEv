@@ -4,17 +4,35 @@ import { AuthContext } from '../context/AuthContext';
 import { Users, FileText, CheckCircle, Clock, ArrowRight, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const StatCard = ({ title, value, icon, color }) => (
-  <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
-    <div style={{ background: `var(--pk-highlight)`, padding: '1rem', borderRadius: '12px', color: color }}>
-      {icon}
+const StatCard = ({ title, value, icon, color }) => {
+  const getFontSize = (val) => {
+    const str = String(val || '');
+    const len = str.length;
+    if (len > 18) return 'clamp(1rem, 2.5vw, 1.25rem)';
+    if (len > 14) return 'clamp(1.1rem, 3vw, 1.4rem)';
+    if (len > 10) return 'clamp(1.3rem, 3.5vw, 1.65rem)';
+    return 'clamp(1.5rem, 4vw, 2rem)';
+  };
+
+  return (
+    <div className="card-premium" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: `4px solid ${color}`, minWidth: 0 }}>
+      <div style={{ background: `var(--pk-highlight)`, padding: '1rem', borderRadius: '12px', color: color, flexShrink: 0 }}>
+        {icon}
+      </div>
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <p style={{ margin: 0, fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</p>
+        <h2 style={{
+          margin: 0,
+          fontSize: getFontSize(value),
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }} title={value}>{value}</h2>
+      </div>
     </div>
-    <div>
-      <p style={{ margin: 0, fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</p>
-      <h2 style={{ margin: 0, fontSize: '2rem' }}>{value}</h2>
-    </div>
-  </div>
-);
+  );
+};
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
