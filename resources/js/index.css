@@ -411,20 +411,28 @@ tbody tr:hover {
 .app-sidebar.collapsed .sidebar-link,
 .app-sidebar.collapsed .accordion-header {
   justify-content: center;
-  padding: 0.85rem 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-/* Saat collapsed + active, icon tetap centered */
-.app-sidebar.collapsed .sidebar-link.active {
+/* Saat collapsed, span wrapper di dalam sidebar-link harus centered & tidak memaksa lebar penuh */
+.app-sidebar.collapsed .sidebar-link > span,
+.app-sidebar.collapsed .sidebar-link .relative.z-10 {
+  width: auto !important;
   justify-content: center;
 }
 
-.app-sidebar.collapsed .sidebar-link > span {
-  justify-content: center;
+/* Pastikan icon (SVG) tidak ikut mengecil/terpepet */
+.app-sidebar.collapsed .sidebar-link svg,
+.app-sidebar.collapsed .accordion-icon svg {
+  flex-shrink: 0;
+  min-width: 18px;
+  min-height: 18px;
 }
 
 .app-sidebar.collapsed .accordion-header-left {
   gap: 0;
+  justify-content: center;
 }
 
 .app-sidebar.collapsed .logout-text {
@@ -458,21 +466,6 @@ tbody tr:hover {
   transition: all 0.3s ease;
   font-weight: 500;
   color: var(--pk-text-muted);
-  /* Pastikan icon tidak terpepet */
-  min-height: 44px;
-}
-
-.sidebar-link > span {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-/* Icon wrapper agar ukurannya konsisten */
-.sidebar-link svg {
-  flex-shrink: 0;
-  min-width: 18px;
 }
 
 .sidebar-link:hover {

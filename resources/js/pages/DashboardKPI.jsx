@@ -84,10 +84,6 @@ const CustomTooltip = ({ active, payload, label, formatter }) => {
    ═══════════════════════════════════════════════════ */
 const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay = 0 }) => {
   const isPositive = trend >= 0;
-  // Hitung panjang value untuk tentukan ukuran font
-  const valueStr = String(value || '');
-  const fontSize = valueStr.length > 12 ? '1.25rem' : valueStr.length > 8 ? '1.6rem' : '2rem';
-
   return (
     <div
       className="card-premium"
@@ -111,7 +107,6 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
           padding: '0.75rem', borderRadius: '14px',
           background: `${color}15`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
         }}>
           {React.cloneElement(icon, { size: 24, color: color, strokeWidth: 2 })}
         </div>
@@ -122,7 +117,6 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
             fontSize: '0.75rem', fontWeight: 600,
             background: isPositive ? 'rgba(52, 211, 153, 0.15)' : 'rgba(248, 113, 113, 0.15)',
             color: isPositive ? COLORS.success : COLORS.danger,
-            flexShrink: 0,
           }}>
             {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
             {Math.abs(trend)}%
@@ -130,17 +124,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
         )}
       </div>
 
-      <h2 style={{
-        margin: 0,
-        fontSize: fontSize,
-        fontWeight: 600,
-        letterSpacing: '-0.5px',
-        lineHeight: 1.2,
-        color: 'var(--pk-text)',
-        wordBreak: 'break-word',
-        overflowWrap: 'break-word',
-        hyphens: 'auto',
-      }}>
+      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.5px', lineHeight: 1.1, color: 'var(--pk-text)' }}>
         {value}
       </h2>
       <p style={{ margin: '0.35rem 0 0', fontSize: '0.85rem', color: 'var(--pk-text-muted)', fontWeight: 500 }}>
@@ -604,7 +588,10 @@ const DashboardKPI = () => {
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Efisiensi Penyaluran
           </p>
-          <h3 style={{ margin: '0.4rem 0 0', fontSize: 'clamp(1rem, 2.5vw, 1.75rem)', fontWeight: 600, color: 'var(--pk-text)', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            color: 'var(--pk-text)',
+          }}>
             {stats?.persentase_penyaluran || 0}%
           </h3>
         </div>
@@ -612,7 +599,10 @@ const DashboardKPI = () => {
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Tingkat Keberhasilan
           </p>
-          <h3 style={{ margin: '0.4rem 0 0', fontSize: 'clamp(1rem, 2.5vw, 1.75rem)', fontWeight: 600, color: 'var(--pk-text)', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            color: 'var(--pk-text)',
+          }}>
             {stats?.tingkat_keberhasilan || 0}%
           </h3>
         </div>
@@ -620,7 +610,10 @@ const DashboardKPI = () => {
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Dana Tersalurkan
           </p>
-          <h3 style={{ margin: '0.4rem 0 0', fontSize: 'clamp(0.85rem, 2vw, 1.75rem)', fontWeight: 600, color: 'var(--pk-text)', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            color: 'var(--pk-text)',
+          }}>
             {formatRupiah(stats?.total_dana_tersalurkan)}
           </h3>
         </div>
@@ -628,7 +621,10 @@ const DashboardKPI = () => {
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Penerima Aktif
           </p>
-          <h3 style={{ margin: '0.4rem 0 0', fontSize: 'clamp(1rem, 2.5vw, 1.75rem)', fontWeight: 600, color: 'var(--pk-text)', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            color: 'var(--pk-text)',
+          }}>
             {formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)}
           </h3>
         </div>
@@ -636,12 +632,14 @@ const DashboardKPI = () => {
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Graduasi Bulan Ini
           </p>
-          <h3 style={{ margin: '0.4rem 0 0', fontSize: 'clamp(1rem, 2.5vw, 1.75rem)', fontWeight: 600, color: COLORS.success, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <h3 style={{
+            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            color: COLORS.success,
+          }}>
             {formatNumber(stats?.graduasi_bulan_ini || 0)}
           </h3>
         </div>
       </div>
-
     </div>
   );
 };
