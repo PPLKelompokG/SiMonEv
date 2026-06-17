@@ -1,40 +1,28 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8000/api/program-bantuan';
-
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/json'
-    }
-  };
-};
+import api from './index';
 
 export const programBantuanService = {
   getAll: async () => {
-    const response = await axios.get(API_URL, getAuthHeaders());
+    const response = await api.get('/program-bantuan');
     return response.data;
   },
   
   getById: async (id) => {
-    const response = await axios.get(`${API_URL}/${id}`, getAuthHeaders());
+    const response = await api.get(`/program-bantuan/${id}`);
     return response.data;
   },
 
   create: async (data) => {
-    const response = await axios.post(API_URL, data, getAuthHeaders());
+    const response = await api.post('/program-bantuan', data);
     return response.data;
   },
 
   update: async (id, data) => {
-    const response = await axios.put(`${API_URL}/${id}`, data, getAuthHeaders());
+    const response = await api.put(`/program-bantuan/${id}`, data);
     return response.data;
   },
 
   delete: async (id) => {
-    const response = await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+    const response = await api.delete(`/program-bantuan/${id}`);
     return response.data;
   }
 };

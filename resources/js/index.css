@@ -415,8 +415,24 @@ tbody tr:hover {
   padding-right: 0;
 }
 
+/* Saat collapsed, span wrapper di dalam sidebar-link harus centered & tidak memaksa lebar penuh */
+.app-sidebar.collapsed .sidebar-link > span,
+.app-sidebar.collapsed .sidebar-link .relative.z-10 {
+  width: auto !important;
+  justify-content: center;
+}
+
+/* Pastikan icon (SVG) tidak ikut mengecil/terpepet */
+.app-sidebar.collapsed .sidebar-link svg,
+.app-sidebar.collapsed .accordion-icon svg {
+  flex-shrink: 0;
+  min-width: 18px;
+  min-height: 18px;
+}
+
 .app-sidebar.collapsed .accordion-header-left {
   gap: 0;
+  justify-content: center;
 }
 
 .app-sidebar.collapsed .logout-text {

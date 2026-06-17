@@ -30,8 +30,8 @@ const SidebarLink = ({ to, icon, label, onClick }) => {
               transition={{ duration: 0.3 }}
             />
           )}
-          <span className="relative z-10" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%' }}>
-            {icon}
+          <span className="relative z-10" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', minWidth: 0 }}>
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: '20px', height: '20px' }}>{icon}</span>
             <span className="sidebar-text">{label}</span>
           </span>
         </>

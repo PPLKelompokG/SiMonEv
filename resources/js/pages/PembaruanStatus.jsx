@@ -283,7 +283,7 @@ const PembaruanStatusInner = () => {
                     <td>
                       {item.dokumen_pendukung ? (
                         <a
-                          href={`http://localhost:8000/storage/${item.dokumen_pendukung}`}
+                          href={`/storage/${item.dokumen_pendukung}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn btn-outline"
