@@ -84,14 +84,26 @@ const CustomTooltip = ({ active, payload, label, formatter }) => {
    ═══════════════════════════════════════════════════ */
 const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay = 0 }) => {
   const isPositive = trend >= 0;
+
+  // Calculate font size dynamically based on length of the value string to ensure it fits in the card
+  const getFontSize = (val) => {
+    const str = String(val || '');
+    const len = str.length;
+    if (len > 18) return 'clamp(1rem, 2.5vw, 1.25rem)';
+    if (len > 14) return 'clamp(1.1rem, 3vw, 1.4rem)';
+    if (len > 10) return 'clamp(1.3rem, 3.5vw, 1.65rem)';
+    return 'clamp(1.5rem, 4vw, 2rem)';
+  };
+
   return (
     <div
       className="card-premium"
       style={{
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         borderLeft: `4px solid ${color}`,
         animation: `fadeIn 0.6s ease-out ${delay}s both`,
+        minWidth: 0,
       }}
     >
       {/* Glow effect */}
@@ -99,7 +111,8 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
         position: 'absolute', top: '-30px', right: '-30px',
         width: '120px', height: '120px',
         background: `radial-gradient(circle, ${color}15, transparent 70%)`,
-        borderRadius: '50%', pointerEvents: 'none'
+        borderRadius: '50%', pointerEvents: 'none',
+        zIndex: 0,
       }} />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
@@ -107,6 +120,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
           padding: '0.75rem', borderRadius: '14px',
           background: `${color}15`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0,
         }}>
           {React.cloneElement(icon, { size: 24, color: color, strokeWidth: 2 })}
         </div>
@@ -117,6 +131,7 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
             fontSize: '0.75rem', fontWeight: 600,
             background: isPositive ? 'rgba(52, 211, 153, 0.15)' : 'rgba(248, 113, 113, 0.15)',
             color: isPositive ? COLORS.success : COLORS.danger,
+            flexShrink: 0,
           }}>
             {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
             {Math.abs(trend)}%
@@ -124,7 +139,18 @@ const KpiCard = ({ title, value, subtitle, icon, color, trend, trendLabel, delay
         )}
       </div>
 
-      <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.5px', lineHeight: 1.1, color: 'var(--pk-text)' }}>
+      <h2 style={{
+        margin: 0,
+        fontSize: getFontSize(value),
+        fontWeight: 600,
+        letterSpacing: '-0.5px',
+        lineHeight: 1.2,
+        color: 'var(--pk-text)',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        minWidth: 0,
+      }} title={value}>
         {value}
       </h2>
       <p style={{ margin: '0.35rem 0 0', fontSize: '0.85rem', color: 'var(--pk-text-muted)', fontWeight: 500 }}>
@@ -172,6 +198,16 @@ const DashboardKPI = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
+
+  // Calculate font size dynamically based on length of the value string to ensure it fits in the footer
+  const getFooterFontSize = (val) => {
+    const str = String(val || '');
+    const len = str.length;
+    if (len > 18) return 'clamp(0.85rem, 2vw, 1.15rem)';
+    if (len > 12) return 'clamp(1rem, 2.2vw, 1.35rem)';
+    if (len > 8) return 'clamp(1.15rem, 2.5vw, 1.5rem)';
+    return 'clamp(1.35rem, 3vw, 1.75rem)';
+  };
 
   const fetchData = async (isRefresh = false) => {
     try {
@@ -584,58 +620,88 @@ const DashboardKPI = () => {
         gap: '1.5rem',
         animation: 'fadeIn 0.6s ease-out 0.5s both',
       }}>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Efisiensi Penyaluran
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            margin: '0.4rem 0 0',
+            fontSize: getFooterFontSize(`${stats?.persentase_penyaluran || 0}%`),
+            fontWeight: 600,
             color: 'var(--pk-text)',
-          }}>
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+          }} title={`${stats?.persentase_penyaluran || 0}%`}>
             {stats?.persentase_penyaluran || 0}%
           </h3>
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Tingkat Keberhasilan
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            margin: '0.4rem 0 0',
+            fontSize: getFooterFontSize(`${stats?.tingkat_keberhasilan || 0}%`),
+            fontWeight: 600,
             color: 'var(--pk-text)',
-          }}>
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+          }} title={`${stats?.tingkat_keberhasilan || 0}%`}>
             {stats?.tingkat_keberhasilan || 0}%
           </h3>
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Dana Tersalurkan
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            margin: '0.4rem 0 0',
+            fontSize: getFooterFontSize(formatRupiah(stats?.total_dana_tersalurkan)),
+            fontWeight: 600,
             color: 'var(--pk-text)',
-          }}>
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+          }} title={formatRupiah(stats?.total_dana_tersalurkan)}>
             {formatRupiah(stats?.total_dana_tersalurkan)}
           </h3>
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Total Penerima Aktif
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            margin: '0.4rem 0 0',
+            fontSize: getFooterFontSize(formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)),
+            fontWeight: 600,
             color: 'var(--pk-text)',
-          }}>
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+          }} title={formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)}>
             {formatNumber(stats?.penerima_aktif || stats?.penerima_disetujui)}
           </h3>
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--pk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
             Graduasi Bulan Ini
           </p>
           <h3 style={{
-            margin: '0.4rem 0 0', fontSize: '1.75rem', fontWeight: 600,
+            margin: '0.4rem 0 0',
+            fontSize: getFooterFontSize(formatNumber(stats?.graduasi_bulan_ini || 0)),
+            fontWeight: 600,
             color: COLORS.success,
-          }}>
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+          }} title={formatNumber(stats?.graduasi_bulan_ini || 0)}>
             {formatNumber(stats?.graduasi_bulan_ini || 0)}
           </h3>
         </div>
