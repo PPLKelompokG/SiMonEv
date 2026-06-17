@@ -22,8 +22,12 @@ const SidebarLink = ({ to, icon, label, onClick }) => {
           {isActive && (
             <motion.div
               layoutId="active-indicator"
-              className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/20 rounded-xl"
-              style={{ borderLeft: '4px solid var(--pk-primary)' }}
+              className="absolute inset-0 rounded-xl"
+              style={{
+                background: 'rgba(99, 102, 241, 0.12)',
+                boxShadow: 'inset 3px 0 0 var(--pk-primary)',
+                borderRadius: '12px',
+              }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
