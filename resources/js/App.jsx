@@ -11,6 +11,7 @@ import UserManagement from './pages/UserManagement';
 import PenerimaBantuan from './pages/PenerimaBantuan';
 import Verifikasi from './pages/Verifikasi';
 import ProgramBantuan from './pages/ProgramBantuan';
+import PermintaanKuota from './pages/PermintaanKuota';
 import ReportPage from './pages/ReportPage';
 import Profile from './pages/Profile';
 import ManajemenDataKeluarga from './pages/ManajemenDataKeluarga';
@@ -51,6 +52,12 @@ function App() {
             <Route path="program-bantuan" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <ProgramBantuan />
+              </ProtectedRoute>
+            } />
+
+            <Route path="permintaan-kuota" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PermintaanKuota />
               </ProtectedRoute>
             } />
 

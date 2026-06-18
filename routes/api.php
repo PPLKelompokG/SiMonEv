@@ -110,6 +110,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'index']);
     Route::post('/kunjungan-rumah', [\App\Http\Controllers\Api\KunjunganRumahController::class, 'store']);
 
+    // PBI-18 Permintaan Kuota
+    Route::get('/permintaan-kuota', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'index']);
+    Route::post('/permintaan-kuota', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'store']);
+    Route::get('/permintaan-kuota/programs', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'getPrograms']);
+
+    // PBI-12 Manajemen Data Keluarga
+    Route::get('/family-members', [\App\Http\Controllers\Api\FamilyMemberController::class, 'index']);
+    Route::post('/family-members', [\App\Http\Controllers\Api\FamilyMemberController::class, 'store']);
+    Route::put('/family-members/{id}', [\App\Http\Controllers\Api\FamilyMemberController::class, 'update']);
+    Route::delete('/family-members/{id}', [\App\Http\Controllers\Api\FamilyMemberController::class, 'destroy']);
+
     // Dashboard KPI Kemiskinan
     Route::prefix('dashboard-kpi')->group(function () {
         Route::get('/stats', [\App\Http\Controllers\Api\DashboardKpiController::class, 'stats']);

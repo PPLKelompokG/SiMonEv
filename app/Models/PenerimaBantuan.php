@@ -29,6 +29,11 @@ class PenerimaBantuan extends Model
         'verified_at' => 'datetime',
     ];
 
+    public function familyMembers()
+    {
+        return $this->hasMany(FamilyMember::class, 'penerima_bantuan_id');
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

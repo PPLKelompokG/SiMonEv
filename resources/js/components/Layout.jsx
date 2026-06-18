@@ -198,6 +198,7 @@ const Layout = () => {
             >
               <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" onClick={closeSidebarOnMobile} />
               <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" onClick={closeSidebarOnMobile} />
+              <SidebarLink to="/permintaan-kuota" icon={<Activity size={18} />} label="Permintaan Kuota" onClick={closeSidebarOnMobile} />
             </AccordionGroup>
           )}
 
