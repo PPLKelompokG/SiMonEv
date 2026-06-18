@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../api';
-import { Send, Clock, RotateCcw, MessageSquare, AlertCircle } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import { Send, Clock, RotateCcw, MessageSquare, AlertCircle, Check, X } from 'lucide-react';
 
 const PermintaanKuota = () => {
+  const { user } = useContext(AuthContext);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [requestedQuota, setRequestedQuota] = useState('');
   const [justification, setJustification] = useState('');
@@ -76,6 +78,26 @@ const PermintaanKuota = () => {
     }
   };
 
+  const handleUpdateStatus = async (id, newStatus) => {
+    if (!window.confirm(`Apakah Anda yakin ingin ${newStatus === 'Approved' ? 'menyetujui' : 'menolak'} permintaan kuota ini?`)) {
+      return;
+    }
+
+    setError('');
+    setSuccess('');
+
+    try {
+      const res = await api.put(`/permintaan-kuota/${id}/status`, { status: newStatus });
+      if (res.data.success) {
+        setSuccess(`Permintaan kuota berhasil ${newStatus === 'Approved' ? 'disetujui' : 'ditolak'}!`);
+        fetchData(); // Reload history and programs to reflect new quotas
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Gagal mengubah status permintaan kuota.');
+    }
+  };
+
   const handleReset = () => {
     setSelectedProgram('');
     setRequestedQuota('');
@@ -95,7 +117,7 @@ const PermintaanKuota = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <div>
           <h2>Permintaan Kuota</h2>
-          <p>Ajukan kuota program tambahan</p>
+          <p>Ajukan dan kelola kuota program tambahan</p>
         </div>
       </div>
 
@@ -112,95 +134,97 @@ const PermintaanKuota = () => {
         </div>
       )}
 
-      <div className="card-premium" style={{ marginBottom: '2rem' }}>
-        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
-          <MessageSquare size={20} /> Ajukan Permintaan Kuota
-        </h3>
+      {user?.role !== 'admin' && (
+        <div className="card-premium" style={{ marginBottom: '2rem' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
+            <MessageSquare size={20} /> Ajukan Permintaan Kuota
+          </h3>
 
-        {loading ? (
-          <p>Loading form...</p>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2">
-              <div className="form-group">
-                <label className="form-label">Program*</label>
-                <select 
-                  className="form-control" 
-                  value={selectedProgram} 
-                  onChange={(e) => setSelectedProgram(e.target.value)}
-                  required
-                  style={{ color: 'var(--pk-text)' }}
-                >
-                  <option value="" style={{background: 'var(--pk-bg-2)'}}>Pilih program</option>
-                  {programOptions.map(p => (
-                    <option key={p.id} value={p.id} style={{background: 'var(--pk-bg-2)'}}>{p.nama_program}</option>
-                  ))}
-                </select>
+          {loading ? (
+            <p>Loading form...</p>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2">
+                <div className="form-group">
+                  <label className="form-label">Program*</label>
+                  <select 
+                    className="form-control" 
+                    value={selectedProgram} 
+                    onChange={(e) => setSelectedProgram(e.target.value)}
+                    required
+                    style={{ color: 'var(--pk-text)' }}
+                  >
+                    <option value="" style={{background: 'var(--pk-bg-2)'}}>Pilih program</option>
+                    {programOptions.map(p => (
+                      <option key={p.id} value={p.id} style={{background: 'var(--pk-bg-2)'}}>{p.nama_program}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label">Kuota Saat Ini</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    value={currentQuota} 
+                    disabled 
+                    placeholder="-"
+                    style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
+                  />
+                </div>
               </div>
-              
-              <div className="form-group">
-                <label className="form-label">Kuota Saat Ini</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  value={currentQuota} 
-                  disabled 
-                  placeholder="-"
-                  style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
-                />
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2">
+              <div className="grid grid-cols-2">
+                <div className="form-group">
+                  <label className="form-label">Kuota Tambahan yang Diminta*</label>
+                  <input 
+                    type="number" 
+                    className="form-control" 
+                    value={requestedQuota} 
+                    onChange={(e) => setRequestedQuota(e.target.value)}
+                    required 
+                    placeholder="Masukkan kuota tambahan yang diperlukan"
+                    min="1"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label">Total Setelah Persetujuan</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    value={totalAfter} 
+                    disabled 
+                    placeholder="-"
+                    style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
+                  />
+                </div>
+              </div>
+
               <div className="form-group">
-                <label className="form-label">Kuota Tambahan yang Diminta*</label>
-                <input 
-                  type="number" 
+                <label className="form-label">Justifikasi*</label>
+                <textarea 
                   className="form-control" 
-                  value={requestedQuota} 
-                  onChange={(e) => setRequestedQuota(e.target.value)}
+                  value={justification}
+                  onChange={(e) => setJustification(e.target.value)}
                   required 
-                  placeholder="Masukkan kuota tambahan yang diperlukan"
-                  min="1"
-                />
+                  rows="3"
+                  placeholder="Jelaskan mengapa kuota tambahan diperlukan..."
+                ></textarea>
               </div>
-              
-              <div className="form-group">
-                <label className="form-label">Total Setelah Persetujuan</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  value={totalAfter} 
-                  disabled 
-                  placeholder="-"
-                  style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: 'rgba(0,0,0,0.1)' }}
-                />
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                <button type="submit" className="btn btn-primary" disabled={submitting}>
+                  <Send size={18} /> {submitting ? 'Mengirim...' : 'Ajukan Permintaan'}
+                </button>
+                <button type="button" className="btn btn-outline" onClick={handleReset} disabled={submitting}>
+                  <RotateCcw size={18} /> Reset
+                </button>
               </div>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Justifikasi*</label>
-              <textarea 
-                className="form-control" 
-                value={justification}
-                onChange={(e) => setJustification(e.target.value)}
-                required 
-                rows="3"
-                placeholder="Jelaskan mengapa kuota tambahan diperlukan..."
-              ></textarea>
-            </div>
-
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
-                <Send size={18} /> {submitting ? 'Mengirim...' : 'Ajukan Permintaan'}
-              </button>
-              <button type="button" className="btn btn-outline" onClick={handleReset} disabled={submitting}>
-                <RotateCcw size={18} /> Reset
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
+            </form>
+          )}
+        </div>
+      )}
 
       <div className="card-premium">
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
@@ -220,6 +244,7 @@ const PermintaanKuota = () => {
                   <th>Justifikasi</th>
                   <th>Diajukan Oleh</th>
                   <th>Status</th>
+                  {user?.role === 'admin' && <th style={{ textAlign: 'right' }}>Aksi</th>}
                 </tr>
               </thead>
               <tbody>
@@ -233,6 +258,32 @@ const PermintaanKuota = () => {
                     </td>
                     <td>{item.requester?.name || '-'}</td>
                     <td>{getStatusBadge(item.status)}</td>
+                    {user?.role === 'admin' && (
+                      <td style={{ textAlign: 'right' }}>
+                        {item.status === 'Pending' ? (
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                            <button
+                              onClick={() => handleUpdateStatus(item.id, 'Approved')}
+                              className="btn btn-success"
+                              style={{ padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.85rem' }}
+                              title="Setujui Permintaan"
+                            >
+                              <Check size={14} /> Setuju
+                            </button>
+                            <button
+                              onClick={() => handleUpdateStatus(item.id, 'Rejected')}
+                              className="btn btn-danger"
+                              style={{ padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.85rem' }}
+                              title="Tolak Permintaan"
+                            >
+                              <X size={14} /> Tolak
+                            </button>
+                          </div>
+                        ) : (
+                          <span style={{ color: 'var(--pk-text-muted)', fontSize: '0.85rem' }}>Selesai</span>
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

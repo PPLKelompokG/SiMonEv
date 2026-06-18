@@ -24,6 +24,13 @@ class PermintaanKuotaController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role === 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Admin tidak dapat mengajukan permintaan kuota.'
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'program_bantuan_id' => 'required|exists:program_bantuans,id',
             'jumlah_kuota' => 'required|integer|min:1',
@@ -61,5 +68,51 @@ class PermintaanKuotaController extends Controller
             'success' => true,
             'data' => $programs
         ], 200);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        if (auth()->user()->role !== 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Hanya Admin yang dapat memproses permintaan kuota.'
+            ], 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:Approved,Rejected',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $quotaRequest = PermintaanKuota::findOrFail($id);
+
+        if ($quotaRequest->status !== 'Pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Permintaan kuota sudah diproses sebelumnya.'
+            ], 400);
+        }
+
+        $quotaRequest->status = $request->status;
+        $quotaRequest->save();
+
+        if ($request->status === 'Approved') {
+            $program = ProgramBantuan::findOrFail($quotaRequest->program_bantuan_id);
+            $program->kuota += $quotaRequest->jumlah_kuota;
+            $program->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status permintaan kuota berhasil diperbarui.',
+            'data' => $quotaRequest->load('programBantuan')
+        ]);
     }
 }

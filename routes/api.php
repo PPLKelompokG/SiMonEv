@@ -114,6 +114,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/permintaan-kuota', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'index']);
     Route::post('/permintaan-kuota', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'store']);
     Route::get('/permintaan-kuota/programs', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'getPrograms']);
+    Route::put('/permintaan-kuota/{id}/status', [\App\Http\Controllers\Api\PermintaanKuotaController::class, 'updateStatus']);
 
     // PBI-12 Manajemen Data Keluarga
     Route::get('/family-members', [\App\Http\Controllers\Api\FamilyMemberController::class, 'index']);
