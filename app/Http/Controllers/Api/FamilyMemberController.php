@@ -35,6 +35,13 @@ class FamilyMemberController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'petugas_lapangan') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Hanya Petugas Lapangan yang dapat mengelola data anggota keluarga.'
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'penerima_bantuan_id' => 'required|exists:penerima_bantuans,id',
             'name' => 'required|string|max:255',
@@ -63,6 +70,13 @@ class FamilyMemberController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (auth()->user()->role !== 'petugas_lapangan') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Hanya Petugas Lapangan yang dapat mengelola data anggota keluarga.'
+            ], 403);
+        }
+
         $member = FamilyMember::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
@@ -92,6 +106,13 @@ class FamilyMemberController extends Controller
 
     public function destroy($id)
     {
+        if (auth()->user()->role !== 'petugas_lapangan') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Hanya Petugas Lapangan yang dapat mengelola data anggota keluarga.'
+            ], 403);
+        }
+
         $member = FamilyMember::findOrFail($id);
         $member->delete();
 

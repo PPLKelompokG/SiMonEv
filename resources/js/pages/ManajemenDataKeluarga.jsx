@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../api';
+import { AuthContext } from '../context/AuthContext';
 import { Users, Plus, Edit, Trash2, X, AlertCircle } from 'lucide-react';
 
 const ManajemenDataKeluarga = () => {
+  const { user } = useContext(AuthContext);
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [selectedBeneficiaryId, setSelectedBeneficiaryId] = useState('');
   const [anggota, setAnggota] = useState([]);
@@ -146,7 +148,7 @@ const ManajemenDataKeluarga = () => {
           <h2>Manajemen Data Keluarga</h2>
           <p>Kelola informasi anggota keluarga penerima manfaat</p>
         </div>
-        {selectedBeneficiaryId && (
+        {selectedBeneficiaryId && user?.role === 'petugas_lapangan' && (
           <button className="btn btn-primary" onClick={() => handleOpenModal()}>
             <Plus size={18} /> Tambah Anggota
           </button>
@@ -213,7 +215,7 @@ const ManajemenDataKeluarga = () => {
                     <th>Hubungan</th>
                     <th>Pekerjaan</th>
                     <th>Pendidikan</th>
-                    <th style={{ textAlign: 'right' }}>Aksi</th>
+                    {user?.role === 'petugas_lapangan' && <th style={{ textAlign: 'right' }}>Aksi</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -224,24 +226,26 @@ const ManajemenDataKeluarga = () => {
                       <td>{item.relationship}</td>
                       <td>{item.job || '-'}</td>
                       <td>{item.education || '-'}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-                          <button 
-                            onClick={() => handleOpenModal(item)}
-                            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-primary)' }} 
-                            title="Edit"
-                          >
-                            <Edit size={18} />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(item.id)}
-                            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-danger)' }} 
-                            title="Hapus"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </td>
+                      {user?.role === 'petugas_lapangan' && (
+                        <td style={{ textAlign: 'right' }}>
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                            <button 
+                              onClick={() => handleOpenModal(item)}
+                              style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-primary)' }} 
+                              title="Edit"
+                            >
+                              <Edit size={18} />
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(item.id)}
+                              style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--pk-danger)' }} 
+                              title="Hapus"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

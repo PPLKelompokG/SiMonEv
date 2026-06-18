@@ -189,15 +189,19 @@ const Layout = () => {
             )}
           </AccordionGroup>
 
-          {user?.role === 'admin' && (
+          {(user?.role === 'admin' || user?.role === 'petugas_lapangan' || user?.role === 'supervisor') && (
             <AccordionGroup 
               title="Data Master" 
               icon={<Briefcase size={20} />} 
               isExpanded={expandedMenus.includes('master')}
               onToggle={() => toggleMenu('master')}
             >
-              <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" onClick={closeSidebarOnMobile} />
-              <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" onClick={closeSidebarOnMobile} />
+              {user?.role === 'admin' && (
+                <>
+                  <SidebarLink to="/users" icon={<Users size={18} />} label="Manajemen Akun" onClick={closeSidebarOnMobile} />
+                  <SidebarLink to="/program-bantuan" icon={<Package size={18} />} label="Program Bantuan" onClick={closeSidebarOnMobile} />
+                </>
+              )}
               <SidebarLink to="/permintaan-kuota" icon={<Activity size={18} />} label="Permintaan Kuota" onClick={closeSidebarOnMobile} />
             </AccordionGroup>
           )}
