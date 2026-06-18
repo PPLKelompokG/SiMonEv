@@ -56,7 +56,7 @@ function App() {
             } />
 
             <Route path="permintaan-kuota" element={
-              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan']}>
+              <ProtectedRoute allowedRoles={['admin', 'petugas_lapangan', 'supervisor']}>
                 <PermintaanKuota />
               </ProtectedRoute>
             } />

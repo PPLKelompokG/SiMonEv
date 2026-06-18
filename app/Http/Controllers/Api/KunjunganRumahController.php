@@ -18,6 +18,12 @@ class KunjunganRumahController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'petugas_lapangan') {
+            return response()->json([
+                'message' => 'Unauthorized. Hanya Petugas Lapangan yang dapat menginput kunjungan rumah.'
+            ], 403);
+        }
+
         $request->validate([
             'tanggal' => 'required|date',
             'nama_penerima' => 'required|string|max:255',

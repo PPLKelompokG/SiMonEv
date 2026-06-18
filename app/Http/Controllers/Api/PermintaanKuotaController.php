@@ -24,10 +24,10 @@ class PermintaanKuotaController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role !== 'petugas_lapangan') {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized. Admin tidak dapat mengajukan permintaan kuota.'
+                'message' => 'Unauthorized. Hanya Petugas Lapangan yang dapat mengajukan permintaan kuota.'
             ], 403);
         }
 

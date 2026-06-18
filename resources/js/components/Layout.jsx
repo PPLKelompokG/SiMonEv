@@ -189,7 +189,7 @@ const Layout = () => {
             )}
           </AccordionGroup>
 
-          {(user?.role === 'admin' || user?.role === 'petugas_lapangan') && (
+          {(user?.role === 'admin' || user?.role === 'petugas_lapangan' || user?.role === 'supervisor') && (
             <AccordionGroup 
               title="Data Master" 
               icon={<Briefcase size={20} />} 

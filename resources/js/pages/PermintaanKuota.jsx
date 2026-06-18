@@ -134,7 +134,7 @@ const PermintaanKuota = () => {
         </div>
       )}
 
-      {user?.role !== 'admin' && (
+      {user?.role === 'petugas_lapangan' && (
         <div className="card-premium" style={{ marginBottom: '2rem' }}>
           <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.25rem' }}>
             <MessageSquare size={20} /> Ajukan Permintaan Kuota

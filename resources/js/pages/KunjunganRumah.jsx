@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../api';
+import { AuthContext } from '../context/AuthContext';
 import { Camera, MapPin, Search, Calendar, FileText, CheckCircle, RefreshCcw, Home, Plus } from 'lucide-react';
 
 const KunjunganRumah = () => {
+  const { user } = useContext(AuthContext);
   const [laporan, setLaporan] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -102,136 +104,138 @@ const KunjunganRumah = () => {
       {error && <div className="alert alert-danger" style={{ marginBottom: '1rem' }}>{error}</div>}
       {success && <div className="alert alert-success" style={{ marginBottom: '1rem' }}>{success}</div>}
 
-      <div className="card-premium" style={{ marginBottom: '2rem' }}>
-        <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <FileText className="text-primary" size={20} />
-          <h2 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>Formulir Kunjungan Rumah</h2>
-        </div>
+      {user?.role === 'petugas_lapangan' && (
+        <div className="card-premium" style={{ marginBottom: '2rem' }}>
+          <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <FileText className="text-primary" size={20} />
+            <h2 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>Formulir Kunjungan Rumah</h2>
+          </div>
 
-        <div style={{ padding: '1.5rem' }}>
-          <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
-              <div className="form-group">
-                <label className="form-label">Tanggal Kunjungan <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-                <div style={{ position: 'relative' }}>
-                  <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
+          <div style={{ padding: '1.5rem' }}>
+            <form onSubmit={handleSubmit}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                <div className="form-group">
+                  <label className="form-label">Tanggal Kunjungan <span style={{color: 'var(--pk-danger)'}}>*</span></label>
+                  <div style={{ position: 'relative' }}>
+                    <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--pk-text-muted)' }} />
+                    <input 
+                      type="date" 
+                      className="form-control" 
+                      name="tanggal"
+                      value={formData.tanggal}
+                      onChange={handleInputChange}
+                      style={{ paddingLeft: '2.75rem' }}
+                      required 
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Nama Penerima Manfaat <span style={{color: 'var(--pk-danger)'}}>*</span></label>
                   <input 
-                    type="date" 
+                    type="text" 
                     className="form-control" 
-                    name="tanggal"
-                    value={formData.tanggal}
+                    placeholder="Masukkan nama" 
+                    name="nama_penerima"
+                    value={formData.nama_penerima}
                     onChange={handleInputChange}
-                    style={{ paddingLeft: '2.75rem' }}
                     required 
                   />
                 </div>
+
+                <div className="form-group">
+                  <label className="form-label">NIK Penerima Manfaat</label>
+                  <input 
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    className="form-control" 
+                    placeholder="Masukkan NIK" 
+                    name="nik_penerima"
+                    value={formData.nik_penerima}
+                    onChange={e => setFormData(prev => ({ ...prev, nik_penerima: e.target.value.replace(/\D/g, '') }))}
+                    maxLength={16}
+                  />
+                  {formData.nik_penerima.length === 16 && (
+                    <small style={{ color: 'var(--pk-danger)', display: 'block', marginTop: '0.25rem' }}>NIK hanya 16 digit saja.</small>
+                  )}
+                </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Nama Penerima Manfaat <span style={{color: 'var(--pk-danger)'}}>*</span></label>
+              <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                <label className="form-label">Ringkasan Kondisi Tempat Tinggal <span style={{color: 'var(--pk-danger)'}}>*</span></label>
                 <input 
                   type="text" 
                   className="form-control" 
-                  placeholder="Masukkan nama" 
-                  name="nama_penerima"
-                  value={formData.nama_penerima}
+                  placeholder="mis., Rumah buruk, sanitasi memadai" 
+                  name="ringkasan_kondisi"
+                  value={formData.ringkasan_kondisi}
                   onChange={handleInputChange}
                   required 
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">NIK Penerima Manfaat</label>
-                <input 
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
+              <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                <label className="form-label">Temuan Detail</label>
+                <textarea 
                   className="form-control" 
-                  placeholder="Masukkan NIK" 
-                  name="nik_penerima"
-                  value={formData.nik_penerima}
-                  onChange={e => setFormData(prev => ({ ...prev, nik_penerima: e.target.value.replace(/\D/g, '') }))}
-                  maxLength={16}
-                />
-                {formData.nik_penerima.length === 16 && (
-                  <small style={{ color: 'var(--pk-danger)', display: 'block', marginTop: '0.25rem' }}>NIK hanya 16 digit saja.</small>
-                )}
+                  placeholder="Jelaskan pengamatan detail dari kunjungan..." 
+                  name="temuan_detail"
+                  value={formData.temuan_detail}
+                  onChange={handleInputChange}
+                  rows="4"
+                ></textarea>
               </div>
-            </div>
 
-            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-              <label className="form-label">Ringkasan Kondisi Tempat Tinggal <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="mis., Rumah buruk, sanitasi memadai" 
-                name="ringkasan_kondisi"
-                value={formData.ringkasan_kondisi}
-                onChange={handleInputChange}
-                required 
-              />
-            </div>
+              <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                <label className="form-label">Rekomendasi <span style={{color: 'var(--pk-danger)'}}>*</span></label>
+                <textarea 
+                  className="form-control" 
+                  placeholder="Masukkan rekomendasi untuk bantuan..." 
+                  name="rekomendasi"
+                  value={formData.rekomendasi}
+                  onChange={handleInputChange}
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
 
-            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-              <label className="form-label">Temuan Detail</label>
-              <textarea 
-                className="form-control" 
-                placeholder="Jelaskan pengamatan detail dari kunjungan..." 
-                name="temuan_detail"
-                value={formData.temuan_detail}
-                onChange={handleInputChange}
-                rows="4"
-              ></textarea>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-              <label className="form-label">Rekomendasi <span style={{color: 'var(--pk-danger)'}}>*</span></label>
-              <textarea 
-                className="form-control" 
-                placeholder="Masukkan rekomendasi untuk bantuan..." 
-                name="rekomendasi"
-                value={formData.rekomendasi}
-                onChange={handleInputChange}
-                rows="3"
-                required
-              ></textarea>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: '2rem' }}>
-              <label className="form-label">Unggah Foto</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{ flex: 1, position: 'relative' }}>
-                  <input 
-                    type="file" 
-                    id="foto_upload"
-                    className="form-control" 
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ paddingRight: '120px' }}
-                  />
-                  <div style={{ position: 'absolute', right: '0', top: '0', bottom: '0', display: 'flex', alignItems: 'center', padding: '0 1rem', background: 'var(--pk-surface)', borderLeft: '1px solid var(--pk-glass-border)', borderRadius: '0 8px 8px 0', pointerEvents: 'none', color: 'var(--pk-text-muted)' }}>
-                    <Camera size={18} style={{ marginRight: '0.5rem' }} /> Pilih File
+              <div className="form-group" style={{ marginBottom: '2rem' }}>
+                <label className="form-label">Unggah Foto</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
+                    <input 
+                      type="file" 
+                      id="foto_upload"
+                      className="form-control" 
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ paddingRight: '120px' }}
+                    />
+                    <div style={{ position: 'absolute', right: '0', top: '0', bottom: '0', display: 'flex', alignItems: 'center', padding: '0 1rem', background: 'var(--pk-surface)', borderLeft: '1px solid var(--pk-glass-border)', borderRadius: '0 8px 8px 0', pointerEvents: 'none', color: 'var(--pk-text-muted)' }}>
+                      <Camera size={18} style={{ marginRight: '0.5rem' }} /> Pilih File
+                    </div>
                   </div>
+                  {preview && (
+                    <div style={{ width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--pk-glass-border)' }}>
+                      <img src={preview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
                 </div>
-                {preview && (
-                  <div style={{ width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--pk-glass-border)' }}>
-                    <img src={preview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                )}
               </div>
-            </div>
 
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button type="submit" className="btn btn-primary" disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckCircle size={18} /> {loading ? 'Menyimpan...' : 'Simpan Laporan Kunjungan'}
-              </button>
-              <button type="button" className="btn btn-outline" onClick={handleReset} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <RefreshCcw size={18} /> Reset
-              </button>
-            </div>
-          </form>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button type="submit" className="btn btn-primary" disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={18} /> {loading ? 'Menyimpan...' : 'Simpan Laporan Kunjungan'}
+                </button>
+                <button type="button" className="btn btn-outline" onClick={handleReset} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <RefreshCcw size={18} /> Reset
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="card-premium">
         <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--pk-glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
